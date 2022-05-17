@@ -201,9 +201,9 @@
       ['Crédit Mutuel - CIC', 379],
     ];
     var BILLIONAIRES = [
-      { name: 'Bernard', url: '/images/bernard.png', cowDung: 241465 },
-      { name: 'Bernard A.', url: '/images/bernard.png', cowDung: 2000000 },
-      { name: 'François B.', url: '/images/françoise.png', cowDung: 3000000 },
+      { name: 'Bernard', url: '/images/bernard.png', cowDungImpact: 241465 },
+      { name: 'Vincent', url: '/images/bernard.png', cowDungImpact: 508464 },
+      { name: 'François', url: '/images/françoise.png', cowDungImpact: 33860 },
     ];
     var COW_DUNG_CONVERTER = 1 / 9.5;
     
@@ -408,9 +408,12 @@
 
     function getImage() {
       var xhr = new XMLHttpRequest();
-
+      var user = {
+        name,
+        cowDungImpact
+      }
       xhr.open("get", "/toConfigure");
-      xhr.send({name, cowDungImpact, billionaire: selectedBillionaire});
+      xhr.send({user, billionaire: selectedBillionaire});
       xhr.onload = function() {
         var data = xhr.response;
         console.log('response', data);
