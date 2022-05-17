@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en" style="height: 100%">
+<head>
+  <meta charset="utf-8">
+  <title>Oxfam - #OHLAVACHE</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="robots" content="noindex">
+  <link rel="stylesheet" href="css/min.min.css">
+  <link rel="stylesheet" href="css/oxfam.css">
+  <script src="js/tmpl.min.js"></script>
+</head>
+<body>
+  <div class="header">
+    <img 
+      src="/logos/OX_OFR_VL_blanc_RGB.png" 
+      alt="logo-oxfam"
+      class="logo"
+    />
+    <h1 id="app-title">#OHLAVACHE</h1>
+  </div>
+  <div class="container">
+    <!-- SCREEN 1 -->
+    <div class='screen' id="screen-1"></div>
+    <!-- SCREEN 2 -->
+    <div class='screen' id="screen-2"></div>
+    <!-- SCREEN 3 -->
+    <div class='screen' id="screen-3"></div>
+    <!-- SCREEN 4 -->
+    <div class='screen' id="screen-4"></div>
+  </div>
+
+  <!-- TEMPLATE SCREEN 1 -->
+  <script type="text/x-tmpl" id="tmpl-screen-1" style="display: none;">
+    <div class="stepper">
+      <div class="step">
+        <div class='step-number'>1</div>
+        <div class="step-description">Calcule ton emprunte</div>
+      </div>
+      <div class="step">
+        <div class="step-number">2</div>
+        <div class="step-description">Personnalise ton visuel</div>
+      </div>
+      <div class="step">
+        <div class="step-number">3</div>
+        <div class="step-description">Partage ton résultat</div>
+      </div>
+    </div>
+    <div style="text-align: center; margin-top: 10px">
+      <button class="btn btn-b" onclick="goToScreen2();">
+        Commencez
+      </button>
+    </div>
+  </script>
+  
+  <!-- TEMPLATE SCREEN 2 -->
+  <script type="text/x-tmpl" id="tmpl-screen-2" style="display: none;">
+    <div class='screen-wrapper'>
+      <div class="current-step">
+        <div class="step">
+          <div class='step-number'>1</div>
+          <div class="step-description">Calcule ton emprunte</div>
+        </div>
+      </div>
+      <div class="user-inputs">          
+        <div class='input-wrapper'>
+          <label for="savingsAmount">
+            Quel est le montant de ton patrimoine
+          </label>
+          <div class="savings-wrapper">
+            <input 
+              type="text" 
+              id="savingsAmount" 
+              placeholder="30 000"  
+              oninput="changeAmountHandler()"
+            />
+            <span class="addon">€</span>
+          </div>
+        </div>
+      
+        <div class='input-wrapper'>
+          <label for="bank">
+            Quel est le nom de ta banque
+          </label>
+          <select name="bank" id="bank" oninput="changeBanckHandler()">
+            <option style="color: grey" value="">Sélectionnez votre banque</option>
+            {% for (var i=0; i<o.banks.length; i++) { %}
+            <option value="{%=i%}">{%=o.banks[i][0]%}</option>
+            {% } %}
+          </select>
+        </div>
+
+        <div class='input-wrapper'>
+          <label for="bank">
+            A quelle vache veux tu te comparer ?
+          </label>
+        </div>
+        <div class="billionaire-wrapper">
+          {% for (var i=0; i<o.billionaires.length; i++) { %}
+            <button 
+              class="billionaire-button"
+              id="billionaire-button-{%=i%}"
+              onclick="onBillionaireClick(this, '{%=o.billionaires[i]%}')"
+            >
+              <img 
+                class="billionaire-img"
+                id="billionaire-img-{%=i%}"
+                src={%=o.billionaires[i].url%}
+                alt={%=o.billionaires[i].name%}
+                title={%=o.billionaires[i].name%}
+              />
+            </button>
+          {% } %}
+        </div>
+      </div>
+    </div>
+    <div style="text-align: center">
+      <button 
+        class='btn btn-b' 
+        id='screen2-confirm'
+        onclick="goToScreen3()"
+        style="margin-top: 30px"
+      >SUIVANT</button>
+    </div>
+    
+  </script>
+
+  <!-- TEMPLATE SCREEN 3 -->
+  <script type="text/x-tmpl" id="tmpl-screen-3" style="display: none;">
+    <div class='screen-wrapper'>
+      <div class="current-step">
+        <div class="step">
+          <div class="step-number">2</div>
+          <div class="step-description">Personnalise ton visuel</div>
+        </div>
+      </div>
+      <div class="input-wrapper">
+        <label for="user-name">
+          Renseigne to prénom pour personnaliser ton visuel
+        </label>
+        <div class="user-name" id="user-name">
+          <input 
+            type="text" 
+            id="name" 
+            placeholder="Prénom"  
+            oninput="changeNameHandler()"
+          />
+        </div>
+      </div>
+    </div>
+
+    <div class="actions">
+      <button
+        class="btn btn-b button-disabled"
+        id="screen3-confirm"
+        onclick="goToScreen4()"
+        style="margin-top: 30px"
+      >GÉNÉRER TON VISUEL</button>
+    </div>
+  </script>
+
+  <!-- TEMPLATE SCREEN 4 -->
+  <script type="text/x-tmpl" id="tmpl-screen-4" style="display: none;">
+    <div class='screen-wrapper'>
+      <div class="current-step">
+        <div class="step">
+          <div class="step-number">3</div>
+          <div class="step-description">Partage ton résultat</div>
+        </div>
+      </div>
+      <div class="input-wrapper">
+        <img 
+          src="{%=imageUrl%}" 
+          alt="image #OHLAVACHE"
+          class="image-ohlavache"
+        />
+        <div class="actions">    
+          <button
+            class="btn btn-b"
+            id="screen4-share"
+            onclick="onTweetButtonHandler()"
+            style="margin-top: 30px"
+          >PARTAGER SUR TWITTER</button>
+          <button
+            class="btn btn-b"
+            id="screen4-download"
+            onclick="download('/images/liliane.png')"
+            style="margin-top: 30px"
+          >TÉLÉCHARGER LE VISUEL</button>
+        </div>
+      </div>
+    </div>
+  </script>
+
+  <script type="application/javascript">
+    var BANKS = [
+      ["Banque Populaire - Caisse d'Epargne ", 379],
+      ["La Banque Postale", 353],
+      ['Société Générale', 652],
+      ['BNP Paribas', 601],
+      ['Crédit Agricole - LCL', 444],
+      ['Crédit Mutuel - CIC', 379],
+    ];
+    var BILLIONAIRES = [
+      { name: 'Bernard', url: '/images/bernard.png', cowDung: 241465 },
+      { name: 'Bernard A.', url: '/images/bernard.png', cowDung: 2000000 },
+      { name: 'François B.', url: '/images/françoise.png', cowDung: 3000000 },
+    ];
+    var COW_DUNG_CONVERTER = 1 / 9.5;
+    
+    var userAmount = null;
+    var selectedBillionaire = null;
+    var name = null;
+    
+    var bankName = '';
+    var co2Impact = 0; // in 0.01.tonnes
+    var co2ImpactShow = 0;
+    var savingsAmount = 0; // in €
+    var cowDungImpact = null;
+
+    var imageUrl = 'images/not-found.png';
+    
+    var bankCoeff = null;
+    var numbers = "0123456789".split('');
+
+
+    function addSpaces(numberStr) {
+      if (numberStr.length <= 3) {
+        return numberStr;
+      }
+      if (numberStr.length > 3) {
+        return addSpaces(numberStr.substr(0, numberStr.length - 3)) + ' ' + numberStr.substr(numberStr.length - 3);
+      }
+    }
+
+    function showElement(divId) {
+      document.getElementById(divId).style.display = 'block';
+    }
+    function hideElement(divId) {
+      document.getElementById(divId).style.display = 'none';
+    }
+    
+    function screenOpacity(screenId, opacity) {
+      document.getElementById('screen-' + screenId).style.opacity = opacity;
+    }
+
+    function roundCo2Impact(value){
+      if (value == null) {
+        return;
+      }
+      if (value > 10) {
+        return Math.round(value);
+      }
+      if (value > 1) {
+        return value.toFixed(1);
+      }
+      if (value > 0.1) {
+        return value.toFixed(2);
+      }
+      if (value > 0.01) {
+        return value.toFixed(3);
+      }
+      if (value > 0.001) {
+        return value.toFixed(4);
+      }
+      if (value > 0.0001) {
+        return value.toFixed(5);
+      }
+      return value.toPrecision(2);
+    }
+
+    function areValuesValid(){
+      return (
+        userAmount != null
+        && bankCoeff != null
+        && selectedBillionaire != null
+      );
+    }
+
+    function computeValues(){
+      if (userAmount && bankCoeff) {
+        co2Impact = userAmount / 1e6 * bankCoeff;
+        cowDungImpact = userAmount * bankCoeff * COW_DUNG_CONVERTER;
+      } else {
+        co2Impact = null;
+      }
+      co2ImpactShow = roundCo2Impact(co2Impact);
+    }
+
+    function checkValuesAreValid() {
+      var isValid = areValuesValid();
+      var confirmBtn = document.getElementById('screen2-confirm');
+      confirmBtn.disabled = !isValid;
+      if (isValid) {
+        confirmBtn.classList.remove('button-disabled');
+      } else {
+        confirmBtn.classList.add('button-disabled');
+      }
+
+      return isValid;
+    }
+
+    function changeAmountHandler() {
+      var amount = document.getElementById('savingsAmount').value;
+      // only keep numbers
+      amount = amount.split('').filter(function(letter){return numbers.indexOf(letter) != -1}).join('');
+
+      userAmount = parseInt(amount);
+      // add spaces
+      amount = addSpaces(amount);
+      document.getElementById('savingsAmount').value = amount;
+      checkValuesAreValid();
+    }
+
+    function changeBanckHandler() {
+      var bankId = parseInt(document.getElementById('bank').value || -1);
+      if (bankId == null || bankId === -1) {
+        bankName = '';
+        bankCoeff = null;
+      } else {
+        var bank = BANKS[bankId];
+        bankName = bank[0];
+        bankCoeff = bank[1];
+      }
+      checkValuesAreValid();
+    }
+
+    function changeNameHandler() {
+      checkValuesAreValid();
+
+      name = document.getElementById('name').value;
+      var confirmBtn = document.getElementById('screen3-confirm');
+      if (name) {
+        confirmBtn.classList.remove('button-disabled');
+      } else {
+        confirmBtn.classList.add('button-disabled');
+      }
+    }
+
+    function onBillionaireClick(e, billionaire) {
+      var buttons = document.getElementsByClassName('billionaire-button');
+      for (let i = 0; i < buttons.length; i++) {
+        buttons[i].classList.remove('billionaire-button-selected');
+      }
+      
+      var id = e.id;
+      elm = document.getElementById(id);
+      elm.classList.add('billionaire-button-selected');
+      
+      selectedBillionaire = billionaire;
+      checkValuesAreValid();
+    }
+
+    function onTweetButtonHandler() {
+      var text = encodeURI("Je viens de comparer en bouse de vache mon empreinte bancaire avec celle d'un milliardaire !")
+      var hashtags = 'OHLAVACHE,OXFAM'
+      var url = `https://twitter.com/intent/tweet?text=${text}&hashtags=${hashtags}`
+      window.open(url, '_blank').focus();
+    } 
+    
+
+    function updateTemplate(screenId) {
+      var data = {
+        banks: BANKS,
+        billionaires: BILLIONAIRES,
+        bankName: bankName,
+        co2ImpactShow: co2ImpactShow,
+      };
+
+      document.getElementById('screen-' + screenId).innerHTML = tmpl(
+        'tmpl-screen-' + screenId, data
+      );
+
+      return true;
+    }
+
+    function screenTransition(prevScreenId, nextScreenId){
+      screenOpacity(prevScreenId, 0);
+      setTimeout(function(){
+        hideElement('screen-' + prevScreenId);
+        showElement('screen-' + nextScreenId);
+        setTimeout(function(){
+          screenOpacity(nextScreenId, 1);
+          if (nextScreenId === 4) {
+            document.getElementById('resultTop').scrollIntoView();
+          }
+        }, 200);
+      }, 200);
+    }
+
+    function showScreen(screenId){
+      hideElement('screen-1');
+      hideElement('screen-2');
+      hideElement('screen-3');
+      hideElement('screen-4');
+      showElement('screen-' + screenId);
+    }
+    
+
+    function sendNewEntry() {
+      function reqListener () {
+        console.log('### response sent', this, this.responseText);
+      }
+      var xhr = new XMLHttpRequest();
+      xhr.onload = reqListener;
+      xhr.open("get", "/entry", true);
+      xhr.send();
+    }
+
+    function getImage() {
+      var xhr = new XMLHttpRequest();
+
+      xhr.open("get", "/toConfigure");
+      xhr.send({name, cowDungImpact, billionaire: selectedBillionaire});
+      xhr.onload = function() {
+        var data = xhr.response;
+        console.log('response', data);
+        if (data.body.imageUrl) {
+          imageUrl = data.body.url;
+        }
+      }
+    }
+
+    function goToScreen2() {
+      updateTemplate(2);
+      showScreen(2);
+      screenTransition(1, 2);
+      checkValuesAreValid();;
+    }
+
+    function goToScreen3() {
+      if (!checkValuesAreValid()) {
+        return false;
+      }
+      updateTemplate(3);
+      screenTransition(2, 3);
+    }
+
+    function goToScreen4() {
+      if (!checkValuesAreValid()) {
+        return false;
+      }
+      computeValues();
+      updateTemplate(4);
+      sendNewEntry();
+      getImage();
+      screenTransition(3, 4);
+    }
+
+    function download(fileUrl){
+	    var a = document.createElement("a");
+      a.href = fileUrl;
+    	a.setAttribute("download", 'oxfam-ohlavache.png');
+     	a.click();
+    }
+
+    // executes after html load
+    (function() {
+      updateTemplate(1);
+      showScreen(1);
+      screenTransition(1, 1);
+      // checkValuesAreValid();
+    })();
+  </script>
+</body>
+</html>

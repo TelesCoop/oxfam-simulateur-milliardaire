@@ -1,0 +1,2 @@
+[prod]
+oxfam-impact-banques.telescoop.fr:42722 ansible_user=root
