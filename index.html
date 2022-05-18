@@ -101,13 +101,16 @@
               id="billionaire-button-{%=i%}"
               onclick="onBillionaireClick(this, '{%=o.billionaires[i]%}')"
             >
-              <img 
-                class="billionaire-img"
-                id="billionaire-img-{%=i%}"
-                src={%=o.billionaires[i].url%}
-                alt={%=o.billionaires[i].name%}
-                title={%=o.billionaires[i].name%}
-              />
+              <figure class="billionaire-figure">
+                <img 
+                  class="billionaire-img"
+                  id="billionaire-img-{%=i%}"
+                  src={%=o.billionaires[i].url%}
+                  alt={%=o.billionaires[i].name%}
+                  title={%=o.billionaires[i].name%}
+                />
+                <figcaption>{%=o.billionaires[i].name%}</figcaption>
+              </figure>
             </button>
           {% } %}
         </div>
@@ -154,6 +157,7 @@
         id="screen3-confirm"
         onclick="goToScreen4()"
         style="margin-top: 30px"
+        disabled
       >GÉNÉRER TON VISUEL</button>
     </div>
   </script>
@@ -168,24 +172,26 @@
         </div>
       </div>
       <div class="input-wrapper">
-        <img 
-          src="{%=imageUrl%}" 
-          alt="image #OHLAVACHE"
-          class="image-ohlavache"
-        />
-        <div class="actions">    
-          <button
-            class="btn btn-b"
-            id="screen4-share"
-            onclick="onTweetButtonHandler()"
-            style="margin-top: 30px"
-          >PARTAGER SUR TWITTER</button>
-          <button
-            class="btn btn-b"
-            id="screen4-download"
-            onclick="download('/images/liliane.png')"
-            style="margin-top: 30px"
-          >TÉLÉCHARGER LE VISUEL</button>
+        <div>
+          <img 
+            src="{%=imageUrl%}" 
+            alt="image #OHLAVACHE"
+            class="image-ohlavache"
+          />
+          <div class="actions">    
+            <button
+              class="btn btn-b"
+              id="screen4-share"
+              onclick="onTweetButtonHandler()"
+              style="margin-top: 30px"
+            >PARTAGER SUR TWITTER</button>
+            <button
+              class="btn btn-b"
+              id="screen4-download"
+              onclick="download('/images/liliane.png')"
+              style="margin-top: 30px"
+            >TÉLÉCHARGER LE VISUEL</button>
+          </div>
         </div>
       </div>
     </div>
@@ -201,9 +207,9 @@
       ['Crédit Mutuel - CIC', 379],
     ];
     var BILLIONAIRES = [
-      { name: 'Bernard', url: '/images/bernard.png', cowDungImpact: 241465 },
-      { name: 'Vincent', url: '/images/bernard.png', cowDungImpact: 508464 },
-      { name: 'François', url: '/images/françoise.png', cowDungImpact: 33860 },
+      { name: 'Bernard', url: '/images/cow.png', cowDungImpact: 241465 },
+      { name: 'Vincent', url: '/images/cow.png', cowDungImpact: 508464 },
+      { name: 'François', url: '/images/cow.png', cowDungImpact: 33860 },
     ];
     var COW_DUNG_CONVERTER = 1 / 9.5;
     
@@ -217,7 +223,7 @@
     var savingsAmount = 0; // in €
     var cowDungImpact = null;
 
-    var imageUrl = 'images/not-found.png';
+    var imageUrl = 'images/result.png';
     
     var bankCoeff = null;
     var numbers = "0123456789".split('');
@@ -331,8 +337,10 @@
       var confirmBtn = document.getElementById('screen3-confirm');
       if (name) {
         confirmBtn.classList.remove('button-disabled');
+        confirmBtn.disabled = false;
       } else {
         confirmBtn.classList.add('button-disabled');
+        confirmBtn.disabled = true;
       }
     }
 

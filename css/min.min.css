@@ -1,10 +1,4 @@
 /* Copyright 2014 Owen Versteeg; MIT licensed */
-body {
-    background: white;
-    color: #5fa533;
-    margin: 0;
-    width: 600px;
-}
 
 textarea,
 input,
@@ -24,11 +18,6 @@ select {
 .btn,
 .nav a {
     text-decoration: none
-}
-
-.container {
-    margin: 0 20px;
-    width: auto
 }
 
 label>* {
@@ -232,13 +221,6 @@ input[type=text] {
     font-size: 25px;
     margin: -54px 7px;
     display: none
-}
-
-@media(min-width:1310px) {
-    .container {
-        margin: auto;
-        width: 1270px
-    }
 }
 
 @media(max-width:870px) {
