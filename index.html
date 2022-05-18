@@ -5,17 +5,16 @@
   <title>Oxfam - #OHLAVACHE</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <meta name="robots" content="noindex">
-  <link rel="stylesheet" href="css/min.min.css">
   <link rel="stylesheet" href="css/oxfam.css">
   <script src="js/tmpl.min.js"></script>
 </head>
 <body>
+  <img 
+    src="/logos/OX_OFR_VL_blanc_RGB.png" 
+    alt="logo-oxfam"
+    class="logo"
+  />
   <div class="header">
-    <img 
-      src="/logos/OX_OFR_VL_blanc_RGB.png" 
-      alt="logo-oxfam"
-      class="logo"
-    />
     <h1 id="app-title">#OHLAVACHE</h1>
   </div>
   <div class="container">
@@ -45,7 +44,7 @@
         <div class="step-description">Partage ton résultat</div>
       </div>
     </div>
-    <div style="text-align: center; margin-top: 10px">
+    <div class="actions">
       <button class="btn btn-b" onclick="goToScreen2();">
         Commencez
       </button>
@@ -82,7 +81,7 @@
             Quel est le nom de ta banque
           </label>
           <select name="bank" id="bank" oninput="changeBanckHandler()">
-            <option style="color: grey" value="">Sélectionnez votre banque</option>
+            <option value="">Sélectionnez votre banque</option>
             {% for (var i=0; i<o.banks.length; i++) { %}
             <option value="{%=i%}">{%=o.banks[i][0]%}</option>
             {% } %}
@@ -99,7 +98,7 @@
             <button 
               class="billionaire-button"
               id="billionaire-button-{%=i%}"
-              onclick="onBillionaireClick(this, '{%=o.billionaires[i]%}')"
+              onclick="onBillionaireClick(this, '{%=o.billionaires[i].name%}')"
             >
               <figure class="billionaire-figure">
                 <img 
@@ -116,12 +115,11 @@
         </div>
       </div>
     </div>
-    <div style="text-align: center">
+    <div class="actions">
       <button 
         class='btn btn-b' 
         id='screen2-confirm'
         onclick="goToScreen3()"
-        style="margin-top: 30px"
       >SUIVANT</button>
     </div>
     
@@ -136,17 +134,19 @@
           <div class="step-description">Personnalise ton visuel</div>
         </div>
       </div>
-      <div class="input-wrapper">
-        <label for="user-name">
-          Renseigne to prénom pour personnaliser ton visuel
-        </label>
-        <div class="user-name" id="user-name">
-          <input 
-            type="text" 
-            id="name" 
-            placeholder="Prénom"  
-            oninput="changeNameHandler()"
-          />
+      <div class="user-inputs">
+        <div class="input-wrapper">
+          <label for="user-name">
+            Renseigne to prénom pour personnaliser ton visuel
+          </label>
+          <div class="user-name" id="user-name">
+            <input 
+              type="text" 
+              id="name" 
+              placeholder="Prénom"  
+              oninput="changeNameHandler()"
+            />
+          </div>
         </div>
       </div>
     </div>
@@ -156,7 +156,6 @@
         class="btn btn-b button-disabled"
         id="screen3-confirm"
         onclick="goToScreen4()"
-        style="margin-top: 30px"
         disabled
       >GÉNÉRER TON VISUEL</button>
     </div>
@@ -183,13 +182,11 @@
               class="btn btn-b"
               id="screen4-share"
               onclick="onTweetButtonHandler()"
-              style="margin-top: 30px"
             >PARTAGER SUR TWITTER</button>
             <button
               class="btn btn-b"
               id="screen4-download"
-              onclick="download('/images/liliane.png')"
-              style="margin-top: 30px"
+              onclick="download('/images/result.png')"
             >TÉLÉCHARGER LE VISUEL</button>
           </div>
         </div>
@@ -216,18 +213,19 @@
     var userAmount = null;
     var selectedBillionaire = null;
     var name = null;
-    
     var bankName = '';
+    var savingsAmount = 0; // in €
     var co2Impact = 0; // in 0.01.tonnes
     var co2ImpactShow = 0;
-    var savingsAmount = 0; // in €
     var cowDungImpact = null;
+    var cowDungImpactShow = null;
 
     var imageUrl = 'images/result.png';
     
     var bankCoeff = null;
     var numbers = "0123456789".split('');
 
+    var errorMessage;
 
     function addSpaces(numberStr) {
       if (numberStr.length <= 3) {
@@ -238,18 +236,7 @@
       }
     }
 
-    function showElement(divId) {
-      document.getElementById(divId).style.display = 'block';
-    }
-    function hideElement(divId) {
-      document.getElementById(divId).style.display = 'none';
-    }
-    
-    function screenOpacity(screenId, opacity) {
-      document.getElementById('screen-' + screenId).style.opacity = opacity;
-    }
-
-    function roundCo2Impact(value){
+    function roundImpact(value){
       if (value == null) {
         return;
       }
@@ -285,11 +272,13 @@
     function computeValues(){
       if (userAmount && bankCoeff) {
         co2Impact = userAmount / 1e6 * bankCoeff;
-        cowDungImpact = userAmount * bankCoeff * COW_DUNG_CONVERTER;
+        cowDungImpact = co2Impact * COW_DUNG_CONVERTER;
       } else {
         co2Impact = null;
+        cowDungImpact = null;
       }
-      co2ImpactShow = roundCo2Impact(co2Impact);
+      co2ImpactShow = roundImpact(co2Impact);
+      cowDungImpactShow = roundImpact(cowDungImpact)
     }
 
     function checkValuesAreValid() {
@@ -344,7 +333,7 @@
       }
     }
 
-    function onBillionaireClick(e, billionaire) {
+    function onBillionaireClick(e, name) {
       var buttons = document.getElementsByClassName('billionaire-button');
       for (let i = 0; i < buttons.length; i++) {
         buttons[i].classList.remove('billionaire-button-selected');
@@ -354,7 +343,7 @@
       elm = document.getElementById(id);
       elm.classList.add('billionaire-button-selected');
       
-      selectedBillionaire = billionaire;
+      selectedBillionaire = BILLIONAIRES.filter((x) => x.name === name)[0];
       checkValuesAreValid();
     }
 
@@ -370,8 +359,6 @@
       var data = {
         banks: BANKS,
         billionaires: BILLIONAIRES,
-        bankName: bankName,
-        co2ImpactShow: co2ImpactShow,
       };
 
       document.getElementById('screen-' + screenId).innerHTML = tmpl(
@@ -381,6 +368,16 @@
       return true;
     }
 
+    // navigation
+    function showElement(divId) {
+      document.getElementById(divId).style.display = 'block';
+    }
+    function hideElement(divId) {
+      document.getElementById(divId).style.display = 'none';
+    }
+    function screenOpacity(screenId, opacity) {
+      document.getElementById('screen-' + screenId).style.opacity = opacity;
+    }
     function screenTransition(prevScreenId, nextScreenId){
       screenOpacity(prevScreenId, 0);
       setTimeout(function(){
@@ -394,7 +391,6 @@
         }, 200);
       }, 200);
     }
-
     function showScreen(screenId){
       hideElement('screen-1');
       hideElement('screen-2');
@@ -403,34 +399,7 @@
       showElement('screen-' + screenId);
     }
     
-
-    function sendNewEntry() {
-      function reqListener () {
-        console.log('### response sent', this, this.responseText);
-      }
-      var xhr = new XMLHttpRequest();
-      xhr.onload = reqListener;
-      xhr.open("get", "/entry", true);
-      xhr.send();
-    }
-
-    function getImage() {
-      var xhr = new XMLHttpRequest();
-      var user = {
-        name,
-        cowDungImpact
-      }
-      xhr.open("get", "/toConfigure");
-      xhr.send({user, billionaire: selectedBillionaire});
-      xhr.onload = function() {
-        var data = xhr.response;
-        console.log('response', data);
-        if (data.body.imageUrl) {
-          imageUrl = data.body.url;
-        }
-      }
-    }
-
+    // user actions
     function goToScreen2() {
       updateTemplate(2);
       showScreen(2);
@@ -451,10 +420,14 @@
         return false;
       }
       computeValues();
-      updateTemplate(4);
-      sendNewEntry();
-      getImage();
-      screenTransition(3, 4);
+      // sendNewEntry(); // ask what is that
+      const success = getImage();
+      if (success) {
+        updateTemplate(4);
+        screenTransition(3, 4);
+      } else {
+        errorMessage = "Désolé, une erreur s'est produite, veuillez recommencer"
+      }
     }
 
     function download(fileUrl){
@@ -464,12 +437,43 @@
      	a.click();
     }
 
+    // backend requests
+    function sendNewEntry() {
+      function reqListener () {
+        console.log('### response sent', this, this.responseText);
+      }
+      var xhr = new XMLHttpRequest();
+      xhr.onload = reqListener;
+      xhr.open("get", "/entry", true);
+      xhr.send();
+    }
+    function getImage() {
+      var xhr = new XMLHttpRequest();
+      var user = { name, cowDungImpactShow };
+      xhr.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+          var data = JSON.parse(this.responseText);
+          console.log('result', data);
+          if (response.imageUrl) {
+            imageUrl = data.imageUrl;
+            return true;
+          }
+        }
+      }
+      
+      xhr.open("get", "/toConfigure");
+      xhr.send({user, billionaire: selectedBillionaire});
+      
+      // to change to false when API connected
+      console.log({user, billionaire: selectedBillionaire})
+      return true;
+    }
+
     // executes after html load
     (function() {
       updateTemplate(1);
       showScreen(1);
       screenTransition(1, 1);
-      // checkValuesAreValid();
     })();
   </script>
 </body>
