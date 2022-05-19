@@ -1,0 +1,2 @@
+[prod]
+oxfam-mega-bouses.tlscp.fr:42722 ansible_user=ubuntu become=true become_user=root

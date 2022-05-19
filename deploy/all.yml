@@ -3,11 +3,11 @@
 - hosts: all
   vars:
     - logs_base_path: /var/log/nginx/oxfam
-    - public_hostname: oxfam-impact-banques.telescoop.fr
-    - project_slug: "oxfam-impact-banques"
-    - static_path: /telescoop/oxfam-impact-banques/static
-    - script_path: /telescoop/oxfam-impact-banques/parse_logs
-    - statistics_page: "{{ static_path }}/wjgtswwxcf.html"
+    - public_hostname: oxfam-mega-bouses.tlscp.fr
+    - project_slug: "oxfam-mega-bouses"
+    - static_path: /telescoop/mega-bouses/static
+    - script_path: /telescoop/mega-bouses/parse_logs.py
+    - statistics_page: "{{ static_path }}/wjgtswwxcf2.html"
   remote_user: root
   handlers:
     - name: reload nginx
@@ -25,7 +25,7 @@
     - name: Copy nginx config
       template:
         src: nginx.conf.j2
-        dest: "/etc/nginx/sites-enabled/oxfam-impact-banques"
+        dest: "/etc/nginx/sites-enabled/{{ project_slug }}"
         owner: root
         group: root
         mode: 0644
@@ -46,6 +46,8 @@
       loop:
         - js
         - css
+        - images
+        - logos
         - fonts
         - index.html
         - ex-integration.html
@@ -59,10 +61,10 @@
       cron:
         name: 'parse nginx logs and generate static file'
         minute: "32"
-        job: "STATISTIC_PAGE_PATH={{ statistics_page }} python3 {{ script_path }}/parse_logs.py"
+        job: "STATISTIC_PAGE_PATH={{ statistics_page }} python3 {{ script_path }}"
 
     - name: Parse logs now
       command:
-        cmd: "python3 {{ script_path }}/parse_logs.py"
+        cmd: "python3 {{ script_path }}"
       environment:
         STATISTIC_PAGE_PATH: "{{ statistics_page }}"
