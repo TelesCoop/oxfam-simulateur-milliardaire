@@ -26,6 +26,8 @@
     <div class='screen' id="screen-3"></div>
     <!-- SCREEN 4 -->
     <div class='screen' id="screen-4"></div>
+    <!-- SCREEN 5 : error -->
+    <div class='screen' id="screen-5"></div>
   </div>
 
   <!-- TEMPLATE SCREEN 1 -->
@@ -194,6 +196,25 @@
     </div>
   </script>
 
+  <!-- TEMPLATE SCREEN 5 : error -->
+  <script type="text/x-tmpl" id="tmpl-screen-5" style="display: none;">
+    <div class="screen-wrapper">
+      <div>
+        <img 
+          class="error-image"
+          src="/images/cow-white.png"
+          alt="illustration erreur"
+        />
+      </div>
+      <p class="error-message">Nous sommes désolé, une erreur est survenue, veuillez essayer ultérieurement !</p>
+    </div>
+    <div class="actions">
+      <button class="btn btn-b" onclick="goToScreen1(5);">
+        Recommencer
+      </button>
+    </div>
+  </script>
+
   <script type="application/javascript">
     var BANKS = [
       ["Banque Populaire - Caisse d'Epargne ", 379],
@@ -263,9 +284,7 @@
 
     function areValuesValid(){
       return (
-        userAmount != null
-        && bankCoeff != null
-        && selectedBillionaire != null
+        userAmount && bankCoeff && selectedBillionaire
       );
     }
 
@@ -385,9 +404,6 @@
         showElement('screen-' + nextScreenId);
         setTimeout(function(){
           screenOpacity(nextScreenId, 1);
-          if (nextScreenId === 4) {
-            document.getElementById('resultTop').scrollIntoView();
-          }
         }, 200);
       }, 200);
     }
@@ -396,10 +412,17 @@
       hideElement('screen-2');
       hideElement('screen-3');
       hideElement('screen-4');
+      hideElement('screen-5');
       showElement('screen-' + screenId);
     }
     
     // user actions
+    function goToScreen1(current) {
+      updateTemplate(1);
+      showScreen(1);
+      screenTransition(current, 1);
+    }
+
     function goToScreen2() {
       updateTemplate(2);
       showScreen(2);
@@ -415,19 +438,39 @@
       screenTransition(2, 3);
     }
 
+    // backend requests
+    function getImage(updateTemplate, screenTransition, currentScreen) {
+      var xhr = new XMLHttpRequest();
+      var user = { name, cowDungImpactShow };
+      
+      xhr.open("get", "http://localhost:3000/test", true);
+
+      xhr.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+          var data = JSON.parse(this.response);
+          if (data.imageUrl) {
+            updateTemplate(currentScreen + 1);
+            screenTransition(currentScreen, currentScreen + 1);
+          }
+          else {
+            updateTemplate(5);
+            screenTransition(currentScreen, 5);
+          }
+        }
+        if (this.readyState === 4 && this.status >= 400) {
+          updateTemplate(5);
+          screenTransition(currentScreen, 5);
+        }
+      }
+      xhr.send({user, billionaire: selectedBillionaire});
+    }
+
     function goToScreen4() {
       if (!checkValuesAreValid()) {
         return false;
       }
       computeValues();
-      // sendNewEntry(); // ask what is that
-      const success = getImage();
-      if (success) {
-        updateTemplate(4);
-        screenTransition(3, 4);
-      } else {
-        errorMessage = "Désolé, une erreur s'est produite, veuillez recommencer"
-      }
+      getImage(updateTemplate, screenTransition, 3);
     }
 
     function download(fileUrl){
@@ -435,38 +478,6 @@
       a.href = fileUrl;
     	a.setAttribute("download", 'oxfam-ohlavache.png');
      	a.click();
-    }
-
-    // backend requests
-    function sendNewEntry() {
-      function reqListener () {
-        console.log('### response sent', this, this.responseText);
-      }
-      var xhr = new XMLHttpRequest();
-      xhr.onload = reqListener;
-      xhr.open("get", "/entry", true);
-      xhr.send();
-    }
-    function getImage() {
-      var xhr = new XMLHttpRequest();
-      var user = { name, cowDungImpactShow };
-      xhr.onreadystatechange = function() {
-        if (this.readyState == 4 && this.status == 200) {
-          var data = JSON.parse(this.responseText);
-          console.log('result', data);
-          if (response.imageUrl) {
-            imageUrl = data.imageUrl;
-            return true;
-          }
-        }
-      }
-      
-      xhr.open("get", "/toConfigure");
-      xhr.send({user, billionaire: selectedBillionaire});
-      
-      // to change to false when API connected
-      console.log({user, billionaire: selectedBillionaire})
-      return true;
     }
 
     // executes after html load
