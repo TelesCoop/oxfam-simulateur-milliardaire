@@ -446,6 +446,11 @@
     }
 
     // backend requests
+    function sendNewEntry() {
+      var xhr = new XMLHttpRequest();
+      xhr.open("get", "/entry", true);
+      xhr.send();
+    }
     function getImage(updateTemplate, screenTransition, currentScreen) {
       var xhr = new XMLHttpRequest();
       var user = { name, cowDungImpactShow };
@@ -453,7 +458,7 @@
       xhr.open("get", "https://d08vwgx631.execute-api.eu-west-3.amazonaws.com/default/oxfamMegaBousesImage", true);
 
       xhr.onreadystatechange = function() {
-        if (this.readyState === 2) {
+        if (this.readyState === 1) {
           document.getElementById('loader-generate-image').style.display = 'block';
         }
         if (this.readyState == 4 && this.status == 200) {
@@ -481,6 +486,7 @@
       }
       computeValues();
       getImage(updateTemplate, screenTransition, 3);
+      sendNewEntry();
     }
 
     function download(fileUrl){
