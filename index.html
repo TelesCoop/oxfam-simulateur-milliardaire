@@ -39,7 +39,7 @@
       </div>
       <div class="step">
         <div class="step-number">2</div>
-        <div class="step-description">Personnalise ton visuel</div>
+        <div class="step-description">Compare toi à un milliardaire</div>
       </div>
       <div class="step">
         <div class="step-number">3</div>
@@ -89,10 +89,31 @@
             {% } %}
           </select>
         </div>
+      </div>
+    </div>
+    <div class="actions">
+      <button 
+        class='btn' 
+        id='screen2-confirm'
+        onclick="goToScreen3()"
+      >SUIVANT</button>
+    </div>
+    
+  </script>
 
+  <!-- TEMPLATE SCREEN 3 -->
+  <script type="text/x-tmpl" id="tmpl-screen-3" style="display: none;">
+    <div class='screen-wrapper'>
+      <div class="current-step">
+        <div class="step">
+          <div class="step-number">2</div>
+          <div class="step-description">Compare toi à un milliardaire</div>
+        </div>
+      </div>
+      <div class="user-inputs">
         <div class='input-wrapper'>
           <label for="bank">
-            A quelle vache veux-tu te comparer ?
+            A quel milliardaire veux-tu te comparer ?
           </label>
         </div>
         <div class="billionaire-wrapper">
@@ -115,31 +136,9 @@
             </button>
           {% } %}
         </div>
-      </div>
-    </div>
-    <div class="actions">
-      <button 
-        class='btn' 
-        id='screen2-confirm'
-        onclick="goToScreen3()"
-      >SUIVANT</button>
-    </div>
-    
-  </script>
-
-  <!-- TEMPLATE SCREEN 3 -->
-  <script type="text/x-tmpl" id="tmpl-screen-3" style="display: none;">
-    <div class='screen-wrapper'>
-      <div class="current-step">
-        <div class="step">
-          <div class="step-number">2</div>
-          <div class="step-description">Personnalise ton visuel</div>
-        </div>
-      </div>
-      <div class="user-inputs">
         <div class="input-wrapper">
           <label for="user-name">
-            Renseigne to prénom pour personnaliser ton visuel
+            Renseigne to prénom pour personnaliser
           </label>
           <div class="user-name" id="user-name">
             <input 
@@ -160,7 +159,7 @@
         onclick="goToScreen4()"
         disabled
       >
-        GÉNÉRER TON VISUEL
+        GÉNÈRE TON VISUEL
         <div class="loader" id="loader-generate-image"></div>
       </button>
     </div>
@@ -178,7 +177,7 @@
       <div class="input-wrapper">
         <div>
           <img 
-            src="{%=image_url%}" 
+            src="{%=imageUrl%}" 
             alt="image #OHLAVACHE"
             class="image-ohlavache"
           />
@@ -186,7 +185,7 @@
             <button
               class="btn"
               id="screen4-share"
-              onclick="onTweetButtonHandler()"
+              onclick="onTweetButtonHandler('{%=selectedBillionaire.name%}')"
             >PARTAGER SUR TWITTER</button>
             <button
               class="btn"
@@ -220,23 +219,25 @@
 
   <script type="application/javascript">
     var BANKS = [
-      ["Banque Populaire - Caisse d'Epargne ", 379],
-      ["La Banque Postale", 353],
-      ['Société Générale', 652],
+      ["Banque Populaire - Caisse d'Epargne", 379],
       ['BNP Paribas', 601],
-      ['Crédit Agricole - LCL', 444],
-      ['Crédit Mutuel - CIC', 379],
+      ['Crédit Agricole', 444],
+      ['Crédit Mutuel', 379],
+      ["La Banque Postale", 353],
+      ['LCL', 444],
+      ['CIC', 379],
+      ['Société Générale', 652],
     ];
     var BILLIONAIRES = [
-      { name: 'Bernard', url: '/images/cow.png', cowDungImpact: "241 465M" },
-      { name: 'Vincent', url: '/images/cow.png', cowDungImpact: "508 464M" },
-      { name: 'François', url: '/images/cow.png', cowDungImpact: "33 860M" },
+      { name: 'BERNARD', url: '/images/OhLaVacheSmiley.png', cowDungImpact: "241 465M" },
+      { name: 'VINCENT', url: '/images/OhLaVacheSmiley.png', cowDungImpact: "508 464M" },
+      { name: 'XAVIER', url: '/images/OhLaVacheSmiley.png', cowDungImpact: "33 860M" },
     ];
     var COW_DUNG_CONVERTER = 1 / 9.5;
     
     var userAmount = null;
     var selectedBillionaire = null;
-    var name = null;
+    var name = '';
     var bankName = '';
     var savingsAmount = 0; // in €
     var co2Impact = 0; // in 0.01.tonnes
@@ -286,12 +287,6 @@
       return value.toPrecision(2);
     }
 
-    function areValuesValid(){
-      return (
-        userAmount && bankCoeff && selectedBillionaire
-      );
-    }
-
     function computeValues(){
       if (userAmount && bankCoeff) {
         co2Impact = userAmount / 1e6 * bankCoeff;
@@ -307,17 +302,26 @@
       multiplier = addSpaces(roundImpact(billionaireCowDown / cowDungImpact).toString());
     }
 
-    function checkValuesAreValid() {
-      var isValid = areValuesValid();
+    function checkValuesScreen2AreValid() {
       var confirmBtn = document.getElementById('screen2-confirm');
-      confirmBtn.disabled = !isValid;
-      if (isValid) {
+      if (userAmount && bankCoeff) {
         confirmBtn.classList.remove('button-disabled');
+        confirmBtn.disabled = false;
       } else {
         confirmBtn.classList.add('button-disabled');
+        confirmBtn.disabled = true;
       }
+    }
 
-      return isValid;
+    function checkValuesScreen3AreValid() {
+      var confirmBtn = document.getElementById('screen3-confirm');
+      if (userAmount && bankCoeff && name && selectedBillionaire) {
+        confirmBtn.classList.remove('button-disabled');
+        confirmBtn.disabled = false;
+      } else {
+        confirmBtn.classList.add('button-disabled');
+        confirmBtn.disabled = true;
+      }
     }
 
     function changeAmountHandler() {
@@ -329,7 +333,7 @@
       // add spaces
       amount = addSpaces(amount);
       document.getElementById('savingsAmount').value = amount;
-      checkValuesAreValid();
+      checkValuesScreen2AreValid();
     }
 
     function changeBanckHandler() {
@@ -342,21 +346,12 @@
         bankName = bank[0];
         bankCoeff = bank[1];
       }
-      checkValuesAreValid();
+      checkValuesScreen2AreValid();
     }
 
     function changeNameHandler() {
-      checkValuesAreValid();
-
       name = document.getElementById('name').value;
-      var confirmBtn = document.getElementById('screen3-confirm');
-      if (name) {
-        confirmBtn.classList.remove('button-disabled');
-        confirmBtn.disabled = false;
-      } else {
-        confirmBtn.classList.add('button-disabled');
-        confirmBtn.disabled = true;
-      }
+      checkValuesScreen3AreValid();
     }
 
     function onBillionaireClick(e, name) {
@@ -370,14 +365,15 @@
       elm.classList.add('billionaire-button-selected');
       
       selectedBillionaire = BILLIONAIRES.filter((x) => x.name === name)[0];
-      checkValuesAreValid();
+      checkValuesScreen3AreValid();
     }
 
-    function onTweetButtonHandler() {
-      var text = encodeURI("Je viens de comparer en bouse de vache mon empreinte bancaire avec celle d'un milliardaire !")
-      var hashtags = 'OHLAVACHE,OXFAM'
-      var url = `https://twitter.com/intent/tweet?text=${text}&hashtags=${hashtags}`
-      window.open(url, '_blank').focus();
+    function onTweetButtonHandler(name) {
+      var text = encodeURI(`Je viens de comparer l’empreinte carbone de mon patrimoine financier à celle de ${name}. J’ai calculé en Millions de bouses de vaches pour me faire une meilleure idée…`)
+      var hashtags = "OhLaVache";
+      var url = "https://www.oxfamfrance.org/inegalites-et-justice-fiscale/"
+      var link = `https://twitter.com/intent/tweet?text=${text}&hashtags=${hashtags}&url=${url}`;
+      window.open(link, '_blank').focus();
     } 
     
 
@@ -434,15 +430,13 @@
       updateTemplate(2);
       showScreen(2);
       screenTransition(1, 2);
-      checkValuesAreValid();;
+      checkValuesScreen2AreValid();;
     }
 
     function goToScreen3() {
-      if (!checkValuesAreValid()) {
-        return false;
-      }
       updateTemplate(3);
       screenTransition(2, 3);
+      checkValuesScreen3AreValid();
     }
 
     // backend requests
@@ -465,6 +459,7 @@
         if (this.readyState == 4 && this.status >= 200 && this.status < 400) {
           var data = JSON.parse(this.response);
           if (data.image_url) {
+            imageUrl = data.image_url;
             updateTemplate(currentScreen + 1);
             screenTransition(currentScreen, currentScreen + 1);
           }
@@ -482,14 +477,11 @@
         user, 
         billionaire: selectedBillionaire, 
         multiplier,
-        result: `Je pollue ${multiplier} fois moins que ${selectedBillionaire.name}`
+        result: `${selectedBillionaire.name} pollue ${multiplier} fois plus que moi !`
       }));
     }
 
     function goToScreen4() {
-      if (!checkValuesAreValid()) {
-        return false;
-      }
       computeValues();
       getImage(updateTemplate, screenTransition, 3);
       sendNewEntry();
