@@ -178,7 +178,7 @@
       <div class="input-wrapper">
         <div>
           <img 
-            src="{%=imageUrl%}" 
+            src="{%=image_url%}" 
             alt="image #OHLAVACHE"
             class="image-ohlavache"
           />
@@ -463,7 +463,7 @@
         }
         if (this.readyState == 4 && this.status == 200) {
           var data = JSON.parse(this.response);
-          if (data.imageUrl) {
+          if (data.image_url) {
             updateTemplate(currentScreen + 1);
             screenTransition(currentScreen, currentScreen + 1);
           }
