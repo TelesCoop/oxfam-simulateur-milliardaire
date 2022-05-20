@@ -35,7 +35,7 @@
     <div class="stepper">
       <div class="step">
         <div class='step-number'>1</div>
-        <div class="step-description">Calcule ton emprunte</div>
+        <div class="step-description">Calcule ton empreinte</div>
       </div>
       <div class="step">
         <div class="step-number">2</div>
@@ -59,7 +59,7 @@
       <div class="current-step">
         <div class="step">
           <div class='step-number'>1</div>
-          <div class="step-description">Calcule ton emprunte</div>
+          <div class="step-description">Calcule ton empreinte</div>
         </div>
       </div>
       <div class="user-inputs">          
@@ -92,7 +92,7 @@
 
         <div class='input-wrapper'>
           <label for="bank">
-            A quelle vache veux tu te comparer ?
+            A quelle vache veux-tu te comparer ?
           </label>
         </div>
         <div class="billionaire-wrapper">
@@ -209,7 +209,7 @@
           alt="illustration erreur"
         />
       </div>
-      <p class="error-message">Nous sommes désolé, une erreur est survenue, veuillez essayer ultérieurement !</p>
+      <p class="error-message">Nous sommes désolés, une erreur est survenue, veuillez essayer ultérieurement !</p>
     </div>
     <div class="actions">
       <button class="btn" onclick="goToScreen1(5);">
@@ -455,13 +455,14 @@
       var xhr = new XMLHttpRequest();
       var user = { name, cowDungImpactShow };
       
-      xhr.open("get", "https://d08vwgx631.execute-api.eu-west-3.amazonaws.com/default/oxfamMegaBousesImage", true);
+      xhr.open("post", "https://d08vwgx631.execute-api.eu-west-3.amazonaws.com/default/oxfamMegaBousesImage", true);
+      xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
 
       xhr.onreadystatechange = function() {
         if (this.readyState === 1) {
           document.getElementById('loader-generate-image').style.display = 'block';
         }
-        if (this.readyState == 4 && this.status == 200) {
+        if (this.readyState == 4 && this.status >= 200 && this.status < 400) {
           var data = JSON.parse(this.response);
           if (data.image_url) {
             updateTemplate(currentScreen + 1);
@@ -477,7 +478,12 @@
           screenTransition(currentScreen, 5);
         }
       }
-      xhr.send({user, billionaire: selectedBillionaire, multiplier});
+      xhr.send(JSON.stringify({
+        user, 
+        billionaire: selectedBillionaire, 
+        multiplier,
+        result: `Je pollue ${multiplier} fois moins que ${selectedBillionaire.name}`
+      }));
     }
 
     function goToScreen4() {
