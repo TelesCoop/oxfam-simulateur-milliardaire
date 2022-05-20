@@ -225,9 +225,9 @@
       ['Crédit Mutuel - CIC', 379],
     ];
     var BILLIONAIRES = [
-      { name: 'Bernard', url: '/images/cow.png', cowDungImpact: 241465 },
-      { name: 'Vincent', url: '/images/cow.png', cowDungImpact: 508464 },
-      { name: 'François', url: '/images/cow.png', cowDungImpact: 33860 },
+      { name: 'Bernard', url: '/images/cow.png', cowDungImpact: "241 465M" },
+      { name: 'Vincent', url: '/images/cow.png', cowDungImpact: "508 464M" },
+      { name: 'François', url: '/images/cow.png', cowDungImpact: "33 860M" },
     ];
     var COW_DUNG_CONVERTER = 1 / 9.5;
     
@@ -240,6 +240,7 @@
     var co2ImpactShow = 0;
     var cowDungImpact = null;
     var cowDungImpactShow = null;
+    var multiplier = null;
 
     var imageUrl = 'images/result.png';
     
@@ -296,8 +297,11 @@
         co2Impact = null;
         cowDungImpact = null;
       }
-      co2ImpactShow = roundImpact(co2Impact);
-      cowDungImpactShow = roundImpact(cowDungImpact)
+      co2ImpactShow = roundImpact(co2Impact) + "M";
+      cowDungImpactShow = roundImpact(cowDungImpact) + "M";
+
+      var billionaireCowDown = parseInt(selectedBillionaire.cowDungImpact.split("M")[0].replace(/\s+/g,""));
+      multiplier = addSpaces(roundImpact(billionaireCowDown / cowDungImpact).toString());
     }
 
     function checkValuesAreValid() {
@@ -462,7 +466,7 @@
           screenTransition(currentScreen, 5);
         }
       }
-      xhr.send({user, billionaire: selectedBillionaire});
+      xhr.send({user, billionaire: selectedBillionaire, multiplier});
     }
 
     function goToScreen4() {
