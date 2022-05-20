@@ -6,6 +6,11 @@ RUN yum -y install inkscape
 COPY requirements.txt  .
 RUN  pip3 install boto==2.49.0 --target "${LAMBDA_TASK_ROOT}"
 
+RUN mkdir -p /usr/local/share/fonts
+COPY OxfamGlobalHeadline.ttf /usr/local/share/fonts/
+COPY Oxfam_TSTARPRO-Bold.otf /usr/local/share/fonts/
+RUN fc-cache -fv
+
 COPY template.svg ${LAMBDA_TASK_ROOT}
 
 # Copy function code
