@@ -30,6 +30,7 @@ input,
 select {
     background: white;
     color: #5fa533;
+    border:none;
     border-radius: 12px;
     margin: 0;
     padding: 0;
@@ -200,8 +201,9 @@ label {
   width: 96px;
   color: white;
 }
-.billionaire-button-selected, .billionaire-button:hover {
+.billionaire-button-selected {
   border: 4px solid #60f305;
+  background-color: #60f305;
   cursor: pointer;
 }
 .billionaire-figure {
@@ -272,4 +274,3 @@ input[type=number] {
 .input-wrapper label {
   display: block;
 }
-
