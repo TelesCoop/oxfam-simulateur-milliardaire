@@ -82,11 +82,13 @@ label {
 }
 
 .btn {
+  display: flex;
+  align-items: center;
+  gap: 16px;
   font-size: 2em;
   border-radius: 12px;
   border: 0;
   cursor: pointer;
-  display: inline-block;
   margin: 2px 0;
   padding: 12px 30px 14px;
   background: white;
@@ -228,6 +230,22 @@ label {
   width: 512px;
   max-width: 100%;
   margin:16px auto;
+}
+
+/* Spinner loader */
+.loader {
+  display: none;
+  border: 8px solid #f3f3f3; /* Light grey */
+  border-top: 8px solid #5fa533; /* Blue */
+  border-radius: 50%;
+  width: 16px;
+  height: 16px;
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
 
 /* Chrome, Safari, Edge, Opera */
