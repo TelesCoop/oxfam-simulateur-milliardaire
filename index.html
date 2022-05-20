@@ -447,7 +447,7 @@
       var xhr = new XMLHttpRequest();
       var user = { name, cowDungImpactShow };
       
-      xhr.open("get", "http://localhost:3000/test", true);
+      xhr.open("get", "https://d08vwgx631.execute-api.eu-west-3.amazonaws.com/default/oxfamMegaBousesImage", true);
 
       xhr.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
