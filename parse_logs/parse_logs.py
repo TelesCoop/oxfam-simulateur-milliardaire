@@ -69,7 +69,7 @@ def iterate_files():
     for file in os.listdir("{{ logs_base_path }}"):
         file_path = os.path.join("{{ logs_base_path }}", file)
         if not os.path.isfile(file_path) or not file.startswith(
-            "access_impact_banques.log"
+            "access_mega_bouses.log"
         ):
             continue
         print("parsing file", file_path)
