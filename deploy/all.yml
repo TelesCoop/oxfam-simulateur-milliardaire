@@ -34,13 +34,13 @@
         state: reloaded
 
   tasks:
-    - name: app.py template
-      local_action:
-        module: template
-        src: ../backend/app_template.py
-        dest: ../backend/app.py
-      tags:
-        - local
+    # - name: app.py template
+    #   local_action:
+    #     module: template
+    #     src: ../backend/app_template.py
+    #     dest: ../backend/app.py
+    #   tags:
+    #     - local
 
     - name: make sure log folder exists
       file:
