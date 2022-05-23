@@ -229,9 +229,9 @@
       ['Société Générale', 652],
     ];
     var BILLIONAIRES = [
-      { name: 'BERNARD', cowDungImpact: "241 465M" },
-      { name: 'VINCENT', cowDungImpact: "508 464M" },
-      { name: 'XAVIER', cowDungImpact: "33 860M" },
+      { name: 'Bernard', cowDungImpact: "241 465M" },
+      { name: 'Vincent', cowDungImpact: "508 464M" },
+      { name: 'Xavier', cowDungImpact: "33 860M" },
     ];
     var COW_DUNG_CONVERTER = 1 / 9.5;
     
@@ -482,11 +482,32 @@
     }
 
     function download(fileUrl){
-	    var a = document.createElement("a");
-      a.href = fileUrl;
-    	a.setAttribute("download", 'oxfam-ohlavache.png');
-     	a.click();
+      window.open(fileUrl, '_blank').focus();
+
+      // not working anymore with external url
+	    // var a = document.createElement("a");
+      // a.href = fileUrl;
+    	// a.setAttribute("download", 'oxfam-ohlavache.png');
+     	// a.click();
     }
+
+    // to test when cors opened
+    // function download(url){
+    //   var xhr = new XMLHttpRequest();
+    //   xhr.open("GET", url, true);
+    //   xhr.responseType = "blob";
+    //   xhr.onload = function(){
+    //       var urlCreator = window.URL || window.webkitURL;
+    //       var imageUrl = urlCreator.createObjectURL(this.response);
+    //       var tag = document.createElement('a');
+    //       tag.href = imageUrl;
+    //       tag.download = 'oxfam-ohlavache.png';
+    //       document.body.appendChild(tag);
+    //       tag.click();
+    //       document.body.removeChild(tag);
+    //   }
+    //   xhr.send();
+    // }
 
     // executes after html load
     (function() {
