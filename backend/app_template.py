@@ -29,8 +29,20 @@ def upload_file(file_path: str, remote_key: str):
 def handler(event, context):
     import time
 
-    start = time.time()
     print("EVENT", event)
+    print(
+        "computed", event.get("requestContext", {}).get("http", {}).get("method", None)
+    )
+
+    if event.get("requestContext", {}).get("http", {}).get("method", None) == "OPTIONS":
+        print("options", event)
+        return {
+            "statusCode": 200,
+            "headers": {"Content-Type": "application/json"},
+            "body": {"status": "OK"},
+        }
+
+    start = time.time()
     body = json.loads(event["body"])
     print("BODY", body)
 
@@ -44,10 +56,11 @@ def handler(event, context):
         "[[userCowDung]]": body["user"]["cowDungImpact"],
         "[[billionnaireCowDung]]": body["billionaire"]["cowDungImpact"],
         "[[billionaire]]": body["billionaire"]["name"],
+        "[[multiplier]]": body["multiplier"],
     }
 
     for to_replace, replace_with in replace_fields.items():
-        string_data = string_data.replace(to_replace, replace_with)
+        string_data = string_data.replace(to_replace, str(replace_with))
 
     random_id = random.randint(0, 100000000)
 
@@ -57,7 +70,7 @@ def handler(event, context):
     print("data written", time.time() - start)
 
     subprocess.check_output(
-        f'inkscape --export-png="/tmp/{random_id}.png" /tmp/{random_id}.svg',
+        f'inkscape --export-width=800 --export-png="/tmp/{random_id}.png" /tmp/{random_id}.svg',
         shell=True,
     )
 
@@ -72,7 +85,11 @@ def handler(event, context):
     os.remove(f"/tmp/{random_id}.png")
     os.remove(f"/tmp/{random_id}.svg")
 
-    print("return", time.time() - start)
+    print(
+        "return",
+        f"http://s3-eu-west-3.amazonaws.com/oxfam-mega-bouses/images/{random_id}.png",
+        time.time() - start,
+    )
 
     return {
         "statusCode": 200,
