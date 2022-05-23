@@ -5,9 +5,16 @@ import json
 
 import boto
 from boto.s3.key import Key
+from flask import Flask, request
 
-AWS_ACCESS = "{{ aws_access }}"
-AWS_SECRET = "{{ aws_secret }}"
+
+# AWS_ACCESS = "{{ aws_access }}"
+# AWS_SECRET = "{{ aws_secret }}"
+# AWS_HOST = "s3.eu-west-3.amazonaws.com"
+# AWS_BUCKET = "oxfam-mega-bouses"
+
+AWS_ACCESS = "AKIAZ7T2ML5AZ6CWFLLR"
+AWS_SECRET = "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"
 AWS_HOST = "s3.eu-west-3.amazonaws.com"
 AWS_BUCKET = "oxfam-mega-bouses"
 
@@ -26,24 +33,10 @@ def upload_file(file_path: str, remote_key: str):
     key.set_contents_from_filename(file_path)
 
 
-def handler(event, context):
+def handler(body):
     import time
 
-    print("EVENT", event)
-    print(
-        "computed", event.get("requestContext", {}).get("http", {}).get("method", None)
-    )
-
-    if event.get("requestContext", {}).get("http", {}).get("method", None) == "OPTIONS":
-        print("options", event)
-        return {
-            "statusCode": 200,
-            "headers": {"Content-Type": "application/json"},
-            "body": json.dumps({"status": "OK"}),
-        }
-
     start = time.time()
-    body = json.loads(event["body"])
     print("BODY", body)
 
     with open("template.svg", "r") as fh:
@@ -54,10 +47,9 @@ def handler(event, context):
     replace_fields = {
         "[[username]]": body["user"]["name"],
         "[[userCowDung]]": body["user"]["cowDungImpact"],
-        "[[billionaireCowDung]]": body["billionaire"]["cowDungImpact"],
+        "[[billionnaireCowDung]]": body["billionaire"]["cowDungImpact"],
         "[[billionaire]]": body["billionaire"]["name"],
         "[[multiplier]]": body["multiplier"],
-        "[[result]]": f"{body['billionaire']['name']} pollue {body['multiplier']} fois plus que moi !",
     }
 
     for to_replace, replace_with in replace_fields.items():
@@ -93,12 +85,18 @@ def handler(event, context):
     )
 
     return {
-        "statusCode": 200,
-        "headers": {"Content-Type": "application/json"},
-        "body": json.dumps(
-            {
-                "status": "success",
-                "image_url": f"http://s3-eu-west-3.amazonaws.com/oxfam-mega-bouses/images/{random_id}.png",
-            }
-        ),
+        "status": "success",
+        "image_url": f"http://s3-eu-west-3.amazonaws.com/oxfam-mega-bouses/images/{random_id}.png",
     }
+
+
+app = Flask(__name__)
+
+
+@app.route("/generation", methods=["GET", "POST", "OPTIONS"])
+def hello_world():
+    print("GENERATION", request, "body")
+    if request.method == "OPTIONS":
+        return "", 200
+    body = request.get_json(force=True)
+    return handler(body), 200
