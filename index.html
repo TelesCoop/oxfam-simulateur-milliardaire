@@ -48,7 +48,7 @@
     </div>
     <div class="actions">
       <button class="btn" onclick="goToScreen2();">
-        Commencez
+        Commencer
       </button>
     </div>
   </script>
@@ -65,7 +65,7 @@
       <div class="user-inputs">          
         <div class='input-wrapper'>
           <label for="savingsAmount">
-            Quel est le montant de ton patrimoine
+            Quel est le montant de ton patrimoine ?
           </label>
           <div class="savings-wrapper">
             <input 
@@ -80,7 +80,7 @@
       
         <div class='input-wrapper'>
           <label for="bank">
-            Quel est le nom de ta banque
+            Quel est le nom de ta banque ?
           </label>
           <select name="bank" id="bank" oninput="changeBanckHandler()">
             <option value="">Sélectionnez votre banque</option>
@@ -138,7 +138,7 @@
         </div>
         <div class="input-wrapper">
           <label for="user-name">
-            Renseigne to prénom pour personnaliser
+            Renseigne ton prénom pour personnaliser
           </label>
           <div class="user-name" id="user-name">
             <input 
@@ -190,7 +190,7 @@
             <button
               class="btn"
               id="screen4-download"
-              onclick="download('/images/result.png')"
+              onclick="download('{%=imageUrl%}')"
             >TÉLÉCHARGER LE VISUEL</button>
           </div>
         </div>
@@ -471,6 +471,7 @@
         user, 
         billionaire: selectedBillionaire, 
         multiplier,
+        result: selectedBillionaire.name + " pollue " + multiplier + " fois plus que moi !"
       }));
     }
 
