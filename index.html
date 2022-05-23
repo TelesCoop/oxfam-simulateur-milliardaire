@@ -369,10 +369,10 @@
     }
 
     function onTweetButtonHandler(name) {
-      var text = encodeURI(`Je viens de comparer l’empreinte carbone de mon patrimoine financier à celle de ${name}. J’ai calculé en Millions de bouses de vaches pour me faire une meilleure idée…`)
+      var text = encodeURI("Je viens de comparer l’empreinte carbone de mon patrimoine financier à celle de " + name + ". J’ai calculé en Millions de bouses de vaches pour me faire une meilleure idée…");
       var hashtags = "OhLaVache";
       var url = "https://www.oxfamfrance.org/inegalites-et-justice-fiscale/"
-      var link = `https://twitter.com/intent/tweet?text=${text}&hashtags=${hashtags}&url=${url}`;
+      var link = "https://twitter.com/intent/tweet?text=" + text + "&hashtags=" + hashtags + "&url=" + url;
       window.open(link, '_blank').focus();
     } 
     
@@ -449,26 +449,22 @@
       var xhr = new XMLHttpRequest();
       var user = { name, cowDungImpactShow };
       
-      xhr.open("post", "https://d08vwgx631.execute-api.eu-west-3.amazonaws.com/default/oxfamMegaBousesImage", true);
+      xhr.open("POST", "https://d08vwgx631.execute-api.eu-west-3.amazonaws.com/default/oxfamMegaBousesImage", true);
       xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
 
       xhr.onreadystatechange = function() {
-        if (this.readyState === 1) {
+        if (this.readyState === XMLHttpRequest.OPENED) {
           document.getElementById('loader-generate-image').style.display = 'block';
         }
-        if (this.readyState == 4 && this.status >= 200 && this.status < 400) {
+        if (this.readyState === XMLHttpRequest.DONE && this.status >= 200 && this.status < 400) {
           var data = JSON.parse(this.response);
           if (data.image_url) {
             imageUrl = data.image_url;
             updateTemplate(currentScreen + 1);
             screenTransition(currentScreen, currentScreen + 1);
           }
-          else {
-            updateTemplate(5);
-            screenTransition(currentScreen, 5);
-          }
         }
-        if (this.readyState === 4 && this.status >= 400) {
+        if (this.status >= 400) {
           updateTemplate(5);
           screenTransition(currentScreen, 5);
         }
@@ -477,7 +473,7 @@
         user, 
         billionaire: selectedBillionaire, 
         multiplier,
-        result: `${selectedBillionaire.name} pollue ${multiplier} fois plus que moi !`
+        result: selectedBillionaire.name + " pollue " + multiplier + " fois plus que moi !",
       }));
     }
 
