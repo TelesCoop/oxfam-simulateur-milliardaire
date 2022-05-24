@@ -1,35 +1,36 @@
 @font-face {
-  font-family: "oxfam_global_headlineregular";
-  src: url("/fonts/OxfamGlobalHeadline.ttf");
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: "oxfam_tstarpro_medium";
-  src: url("/fonts/Oxfam\ TSTARPRO-Medium.otf");
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
+    font-family: "oxfam_global_headlineregular";
+    src: url("/fonts/OxfamGlobalHeadline.ttf");
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
 }
 
-body{
-  margin: auto;
-  padding: 0;
-  font-family: "oxfam_tstarpro_medium", Arial, sans-serif;
-  font-weight: 400;
-  background-color: #5fa533;
-  color: white;
-  height: calc(100vh - 35px);
-  width: 90vw;
-  align-items: center;
-  text-align: center;
+@font-face {
+    font-family: "oxfam_tstarpro_medium";
+    src: url("/fonts/Oxfam\ TSTARPRO-Medium.otf");
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
 }
+
+body {
+    margin: auto;
+    padding: 0;
+    font-family: "oxfam_tstarpro_medium", Arial, sans-serif;
+    font-weight: 400;
+    color: #5fa533;
+    height: calc(100vh - 35px);
+    width: 90vw;
+    align-items: center;
+    text-align: center;
+}
+
 input,
 select {
     background: white;
     color: #5fa533;
-    border:none;
+    border: 4px solid #5fa533;
     border-radius: 12px;
     margin: 0;
     padding: 0;
@@ -41,227 +42,232 @@ select {
 }
 
 input::placeholder {
-  color: #aaaaaa;
+    color: #aaaaaa;
 }
+
 input:focus,
 input:active,
 select:focus,
 select:active,
 button:focus,
 button:active {
-    border: 4px solid #60f305;
+    border: 4px solid #5fa533;
 }
+
 h1 {
-  font-size: 3em;
+    font-size: 3em;
 }
-h1,h2,h3,button{
-  font-family: "oxfam_global_headlineregular", Arial, sans-serif;
-  font-weight: 400;
+
+h1, h2, h3, button {
+    font-family: "oxfam_global_headlineregular", Arial, sans-serif;
+    font-weight: 400;
 }
+
 label {
-  font-size: 24px;
-  margin-bottom: 16px;
+    font-size: 24px;
+    margin-bottom: 16px;
+}
+
+.header {
+    display: flex;
+}
+
+.col-2 {
+    flex: 0 0 16.666667%;
+}
+
+.col-4 {
+    flex: 0 0 33.333333%;
+}
+
+.col-5 {
+    flex: 0 0 41.666667%;
+}
+
+.col-6 {
+    flex: 0 0 50%;
+}
+
+.col-8 {
+    flex: 0 0 66.6666666%;
+}
+
+.col-10 {
+    flex: 0 0 83.333332%;
 }
 
 .container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: auto;
-  width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: auto;
+    width: 100%;
 }
-.screen{
-  display: none;
-  opacity: 0;
-  text-align: center;
-  transition: opacity 0.2s ease-in-out;
-  width: 100%;
-  height: auto;
+
+.screen {
+    display: none;
+    opacity: 0;
+    text-align: center;
+    transition: opacity 0.2s ease-in-out;
+    width: 100%;
+    height: auto;
 }
-.input-wrapper{
-  margin: 24px 0;
-  width: 512px;
-  max-width: 90vw;
+
+.screen-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
 }
+
+.input-wrapper {
+    margin: 24px 0;
+    width: 512px;
+    max-width: 90vw;
+}
+
 .input-wrapper label {
-  display: block;
+    display: block;
 }
+
 .btn {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  font-size: 1.5em;
-  border-radius: 12px;
-  border: 0;
-  cursor: pointer;
-  margin: 2px 0;
-  padding: 12px 30px 14px;
-  background: white;
-  color: #5fa533;
-  font-weight: bolder;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    font-size: 1.5em;
+    border-radius: 12px;
+    border: 3px #5fa533 solid;
+    cursor: pointer;
+    margin: 2px 0;
+    padding: 12px 30px 14px;
+    background: white;
+    color: #5fa533;
+    font-weight: bolder;
 }
+
 .btn:hover {
-  color: #a5cf8a;
+    color: #a5cf8a;
 }
+
 .button-disabled, .button-disabled:hover {
-  background-color: rgb(223, 205, 205);
-  color: #9cce7c;
-  cursor: default;
+    background-color: #eeeeee;
+    color: #9cce7c;
+    cursor: default;
 }
 
 /* Screen 1 */
 .stepper {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  margin-top: auto;
-  margin-bottom: auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: auto;
+    margin-bottom: auto;
 }
+
 .step {
-  width: 152px;
-  padding: 48px;
+    width: 152px;
+    padding: 48px;
 }
 
-/* Screen 4 */
-#screen4-share, #screen4-download {
-  font-family: "oxfam_tstarpro_medium", Arial, sans-serif;
-  font-size: 24px;
-  height: 80px;
-  width: 240px;
-}
-.image-ohlavache {
-  max-width: 100%;
-  border: 1px dashed white;
-  border-radius: 16px;
-}
 .logo {
-  height: 128px;
-  float: right;
+    height: 128px;
+    float: right;
 }
-.screen-wrapper {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-}
+
 .user-inputs {
-  text-align: center;
-  max-width: 100%;
+    text-align: center;
+    max-width: 100%;
 }
+
 .step-number {
-  font-size: 72px;
-  font-family: "oxfam_global_headlineregular", Arial, sans-serif;
+    font-size: 72px;
+    font-family: "oxfam_global_headlineregular", Arial, sans-serif;
 }
+
 .step-description {
-  font-size: 24px;
+    font-size: 24px;
 }
 
-/* Screen 2 */
-.savings-wrapper {
-  position:relative;
-  width: 256px;
-  margin: auto;
+.salary-wrapper {
+    position: relative;
+    width: 256px;
+    margin: auto;
 }
+
 .addon {
-  padding: 4px 12px;
-  padding-left: 11px;
-  position: absolute;
-  top: 0;
-  right:0;
-  color: #5fa533;
-  font-weight: bolder;
-  font-size: 32px;
-}
-.billionaire-wrapper {
-  display: flex;
-  flex-wrap: wrap;
-  grid-gap: 24px;
-  border: none;
-  justify-content: center;
-}
-.billionaire-button {
-  cursor: pointer;
-  border: 4px solid #88cc5e;
-  border-radius: 12px;
-  background-color: #5fa533;
-  width: 96px;
-  color: white;
-}
-.billionaire-button-selected {
-  border: 4px solid #60f305;
-  background-color: #60f305;
-  cursor: pointer;
-}
-.billionaire-figure {
-  margin: 8px
-}
-.billionaire-img {
-  width: 48px;
-  height: 48px;
-  object-fit: cover;
-  border-radius: 12px;
+    padding: 4px 12px;
+    padding-left: 11px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    color: #5fa533;
+    font-weight: bolder;
+    font-size: 32px;
 }
 
-/* Screen 5 */
 .error-image {
-  max-width: 30%;
+    max-width: 30%;
 }
+
 .error-message {
-  font-size: 2em;
-  width: 100%;
-  padding: 32px;
+    font-size: 2em;
+    width: 100%;
+    padding: 32px;
 }
 
 /* Actions */
 .actions {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-around;
-  gap: 16px;
-  width: 512px;
-  max-width: 100%;
-  margin:16px auto;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-around;
+    gap: 16px;
+    width: 512px;
+    max-width: 100%;
+    margin: 16px auto;
 }
 
 /* Spinner loader */
 .loader {
-  display: none;
-  border: 8px solid #f3f3f3; /* Light grey */
-  border-top: 8px solid #5fa533; /* Blue */
-  border-radius: 50%;
-  width: 16px;
-  height: 16px;
-  animation: spin 2s linear infinite;
+    display: none;
+    border: 8px solid #f3f3f3; /* Light grey */
+    border-top: 8px solid #5fa533; /* Blue */
+    border-radius: 50%;
+    width: 16px;
+    height: 16px;
+    animation: spin 2s linear infinite;
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
 }
 
 /* Chrome, Safari, Edge, Opera */
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
+    -webkit-appearance: none;
+    margin: 0;
 }
 
 /* Firefox */
 input[type=number] {
-  -moz-appearance: textfield;
+    -moz-appearance: textfield;
 }
 
 /* Responsive */
 @media (min-width: 844px) {
-  .billionaire-wrapper {
-    justify-content: start;
-  }
-  .savings-wrapper {
-    margin-left: 0;
-  }
-  .user-inputs {
-    text-align: start;
-  }
+
+    .salary-wrapper {
+        margin-left: 0;
+    }
+
+    .user-inputs {
+        text-align: start;
+    }
 }

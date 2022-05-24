@@ -2,88 +2,86 @@
 <html lang="en" style="height: 100%">
 
 <head>
-  <meta charset="utf-8">
-  <title>Oxfam - #OHLAVACHE</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <meta name="robots" content="noindex">
-  <link rel="stylesheet" href="css/oxfam.css">
-  <script src="js/tmpl.min.js"></script>
+    <meta charset="utf-8">
+    <title>Oxfam - Comparer votre salaire avec celui d'un PDG français</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <meta name="robots" content="noindex">
+    <link rel="stylesheet" href="css/oxfam.css">
+
+    <script src="js/tmpl.min.js"></script>
+    <link rel="import" href="/screens/step_01.html">
 </head>
 
-<body>
-  <img src="/logos/OX_OFR_VL_blanc_RGB.png" alt="logo-oxfam" class="logo" />
-  <div class="header">
-    <h1 id="app-title">#OHLAVACHE</h1>
-  </div>
-  <div class="container">
+<body class="app-container">
+<img class="" src="https://upload.wikimedia.org/wikipedia/fr/f/f0/OxfamLogo2017.png" alt="logo-oxfam" class="logo"/>
+<div class="header">
+    <h1 id="app-title" class="">Comparer votre salaire avec celui d'un PDG d'une grande entreprise française</h1>
+</div>
+<div class="container">
     <!-- SCREEN 1 -->
     <div class='screen' id="screen-1"></div>
     <!-- SCREEN 2 -->
     <div class='screen' id="screen-2"></div>
     <!-- SCREEN 3 -->
     <div class='screen' id="screen-3"></div>
-    <!-- SCREEN 4 -->
+    <!-- SCREEN 4 : error -->
     <div class='screen' id="screen-4"></div>
-    <!-- SCREEN 5 : error -->
-    <div class='screen' id="screen-5"></div>
-  </div>
+</div>
 
-  <!-- TEMPLATE SCREEN 1 -->
-  <script type="text/x-tmpl" id="tmpl-screen-1" style="display: none;">
-    <div class="stepper">
-      <div class="step">
-        <div class='step-number'>1</div>
-        <div class="step-description">Calcule ton empreinte</div>
-      </div>
-      <div class="step">
-        <div class="step-number">2</div>
-        <div class="step-description">Compare-toi à un milliardaire</div>
-      </div>
-      <div class="step">
-        <div class="step-number">3</div>
-        <div class="step-description">Partage ton résultat</div>
-      </div>
-    </div>
-    <div class="actions">
-      <button class="btn" onclick="goToScreen2();">
-        Commencer
-      </button>
-    </div>
-  </script>
 
-  <!-- TEMPLATE SCREEN 2 -->
-  <script type="text/x-tmpl" id="tmpl-screen-2" style="display: none;">
+<!-- TEMPLATE SCREEN 1 -->
+<script type="text/x-tmpl" id="tmpl-screen-1" style="display: none;">
     <div class='screen-wrapper'>
       <div class="current-step">
         <div class="step">
           <div class='step-number'>1</div>
-          <div class="step-description">Calcule ton empreinte</div>
+          <div class="step-description">Saisi ton salaire brut annuel </div>
         </div>
       </div>
       <div class="user-inputs">
         <div class='input-wrapper'>
-          <label for="savingsAmount">
-            Quel est le montant de ton patrimoine ?
+          <label for="userSalary">
+            Quel est le montant de ton salaire brut annuel ?
           </label>
-          <div class="savings-wrapper">
+          <div class="salary-wrapper">
             <input
               type="text"
-              id="savingsAmount"
+              id="userSalary"
               placeholder="30 000"
-              oninput="changeAmountHandler()"
+              oninput="onSalaryInput()"
             />
             <span class="addon">€</span>
           </div>
         </div>
+      </div>
+    </div>
+    <div class="actions">
+      <button
+        class='btn button-disabled'
+        id='btn-confirm-01'
+        onclick="goToScreen2()"
+      >SUIVANT</button>
+    </div>
+</script>
 
-        <div class='input-wrapper'>
-          <label for="bank">
-            Quel est le nom de ta banque ?
+<!-- TEMPLATE SCREEN 2 -->
+<script type="text/x-tmpl" id="tmpl-screen-2" style="display: none;">
+    <div class='screen-wrapper'>
+      <div class="current-step">
+        <div class="step">
+          <div class="step-number">2</div>
+          <div class="step-description">Compare-toi à PDG d'une grande entreprise française.</div>
+        </div>
+      </div>
+      <div class="user-inputs">
+         <div class='input-wrapper'>
+          <label for="enterprise">
+            Choisi une grande entreprise française
           </label>
-          <select name="bank" id="bank" oninput="changeBanckHandler()">
-            <option value="">Sélectionnez votre banque</option>
-            {% for (var i=0; i<o.banks.length; i++) { %}
-            <option value="{%=i%}">{%=o.banks[i][0]%}</option>
+          <select name="enterprise" id="enterprise" oninput="onChangeEnterprise()">
+            <option value="">Sélectionnez le nom d'une grande entreprise </option>
+            {% for (let i=0; i<o.enterprises.length; i++) { %}
+            <option value="{%=i%}">{%=o.enterprises[i][0]%}</option>
             {% } %}
           </select>
         </div>
@@ -91,80 +89,18 @@
     </div>
     <div class="actions">
       <button
-        class='btn'
-        id='screen2-confirm'
-        onclick="goToScreen3()"
-      >SUIVANT</button>
-    </div>
-
-  </script>
-
-  <!-- TEMPLATE SCREEN 3 -->
-  <script type="text/x-tmpl" id="tmpl-screen-3" style="display: none;">
-    <div class='screen-wrapper'>
-      <div class="current-step">
-        <div class="step">
-          <div class="step-number">2</div>
-          <div class="step-description">Compare-toi à un milliardaire</div>
-        </div>
-      </div>
-      <div class="user-inputs">
-        <div class='input-wrapper'>
-          <label for="bank">
-            A quel milliardaire veux-tu te comparer ?
-          </label>
-        </div>
-        <div class="billionaire-wrapper">
-          {% for (var i=0; i<o.billionaires.length; i++) { %}
-            <button
-              class="billionaire-button"
-              id="billionaire-button-{%=i%}"
-              onclick="onBillionaireClick(this, '{%=o.billionaires[i].name%}')"
-            >
-              <figure class="billionaire-figure">
-                <img
-                  class="billionaire-img"
-                  id="billionaire-img-{%=i%}"
-                  src="/images/OhLaVacheSmiley.png"
-                  alt={%=o.billionaires[i].name%}
-                  title={%=o.billionaires[i].name%}
-                />
-                <figcaption>{%=o.billionaires[i].name%}</figcaption>
-              </figure>
-            </button>
-          {% } %}
-        </div>
-        <div class="input-wrapper">
-          <label for="user-name">
-            Renseigne ton prénom pour personnaliser ton visuel
-          </label>
-          <div class="user-name" id="user-name">
-            <input
-              type="text"
-              id="name"
-              placeholder="Prénom"
-              oninput="changeNameHandler()"
-            />
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="actions">
-      <button
         class="btn button-disabled"
-        id="screen3-confirm"
-        onclick="goToScreen4()"
+        id="btn-confirm-02"
+        onclick="goToScreen3()"
         disabled
       >
-        GÉNÈRE TON VISUEL
-        <div class="loader" id="loader-generate-image"></div>
+        Valider
       </button>
     </div>
-  </script>
+</script>
 
-  <!-- TEMPLATE SCREEN 4 -->
-  <script type="text/x-tmpl" id="tmpl-screen-4" style="display: none;">
+<!-- TEMPLATE SCREEN 3 -->
+<script type="text/x-tmpl" id="tmpl-screen-3" style="display: none;">
     <div class='screen-wrapper'>
       <div class="current-step">
         <div class="step">
@@ -172,32 +108,34 @@
           <div class="step-description">Partage ton résultat</div>
         </div>
       </div>
+      <div>
+        <p class="text">
+        {%=mainMsg%}
+        </p>
+        <p>
+        La répartition des richesses créées au sein des grandes entreprises françaises est depuis des années largement favorable aux
+        actionnaires et aux PDG, au détriment des salarié·e·s.
+        Pour un meilleur partage des richesses au sein des grandes entreprises, Oxfam France appelle à limiter les écarts de salaire de
+        1 à 20 entre le plus haut salaire et le salaire médian.
+        </p>
+
+      </div>
       <div class="input-wrapper">
         <div>
-          <img
-            src="{%=imageUrl%}"
-            alt="image #OHLAVACHE"
-            class="image-ohlavache"
-          />
           <div class="actions">
             <button
               class="btn"
-              id="screen4-share"
-              onclick="onTweetButtonHandler('{%=selectedBillionaire.name%}')"
+              id="btn-confirm-03"
+              onclick="onTweetButtonHandler('{%=enterpriseName%}')"
             >PARTAGER SUR TWITTER</button>
-            <button
-              class="btn"
-              id="screen4-download"
-              onclick="download('{%=imageUrl%}')"
-            >TÉLÉCHARGER LE VISUEL</button>
           </div>
         </div>
       </div>
     </div>
-  </script>
+</script>
 
-  <!-- TEMPLATE SCREEN 5 : error -->
-  <script type="text/x-tmpl" id="tmpl-screen-5" style="display: none;">
+<!-- TEMPLATE SCREEN 5 : error -->
+<script type="text/x-tmpl" id="tmpl-screen-4" style="display: none;">
     <div class="screen-wrapper">
       <div>
         <img
@@ -213,307 +151,240 @@
         Recommencer
       </button>
     </div>
-  </script>
+</script>
 
-  <script type="application/javascript">
-    var BANKS = [
-      ["Banque Populaire - Caisse d'Epargne", 379],
-      ['BNP Paribas', 601],
-      ['Crédit Agricole', 444],
-      ['Crédit Mutuel', 379],
-      ["La Banque Postale", 353],
-      ['LCL', 444],
-      ['CIC', 379],
-      ['Société Générale', 652],
-    ]
-    var BILLIONAIRES = [
-      { name: 'Bernard', cowDungImpact: "241 465M" },
-      { name: 'Vincent', cowDungImpact: "508 464M" },
-      { name: 'Xavier', cowDungImpact: "33 860M" },
-    ]
-    var COW_DUNG_CONVERTER = 1 / 9.5
-
-    var userAmount = null
-    var selectedBillionaire = null
-    var name = ''
-    var bankName = ''
-    var savingsAmount = 0 // in €
-    var co2Impact = 0 // in 0.01.tonnes
-    var co2ImpactShow = 0
-    var cowDungImpact = null
-    var cowDungImpactShow = null
-    var multiplier = null
-
-    var imageUrl = 'images/result.png'
-
-    var bankCoeff = null
-    var numbers = "0123456789".split('')
-
-    var errorMessage
-
-    function addSpaces(numberStr) {
-      if (numberStr.length <= 3) {
-        return numberStr
-      }
-      if (numberStr.length > 3) {
-        return addSpaces(numberStr.substr(0, numberStr.length - 3)) + ' ' + numberStr.substr(numberStr.length - 3)
-      }
-    }
-
-    function roundImpact(value) {
-      if (value == null) {
-        return
-      }
-      if (value > 10) {
-        return Math.round(value)
-      }
-      if (value > 1) {
-        return value.toFixed(1)
-      }
-      if (value > 0.1) {
-        return value.toFixed(2)
-      }
-      if (value > 0.01) {
-        return value.toFixed(3)
-      }
-      if (value > 0.001) {
-        return value.toFixed(4)
-      }
-      if (value > 0.0001) {
-        return value.toFixed(5)
-      }
-      return value.toPrecision(2)
-    }
-
-    function computeValues() {
-      if (userAmount && bankCoeff) {
-        co2Impact = userAmount / 1e6 * bankCoeff
-        cowDungImpact = co2Impact * COW_DUNG_CONVERTER
-      } else {
-        co2Impact = null
-        cowDungImpact = null
-      }
-      co2ImpactShow = roundImpact(co2Impact) + "M"
-      cowDungImpactShow = roundImpact(cowDungImpact) + "M"
-
-      var billionaireCowDown = parseInt(selectedBillionaire.cowDungImpact.split("M")[0].replace(/\s+/g, ""))
-      multiplier = addSpaces(roundImpact(billionaireCowDown / cowDungImpact).toString())
-    }
-
-    function checkValuesScreen2AreValid() {
-      var confirmBtn = document.getElementById('screen2-confirm')
-      if (userAmount && bankCoeff) {
-        confirmBtn.classList.remove('button-disabled')
-        confirmBtn.disabled = false
-      } else {
-        confirmBtn.classList.add('button-disabled')
-        confirmBtn.disabled = true
-      }
-    }
-
-    function checkValuesScreen3AreValid() {
-      var confirmBtn = document.getElementById('screen3-confirm')
-      if (userAmount && bankCoeff && name && selectedBillionaire) {
-        confirmBtn.classList.remove('button-disabled')
-        confirmBtn.disabled = false
-      } else {
-        confirmBtn.classList.add('button-disabled')
-        confirmBtn.disabled = true
-      }
-    }
-
-    function changeAmountHandler() {
-      var amount = document.getElementById('savingsAmount').value
-      // only keep numbers
-      amount = amount.split('').filter(function (letter) { return numbers.indexOf(letter) != -1 }).join('')
-
-      userAmount = parseInt(amount)
-      // add spaces
-      amount = addSpaces(amount)
-      document.getElementById('savingsAmount').value = amount
-      checkValuesScreen2AreValid()
-    }
-
-    function changeBanckHandler() {
-      var bankId = parseInt(document.getElementById('bank').value || -1)
-      if (bankId == null || bankId === -1) {
-        bankName = ''
-        bankCoeff = null
-      } else {
-        var bank = BANKS[bankId]
-        bankName = bank[0]
-        bankCoeff = bank[1]
-      }
-      checkValuesScreen2AreValid()
-    }
-
-    function changeNameHandler() {
-      name = document.getElementById('name').value
-      checkValuesScreen3AreValid()
-    }
-
-    function onBillionaireClick(e, name) {
-      var buttons = document.getElementsByClassName('billionaire-button')
-      for (let i = 0; i < buttons.length; i++) {
-        buttons[i].classList.remove('billionaire-button-selected')
-      }
-
-      var id = e.id
-      elm = document.getElementById(id)
-      elm.classList.add('billionaire-button-selected')
-
-      selectedBillionaire = BILLIONAIRES.filter((x) => x.name === name)[0]
-      checkValuesScreen3AreValid()
-    }
-
-    function onTweetButtonHandler(name) {
-      var text = encodeURI("Je viens de comparer l’empreinte carbone de mon patrimoine financier à celle de " + name + ". J’ai calculé en Millions de bouses de vaches pour me faire une meilleure idée…")
-      var hashtags = "OhLaVache"
-      var url = "https://www.oxfamfrance.org/inegalites-et-justice-fiscale/"
-      var link = "https://twitter.com/intent/tweet?text=" + text + "&hashtags=" + hashtags + "&url=" + url
-      window.open(link, '_blank').focus()
-    }
+<script type="application/javascript">
+  let ENTERPRISES = [
+    ["L'Oréal", 300],
+    ['Stellantis', 3000000],
+    ['LVMH', 30000000],
+    ['Carrefour', 30000000],
+    ["Sanofi", 30000000],
+    ['Teleperformance', 30000000],
+    ['Société Générale', 30000000],
+  ]
+  let enterpriseName = ''
+  let userSalary = null // in €
+  let ratioSalaryDiff = 0
+  let coeffSalaryDifferenceShow = 0
+  let pdgSalary = null
+  let numbers = "0123456789".split('')
+  let nbJourDiff = null
+  let errorMessage
+  let mainMsg = ""
 
 
-    function updateTemplate(screenId) {
-      var data = {
-        banks: BANKS,
-        billionaires: BILLIONAIRES,
-      }
-
-      document.getElementById('screen-' + screenId).innerHTML = tmpl(
-        'tmpl-screen-' + screenId, data
-      )
-
-      return true
-    }
-
-    // navigation
-    function showElement(divId) {
-      document.getElementById(divId).style.display = 'block'
-    }
-    function hideElement(divId) {
-      document.getElementById(divId).style.display = 'none'
-    }
-    function screenOpacity(screenId, opacity) {
-      document.getElementById('screen-' + screenId).style.opacity = opacity
-    }
-    function screenTransition(prevScreenId, nextScreenId) {
-      screenOpacity(prevScreenId, 0)
-      setTimeout(function () {
-        hideElement('screen-' + prevScreenId)
-        showElement('screen-' + nextScreenId)
-        setTimeout(function () {
-          screenOpacity(nextScreenId, 1)
-        }, 200)
+  const showElement = (divId) => {
+    document.getElementById(divId).style.display = 'block'
+  }
+  const hideElement = (divId) => {
+    document.getElementById(divId).style.display = 'none'
+  }
+  const screenOpacity = (screenId, opacity) => {
+    document.getElementById('screen-' + screenId).style.opacity = opacity
+  }
+  const screenTransition = (prevScreenId, nextScreenId) => {
+    screenOpacity(prevScreenId, 0)
+    setTimeout( () => {
+      hideElement('screen-' + prevScreenId)
+      showElement('screen-' + nextScreenId)
+      setTimeout(() => {
+        screenOpacity(nextScreenId, 1)
       }, 200)
-    }
-    function showScreen(screenId) {
-      hideElement('screen-1')
-      hideElement('screen-2')
-      hideElement('screen-3')
-      hideElement('screen-4')
-      hideElement('screen-5')
-      showElement('screen-' + screenId)
-    }
+    }, 200)
+  }
 
-    // user actions
-    function goToScreen1(current) {
-      updateTemplate(1)
-      showScreen(1)
-      screenTransition(current, 1)
-    }
+  function AddWorkingDays(datStartDate, lngNumberOfWorkingDays, blnIncSat, blnIncSun) {
+    var intWorkingDays = 5;
+    var intNonWorkingDays = 2;
+    var intStartDay = datStartDate.getDay(); // 0=Sunday ... 6=Saturday
+    var intOffset;
+    var intModifier = 0;
 
-    function goToScreen2() {
+    if (blnIncSat) { intWorkingDays++; intNonWorkingDays--; }
+    if (blnIncSun) { intWorkingDays++; intNonWorkingDays--; }
+    var newDate = new Date(datStartDate)
+    if (lngNumberOfWorkingDays >= 0) {
+      // Moving Forward
+      if (!blnIncSat && blnIncSun) {
+        intOffset = intStartDay;
+      } else {
+        intOffset = intStartDay - 1;
+      }
+      // Special start Saturday rule for 5 day week
+      if (intStartDay == 6 && !blnIncSat && !blnIncSun) {
+        intOffset -= 6;
+        intModifier = 1;
+      }
+    } else {
+      // Moving Backward
+      if (blnIncSat && !blnIncSun) {
+        intOffset = intStartDay - 6;
+      } else {
+        intOffset = intStartDay - 5;
+      }
+      // Special start Sunday rule for 5 day week
+      if (intStartDay == 0 && !blnIncSat && !blnIncSun) {
+        intOffset++;
+        intModifier = 1;
+      }
+    }
+    // ~~ is used to achieve integer division for both positive and negative numbers
+    newDate.setTime(datStartDate.getTime() + (new Number((~~((lngNumberOfWorkingDays + intOffset) / intWorkingDays) * intNonWorkingDays) + lngNumberOfWorkingDays + intModifier)*86400000));
+    return newDate;
+  }
+  const showScreen = (screenId) => {
+    ["1", "2", "3", "4"].map((screenId) => { hideElement(`screen-${screenId}`)})
+    showElement('screen-' + screenId)
+  }
+
+  function addSpaces(numberStr) {
+    if (numberStr.length <= 3) {
+      return numberStr
+    }
+    if (numberStr.length > 3) {
+      return addSpaces(numberStr.substr(0, numberStr.length - 3)) + ' ' + numberStr.substr(numberStr.length - 3)
+    }
+  }
+
+  const addDays = (days) => {
+    var date = new Date(2023, 0, 1)
+    date.setDate(date.getDate() + days)
+    return date.toLocaleDateString("fr")
+  }
+
+
+  function roundImpact(value) {
+    if (value == null) {
+      return
+    }
+    if (value > 10) {
+      return Math.round(value)
+    }
+    if (value > 1) {
+      return value.toFixed(1)
+    }
+    if (value > 0.1) {
+      return value.toFixed(2)
+    }
+    if (value > 0.01) {
+      return value.toFixed(3)
+    }
+    if (value > 0.001) {
+      return value.toFixed(4)
+    }
+    if (value > 0.0001) {
+      return value.toFixed(5)
+    }
+    return value.toPrecision(2)
+  }
+
+  function computeValues() {
+
+    if (userSalary && pdgSalary) {
+      ratioSalaryDiff = pdgSalary / userSalary
+      nbJourDiff = (userSalary / pdgSalary) * 365
+      if (ratioSalaryDiff > 1) {
+        mainMsg += `Le PDG de ${enterpriseName} gagne ${ratioSalaryDiff} fois votre rémunération par an.
+          Après le ${addDays(nbJourDiff)} (soit ${nbJourDiff} jours) il a déjà gagné votre salaire annuel.`
+      } else if (ratioSalaryDiff === 1) {
+        mainMsg += `Le PDG de ${enterpriseName} à une rémunération égale à la vôtre.`
+      } else if(ratioSalaryDiff < 1) {
+        mainMsg += `Vous gagnez ${userSalary / pdgSalary} fois la rémunération du PDG de ${enterpriseName}.`
+      }
+      let startDate = new Date(2023, 0, 1)
+      const ecartDate = startDate
+
+    } else {
+      ratioSalaryDiff = null
+    }
+    coeffSalaryDifferenceShow = roundImpact(ratioSalaryDiff) + "M"
+  }
+
+
+  function checkStepValidity(confirmBtnId, conditionToCheck) {
+    let confirmBtn = document.getElementById(confirmBtnId)
+    if (conditionToCheck) {
+      confirmBtn.classList.remove('button-disabled')
+      confirmBtn.disabled = false
+      return true
+    } else {
+      confirmBtn.classList.add('button-disabled')
+      confirmBtn.disabled = true
+    }
+    return false
+  }
+
+  function onSalaryInput() {
+    let salary = document.getElementById('userSalary').value
+    // only keep numbers
+    salary = salary.split('').filter((letter) => numbers.indexOf(letter) != -1).join('')
+    userSalary = parseInt(salary)
+
+    // add spaces
+    salary = addSpaces(salary)
+    document.getElementById('userSalary').value = salary
+    checkStepValidity("btn-confirm-01", userSalary)
+  }
+
+  const onChangeEnterprise = () => {
+    let enterpriseId = parseInt(document.getElementById('enterprise').value || -1)
+    if (enterpriseId == null || enterpriseId === -1) {
+      enterpriseName = ''
+      pdgSalary = null
+    } else {
+      let enterprise = ENTERPRISES[enterpriseId]
+      enterpriseName = enterprise[0]
+      pdgSalary = enterprise[1]
+    }
+    console.log(enterpriseName, pdgSalary)
+    checkStepValidity("btn-confirm-02", userSalary && pdgSalary)
+  }
+
+  const onTweetButtonHandler = (name) => {
+    let text = encodeURI("Je viens de comparer l’empreinte carbone de mon patrimoine financier à celle de " + name + ". J’ai calculé en Millions de bouses de vaches pour me faire une meilleure idée…")
+    let hashtags = "OhLaVache"
+    let url = "https://www.oxfamfrance.org/vaches-milliardaires-et-climat/"
+    let link = "https://twitter.com/intent/tweet?text=" + text + "&hashtags=" + hashtags + "&url=" + url
+    window.open(link, '_blank').focus()
+  }
+
+
+  const updateTemplate = (screenId) => {
+    let data = {
+      enterprises: ENTERPRISES,
+    }
+    document.getElementById('screen-' + screenId).innerHTML = tmpl(
+        'tmpl-screen-' + screenId, data
+    )
+    return true
+  }
+
+  const goToScreen2 = () => {
+    const isValid = checkStepValidity("btn-confirm-01", userSalary)
+    if(isValid) {
       updateTemplate(2)
-      showScreen(2)
       screenTransition(1, 2)
-      checkValuesScreen2AreValid();;
     }
+  }
 
-    function goToScreen3() {
+  const goToScreen3 = () => {
+    const isValid = checkStepValidity("btn-confirm-02", userSalary && pdgSalary)
+    if(isValid) {
+      computeValues()
       updateTemplate(3)
       screenTransition(2, 3)
-      checkValuesScreen3AreValid()
     }
 
-    // backend requests
-    function sendNewEntry() {
-      var xhr = new XMLHttpRequest()
-      xhr.open("get", "/entry", true)
-      xhr.send()
-    }
-    function getImage(updateTemplate, screenTransition, currentScreen) {
-      var xhr = new XMLHttpRequest()
-      var user = { name, cowDungImpact: cowDungImpactShow }
+  }
 
-      xhr.open("POST", "https://d08vwgx631.execute-api.eu-west-3.amazonaws.com/default/oxfamMegaBousesImage", true)
-      xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8')
-      document.getElementById('loader-generate-image').style.display = 'block'
-
-      xhr.onreadystatechange = function () {
-        if (this.readyState === XMLHttpRequest.DONE && this.status >= 200 && this.status < 400) {
-          var data = JSON.parse(this.response)
-          if (data.image_url) {
-            imageUrl = data.image_url
-            updateTemplate(currentScreen + 1)
-            screenTransition(currentScreen, currentScreen + 1)
-          }
-        }
-        if (this.status >= 400) {
-          updateTemplate(5)
-          screenTransition(currentScreen, 5)
-        }
-      }
-      xhr.send(JSON.stringify({
-        user,
-        billionaire: selectedBillionaire,
-        multiplier,
-        result: selectedBillionaire.name + " pollue " + multiplier + " fois plus que moi !"
-      }))
-    }
-
-    function goToScreen4() {
-      computeValues()
-      getImage(updateTemplate, screenTransition, 3)
-      sendNewEntry()
-    }
-
-    function download(fileUrl) {
-      window.open(fileUrl, '_blank').focus()
-
-      // not working anymore with external url
-      // var a = document.createElement("a");
-      // a.href = fileUrl;
-      // a.setAttribute("download", 'oxfam-ohlavache.png');
-      // a.click();
-    }
-
-    // to test when cors opened
-    // function download(url){
-    //   var xhr = new XMLHttpRequest();
-    //   xhr.open("GET", url, true);
-    //   xhr.responseType = "blob";
-    //   xhr.onload = function(){
-    //       var urlCreator = window.URL || window.webkitURL;
-    //       var imageUrl = urlCreator.createObjectURL(this.response);
-    //       var tag = document.createElement('a');
-    //       tag.href = imageUrl;
-    //       tag.download = 'oxfam-ohlavache.png';
-    //       document.body.appendChild(tag);
-    //       tag.click();
-    //       document.body.removeChild(tag);
-    //   }
-    //   xhr.send();
-    // }
-
-    // executes after html load
-    (function () {
-      updateTemplate(1)
-      showScreen(1)
-      screenTransition(1, 1)
-    })();
-  </script>
+  const init = () => {
+    updateTemplate(1)
+    showScreen(1)
+    screenTransition(1, 1)
+  }
+  init()
+</script>
 </body>
 
 </html>
