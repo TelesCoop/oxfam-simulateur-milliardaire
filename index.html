@@ -185,7 +185,7 @@
 </script>
 
 <script type="application/javascript">
-  moment.locale("fr")
+
   let ENTERPRISES = [
     ["L'Oréal", 10097780],
     ['Stellantis', 66650518],
@@ -285,8 +285,8 @@
     return value.toPrecision(2)
   }
 
-  function computeBusinessDays(numberOfDays) {
-    let date = moment(START_DATE);
+  function computeDays(numberOfDays) {
+    let date = moment(START_DATE).locale("fr");
     const hasHours = numberOfDays.toString().split(".")
     let count = 0;
 
@@ -308,7 +308,7 @@
       nbJourDiff = Math.round(((userSalary / pdgSalary) * 320) * 100) / 100
       if (ratioSalaryDiff > 1) {
         mainMsg += `Le PDG de ${enterpriseName} gagne ${Math.round(ratioSalaryDiff)} fois votre rémunération par an.
-          Après le ${computeBusinessDays(nbJourDiff)} il a déjà gagné votre salaire annuel.`
+          Après le ${computeDays(nbJourDiff)} il a déjà gagné votre salaire annuel.`
       } else if (ratioSalaryDiff === 1) {
         mainMsg += `Le PDG de ${enterpriseName} à une rémunération égale à la vôtre.`
       } else if (ratioSalaryDiff < 1) {
