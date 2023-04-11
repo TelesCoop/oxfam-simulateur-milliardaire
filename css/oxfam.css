@@ -145,11 +145,16 @@ label {
     color: #5fa533;
     font-weight: bolder;
 }
-
+.btn-grey {
+    border-color: #aaaaaa;
+    color: #aaaaaa;
+}
 .btn:hover {
     color: #a5cf8a;
 }
-
+.btn-grey:hover {
+    color: #aaaaaa;
+}
 .button-disabled, .button-disabled:hover {
     background-color: #eeeeee;
     color: #9cce7c;
@@ -178,6 +183,8 @@ label {
 .user-inputs {
     text-align: center;
     max-width: 100%;
+    display: flex;
+    flex-direction: column;
 }
 
 .step-number {
@@ -228,6 +235,15 @@ label {
     margin: 16px auto;
 }
 
+.actions-col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    gap: 16px;
+    max-width: 100%;
+    margin: 16px auto;
+}
 /* Spinner loader */
 .loader {
     display: none;
