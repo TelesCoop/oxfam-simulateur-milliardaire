@@ -13,10 +13,11 @@
 </head>
 
 <body class="app-container">
-<img class="" src="https://upload.wikimedia.org/wikipedia/fr/f/f0/OxfamLogo2017.png" alt="logo-oxfam" class="logo"/>
+
 <div class="header">
-    <h1 id="app-title" class="">Comparer votre salaire avec celui d'un PDG d'une grande entreprise française</h1>
+    <img class="logo" src="images/oxfam_logo_text.png" alt="logo-oxfam" class="logo" srcset="images/oxfam_logo_text_2x.png 2x"/>
 </div>
+<h1>Comparer votre salaire avec celui d'un PDG d'une grande entreprise française</h1>
 <div class="container">
     <!-- SCREEN 1 -->
     <div class='screen' id="screen-1"></div>
@@ -186,13 +187,13 @@
 <script type="application/javascript">
   moment.locale("fr")
   let ENTERPRISES = [
-    ["Salaire moyen PDG CAC40", 7860000],
     ["L'Oréal", 10097780],
     ['Stellantis', 66650518],
     ['LVMH', 7929234],
     ['Carrefour', 8403822],
     ["Sanofi", 8965298],
     ['Teleperformance', 19599499],
+    ["Salaire moyen d'un PDG du CAC40", 7860000],
   ]
 
   let numbers = "0123456789".split('')
