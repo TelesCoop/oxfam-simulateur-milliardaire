@@ -1,42 +1,12 @@
 {{ ansible_managed | comment }}
 
-# server {
-#     listen 80;
-#
-#     server_name {{ public_hostname }};
-#
-#     access_log {{ logs_base_path }}/access_impact_banques.log;
-#     error_log {{ logs_base_path }}/error_impact_banques.log;
-#
-#     # http://stackoverflow.com/questions/15238506/djangos-suspiciousoperation-invalid-http-host-header
-#     # Deny illegal Host headers
-#     if ($host !~* ^({{ public_hostname }})$ ) {
-#         return 444;
-#     }
-#
-#     location =/entry {
-#         add_header Access-Control-Allow-Origin $http_origin;
-#         return 204;
-#     }
-#
-#     location / {
-#         add_header Access-Control-Allow-Origin $http_origin;
-#         root {{ static_path }};
-#     }
-# }
-
 server {
-    listen 443 ssl; # managed by Certbot
-    ssl_certificate /etc/letsencrypt/live/oxfam-mega-bouses.tlscp.fr/fullchain.pem; # managed by Certbot
-    ssl_certificate_key /etc/letsencrypt/live/oxfam-mega-bouses.tlscp.fr/privkey.pem; # managed by Certbot
-    include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
-    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
+    listen 80;
 
     server_name         {{ public_hostname }};
 
-
-    access_log {{ logs_base_path }}/access_mega_bouses.log;
-    error_log {{ logs_base_path }}/error_mega_bouses.log;
+    access_log {{ logs_base_path }}/access_{{ project_slug }}.log;
+    error_log {{ logs_base_path }}/access_{{ project_slug }}.log;
 
     # http://stackoverflow.com/questions/15238506/djangos-suspiciousoperation-invalid-http-host-header
     # Deny illegal Host headers
@@ -44,29 +14,9 @@ server {
         return 444;
     }
 
-    location =/entry {
-        # add_header Access-Control-Allow-Origin https://www.oxfamfrance.org/;
-        add_header Access-Control-Allow-Origin $http_origin;
-        return 204;
-    }
-
     location / {
         # add_header Access-Control-Allow-Origin http://localhost/ https://www.oxfamfrance.org/;
         add_header Access-Control-Allow-Origin $http_origin;
         root {{ static_path }};
     }
-}
-
-server {
-    if ($host = oxfam-mega-bouses.tlscp.fr) {
-        return 301 https://$host$request_uri;
-    } # managed by Certbot
-
-
-    listen 80;
-
-    server_name oxfam-mega-bouses.tlscp.fr;
-    return 404; # managed by Certbot
-
-
 }
