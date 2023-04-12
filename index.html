@@ -287,7 +287,7 @@
 
   function computeDays(numberOfDays) {
     let date = moment(START_DATE).locale("fr");
-    const hasHours = numberOfDays.toString().split(".")
+    const hours = numberOfDays - Math.floor(numberOfDays)
     let count = 0;
 
     while (count < numberOfDays) {
@@ -297,8 +297,12 @@
       }
       count++;
     }
+
     date = date.add(START_HOUR, 'hours')
-    if (hasHours) date.add(hasHours[1] / 10 * 12, "hours")
+    if (hours) {
+      const computeHours = hours * 12
+      date.add(computeHours, "hours")
+    }
     return date.format(DATE_FORMAT)
   }
 
@@ -345,19 +349,16 @@
   }
   const onSurnameInput = () => {
     let surnameValue = document.getElementById('surname').value
-    console.log(surnameValue)
     surname = surnameValue
     checkStepValidity("btn-confirm-02", surname && name && email)
   }
   const onNameInput = () => {
     let nameValue = document.getElementById('name').value
-    console.log(nameValue)
     name = nameValue
     checkStepValidity("btn-confirm-02", surname && name && email)
   }
   const onEmailInput = () => {
     let emailValue = document.getElementById('email').value
-    console.log(emailValue)
     email = emailValue
     checkStepValidity("btn-confirm-02", surname && name && email)
   }
@@ -371,7 +372,6 @@
       enterpriseName = enterprise[0]
       pdgSalary = enterprise[1]
     }
-    console.log(enterpriseName, pdgSalary)
     checkStepValidity("btn-confirm-01", userSalary && pdgSalary)
   }
 
