@@ -249,6 +249,10 @@ label {
     margin: 16px auto;
 }
 
+.social-wrapper {
+    font-family: "oxfam_global_headlineregular", Arial, sans-serif;
+    color: #5fa533;
+}
 .actions-col {
     display: flex;
     align-items: center;
@@ -310,4 +314,9 @@ input[type=number] {
 }
 .tweet-button:hover {
     background-position: 0 -21px;
+}
+
+.social-wrapper {
+display: flex;
+    gap: 16px;
 }

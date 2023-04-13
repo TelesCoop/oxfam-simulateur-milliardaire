@@ -44,15 +44,15 @@
                 1 à 20 entre le plus haut salaire et le salaire médian.
             </p>
         </div>
-        <div class="input-wrapper">
-            <div>
-                <div class="actions">
+        <div class="social-wrapper">
+                Partager :
+                <div >
+                    <div class="fb-share-button" data-href="https://oxfam-pdg-cac40.tlscp.fr" data-layout="button" data-size="large">
+                        <a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fdevelopers.facebook.com%2Fdocs%2Fplugins%2F&amp" class="fb-xfbml-parse-ignore">Partager</a></div>
                     <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-                    <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button" data-show-count="false">Tweet</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-                    <div class="fb-share-button" data-href="https://oxfam-pdg-cac40.tlscp.fr/results.html" data-layout="button" data-size="large">
-                        <a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fdevelopers.facebook.com%2Fdocs%2Fplugins%2F&amp;src=sdkpreparse" class="fb-xfbml-parse-ignore">Partager</a></div>
+                    <a href="https://twitter.com/share?ref_src=twsrc%5Etfw&url=https://www.oxfamfrance.org/" class="twitter-share-button" data-show-count="false">Tweet</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
                 </div>
-            </div>
         </div>
     </div>
 </div>
@@ -127,7 +127,7 @@
   const onTweetButtonHandler = () => {
     let text = encodeURI("Je viens de comparer mon salaire avec le PDG de " + enterpriseName)
     let hashtags = "#"
-    let url = "https://www.oxfamfrance.org//"
+    let url = "&url=https://www.oxfamfrance.org/"
     let link = "https://twitter.com/intent/tweet?text=" + text + "&hashtags=" + hashtags + "&url=" + url
     window.open(link, '_blank').focus()
   }
