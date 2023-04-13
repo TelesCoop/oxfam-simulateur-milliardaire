@@ -116,26 +116,30 @@
                 placeholder="Email"
                 oninput="onEmailInput()"
             />
-        </div>
-        <div class="actions-col">
 
-        <button
-            class="btn button-disabled"
-            id="btn-confirm-02"
-            onclick="goToResults()"
-            disabled
-        >
-            Valider
-        </button>
-        <button
-        class="btn button btn-grey btn-sm"
-            onclick="goToResults(true)"
-        >
-        J'accède directement à mon résultat
-        </button>
+        </div>
+        <div>
+            <span id="msgError" class="error-message"></span>
+            <div class="actions-col">
+                <button
+                    class="btn button-disabled"
+                    id="btn-confirm-02"
+                    onclick="goToResults()"
+                    disabled
+                >
+                    Valider
+                </button>
+                <button
+                class="btn button btn-grey btn-sm"
+                    onclick="goToResults(true)"
+                >
+                J'accède directement à mon résultat
+                </button>
+            </div>
+        </div>
+
     </div>
-    </div>
-    <span id="msgError" class="error-message"></span>
+
 </div>
 
 </script>
