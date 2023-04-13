@@ -252,6 +252,12 @@ label {
 .social-wrapper {
     font-family: "oxfam_global_headlineregular", Arial, sans-serif;
     color: #5fa533;
+    font-size: 21px;
+}
+.social-wrapper-btn {
+    display: flex;
+    align-items: center;
+    gap: 16px;
 }
 .actions-col {
     display: flex;
