@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
     <meta name="robots" content="noindex">
     <link rel="stylesheet" href="css/oxfam.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment-with-locales.min.js"></script>
     <script src="js/tmpl.min.js"></script>
     <script defer data-domain="oxfam-pdg-cac40.tlscp.fr" src="https://plausible.io/js/script.js"></script>
     <meta property="og:type"          content="website" />
@@ -71,7 +71,8 @@
   const START_DATE = new Date(2023, 0, 1)
 
   function computeDays(numberOfDays) {
-    let date = moment(START_DATE).locale("fr");
+    moment.locale("fr")
+    let date = moment(START_DATE);
     const hours = numberOfDays - Math.floor(numberOfDays)
     let count = 0;
 
@@ -105,7 +106,7 @@
 
       if (ratioSalaryDiff > 1) {
         mainMsg += `Le PDG de ${enterpriseName} gagne ${Math.round(ratioSalaryDiff)} fois votre rémunération par an.
-          Après le ${computeDays(nbDaysDiff)} il a déjà gagné votre salaire annuel.`
+          Après le ${computeDays(nbDaysDiff).toLowerCase()} il a déjà gagné votre salaire annuel.`
       } else if (ratioSalaryDiff === 1) {
         mainMsg += `Le PDG de ${enterpriseName} à une rémunération égale à la vôtre.`
       } else if (ratioSalaryDiff < 1) {
