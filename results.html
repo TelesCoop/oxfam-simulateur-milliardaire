@@ -110,7 +110,7 @@
       } else if (ratioSalaryDiff === 1) {
         mainMsg += `Le PDG de ${enterpriseName} à une rémunération égale à la vôtre.`
       } else if (ratioSalaryDiff < 1) {
-        mainMsg += `Vous gagnez ${userSalary / pdgSalary} fois la rémunération du PDG de ${enterpriseName}.`
+        mainMsg += `Vous gagnez ${Math.round(userSalary / pdgSalary)} fois la rémunération du PDG de ${enterpriseName}.`
       }
 
       const sharingText = `Le PDG de ${enterpriseName} gagne ${Math.round(ratioSalaryDiff)} fois ma rémunération par an. Après le ${computeDays(nbDaysDiff)} il a déjà gagné mon salaire annuel.`
