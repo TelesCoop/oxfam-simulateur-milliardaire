@@ -134,11 +134,15 @@ label {
 .input-wrapper {
     margin: 24px 0;
     width: 512px;
+    display: flex;
+    justify-content: space-between;
+    gap: 24px;
     max-width: 90vw;
 }
 
 .input-wrapper label {
     display: block;
+
 }
 
 .btn {
@@ -157,7 +161,7 @@ label {
 }
 
 .btn-sm {
-    font-size: 14px;
+    font-size: 12px;
 }
 .btn-grey {
     border-color: #aaaaaa;
@@ -210,7 +214,8 @@ label {
 }
 
 .step-description {
-    font-size: 24px;
+    font-size: 18px;
+    font-family: "oxfam_global_headlineregular", Arial, sans-serif;
 }
 
 .salary-wrapper {
