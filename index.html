@@ -9,16 +9,18 @@
     <link rel="stylesheet" href="css/oxfam.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
     <script src="js/tmpl.min.js"></script>
-    <link rel="import" href="/screens/step_01.html">
     <script defer data-domain="oxfam-pdg-cac40.tlscp.fr" src="https://plausible.io/js/script.js"></script>
 </head>
 
 <body class="app-container">
 
 <div class="header">
-    <img class="logo" src="images/oxfam_logo_text.png" alt="logo-oxfam" class="logo" srcset="images/oxfam_logo_text_2x.png 2x"/>
+    <a href="/" title="Page d'accueil">
+        <img class="logo" src="images/oxfam_logo_text.png" alt="logo-oxfam" class="logo"
+             srcset="images/oxfam_logo_text_2x.png 2x"/>
+    </a>
 </div>
-<h1>Comparer votre salaire avec celui d'un PDG d'une grande entreprise française</h1>
+<h1 class="text-green">Comparer votre salaire avec celui d'un PDG d'une grande entreprise française</h1>
 <div class="container">
     <!-- SCREEN 1 -->
     <div class='screen' id="screen-1"></div>
@@ -37,13 +39,13 @@
   <div class="current-step">
     <div class="step">
       <div class='step-number'>1</div>
-      <div class="step-description">Saisi ton salaire brut annuel </div>
+      <div class="step-description">Saisissez votre salaire brut annuel et le PDG d'une grande entreprise</div>
     </div>
   </div>
   <div class="user-inputs">
     <div class='input-wrapper'>
       <label for="userSalary">
-        Quel est le montant de ton salaire brut annuel ?
+        Quel est le montant de votre salaire brut annuel ?
       </label>
       <div class="salary-wrapper">
         <input
@@ -57,7 +59,7 @@
     </div>
     <div class='input-wrapper'>
       <label for="enterprise">
-        Choisi une grande entreprise française
+        Avec le PDG de quelle entreprise souhaitez-vous comparer votre salaire ?
       </label>
       <select name="enterprise" id="enterprise" oninput="onChangeEnterprise()">
         <option value="">Sélectionnez le nom d'une grande entreprise </option>
@@ -75,6 +77,7 @@
     onclick="goToScreen2()"
   >SUIVANT</button>
 </div>
+
 </script>
 
 <!-- TEMPLATE SCREEN 2 -->
@@ -108,65 +111,36 @@
         <div class='input-wrapper'>
             <label for="email">Adresse e-mail</label>
             <input
-                type="email"
+                type="text"
                 id="email"
                 placeholder="Email"
                 oninput="onEmailInput()"
             />
-
         </div>
-    </div>
+        <div class="actions-col">
 
-</div>
-<div class="actions-col">
         <button
             class="btn button-disabled"
             id="btn-confirm-02"
-            onclick="goToScreen3()"
+            onclick="goToResults()"
             disabled
         >
             Valider
         </button>
         <button
-        class="btn button btn-grey"
-            onclick="goToScreen3(true)"
+        class="btn button btn-grey btn-sm"
+            onclick="goToResults(true)"
         >
         J'accède directement à mon résultat
         </button>
     </div>
-
-</script>
-
-<!-- TEMPLATE SCREEN 3 -->
-<script type="text/x-tmpl" id="tmpl-screen-3" style="display: none;">
-    <div class='screen-wrapper'>
-
-      <div>
-        <p class="text">
-        {%=mainMsg%}
-        </p>
-        <p>
-        La répartition des richesses créées au sein des grandes entreprises françaises est depuis des années largement favorable aux
-        actionnaires et aux PDG, au détriment des salarié·e·s.
-        Pour un meilleur partage des richesses au sein des grandes entreprises, Oxfam France appelle à limiter les écarts de salaire de
-        1 à 20 entre le plus haut salaire et le salaire médian.
-        </p>
-      </div>
-      <div class="input-wrapper">
-        <div>
-          <div class="actions">
-            <button
-              class="btn"
-              id="btn-confirm-03"
-              onclick="onTweetButtonHandler()"
-            >PARTAGER SUR TWITTER</button>
-          </div>
-        </div>
-      </div>
     </div>
+    <span id="msgError" class="error-message"></span>
+</div>
+
 </script>
 
-<!-- TEMPLATE SCREEN 5 : error -->
+<!-- TEMPLATE SCREEN 4 : error -->
 <script type="text/x-tmpl" id="tmpl-screen-4" style="display: none;">
     <div class="screen-wrapper">
       <div>
@@ -186,7 +160,6 @@
 </script>
 
 <script type="application/javascript">
-
   let ENTERPRISES = [
     ["L'Oréal", 10097780],
     ['Stellantis', 66650518],
@@ -196,26 +169,14 @@
     ['Teleperformance', 19599499],
     ["Salaire moyen d'un PDG du CAC40", 7860000],
   ]
-
   let numbers = "0123456789".split('')
-  let mainMsg = ""
 
   let name = ""
   let surname = ""
   let email = ""
   let enterpriseName = ''
-
   let userSalary = null // in €
-  let ratioSalaryDiff = 0
-  let nbJourDiff = null
   let pdgSalary = null
-
-  const DATE_FORMAT = 'DDD MMMM YYYY à HH:mm:ss';
-  const SUNDAY = 0; // moment day index
-  const SATURDAY = 6; // moment day index
-  const WEEKENDS = [SATURDAY, SUNDAY];
-  const START_HOUR = 8
-  const START_DATE = new Date(2023, 0, 1)
 
   const showElement = (divId) => {
     document.getElementById(divId).style.display = 'block'
@@ -237,7 +198,6 @@
     }, 200)
   }
 
-
   const showScreen = (screenId) => {
     ["1", "2", "3", "4"].map((screenId) => {
       hideElement(`screen-${screenId}`)
@@ -251,76 +211,6 @@
     }
     if (numberStr.length > 3) {
       return addSpaces(numberStr.substr(0, numberStr.length - 3)) + ' ' + numberStr.substr(numberStr.length - 3)
-    }
-  }
-
-  const addDays = (days) => {
-    var date = new Date(2023, 0, 1)
-    date.setDate(date.getDate() + days)
-    return date.toLocaleDateString("fr")
-  }
-
-
-  function roundImpact(value) {
-    if (value == null) {
-      return
-    }
-    if (value > 10) {
-      return Math.round(value)
-    }
-    if (value > 1) {
-      return value.toFixed(1)
-    }
-    if (value > 0.1) {
-      return value.toFixed(2)
-    }
-    if (value > 0.01) {
-      return value.toFixed(3)
-    }
-    if (value > 0.001) {
-      return value.toFixed(4)
-    }
-    if (value > 0.0001) {
-      return value.toFixed(5)
-    }
-    return value.toPrecision(2)
-  }
-
-  function computeDays(numberOfDays) {
-    let date = moment(START_DATE).locale("fr");
-    const hours = numberOfDays - Math.floor(numberOfDays)
-    let count = 0;
-
-    while (count < numberOfDays) {
-      date.add(1, 'day');
-      if (WEEKENDS.includes(date.day())) {
-        continue;
-      }
-      count++;
-    }
-
-    date = date.add(START_HOUR, 'hours')
-    if (hours) {
-      const computeHours = hours * 12
-      date.add(computeHours, "hours")
-    }
-    return date.format(DATE_FORMAT)
-  }
-
-  function computeValues() {
-    if (userSalary && pdgSalary) {
-      ratioSalaryDiff = pdgSalary / userSalary
-      nbJourDiff = Math.round(((userSalary / pdgSalary) * 320) * 100) / 100
-      if (ratioSalaryDiff > 1) {
-        mainMsg += `Le PDG de ${enterpriseName} gagne ${Math.round(ratioSalaryDiff)} fois votre rémunération par an.
-          Après le ${computeDays(nbJourDiff)} il a déjà gagné votre salaire annuel.`
-      } else if (ratioSalaryDiff === 1) {
-        mainMsg += `Le PDG de ${enterpriseName} à une rémunération égale à la vôtre.`
-      } else if (ratioSalaryDiff < 1) {
-        mainMsg += `Vous gagnez ${userSalary / pdgSalary} fois la rémunération du PDG de ${enterpriseName}.`
-      }
-    } else {
-      ratioSalaryDiff = null
     }
   }
 
@@ -348,6 +238,7 @@
     document.getElementById('userSalary').value = salary
     checkStepValidity("btn-confirm-01", userSalary && pdgSalary)
   }
+
   const onSurnameInput = () => {
     let surnameValue = document.getElementById('surname').value
     surname = surnameValue
@@ -359,8 +250,8 @@
     checkStepValidity("btn-confirm-02", surname && name && email)
   }
   const onEmailInput = () => {
-    let emailValue = document.getElementById('email').value
-    email = emailValue
+    let emailValue = document.getElementById('email')
+    email = emailValue.value
     checkStepValidity("btn-confirm-02", surname && name && email)
   }
   const onChangeEnterprise = () => {
@@ -375,15 +266,6 @@
     }
     checkStepValidity("btn-confirm-01", userSalary && pdgSalary)
   }
-
-  const onTweetButtonHandler = () => {
-    let text = encodeURI("Je viens de comparer mon salaire avec le PDG de " + enterpriseName)
-    let hashtags = "#"
-    let url = "https://www.oxfamfrance.org//"
-    let link = "https://twitter.com/intent/tweet?text=" + text + "&hashtags=" + hashtags + "&url=" + url
-    window.open(link, '_blank').focus()
-  }
-
 
   const updateTemplate = (screenId) => {
     let data = {
@@ -403,18 +285,34 @@
     }
   }
 
-  const goToScreen3 = (skipStep=false) => {
-    let isValid = checkStepValidity("btn-confirm-02", name && surname && email)
-    if (skipStep) isValid = true
+  const resetStorage = () => {
+    localStorage.removeItem('pdgSalary')
+    localStorage.removeItem('enterpriseName')
+    localStorage.removeItem('userSalary')
+  }
 
+  const formValidations = () => {
+    const emailValidation = new RegExp("[^@\\s]+@[^@\\s]+\\.[^@\\s]+")
+    const msgError = document.getElementById("msgError")
+    if (!emailValidation.test(email)) {
+      msgError.innerText = "L'adresse email n'est pas valide"
+      return false
+    }
+    return true
+  }
+  const goToResults = (skipStep = false) => {
+    let isValid = checkStepValidity("btn-confirm-02", name && surname && formValidations())
+    if (skipStep) isValid = true
     if (isValid) {
-      computeValues()
-      updateTemplate(3)
-      screenTransition(2, 3)
+      localStorage.setItem('pdgSalary', pdgSalary);
+      localStorage.setItem('enterpriseName', enterpriseName);
+      localStorage.setItem('userSalary', userSalary);
+      window.location.assign("/results.html")
     }
   }
 
   const init = () => {
+    resetStorage()
     updateTemplate(1)
     showScreen(1)
     screenTransition(1, 1)

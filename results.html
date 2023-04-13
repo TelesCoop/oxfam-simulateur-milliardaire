@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en" style="height: 100%">
+
+<head>
+    <meta charset="utf-8">
+    <title>Oxfam - Comparer votre salaire avec celui d'un PDG français</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <meta name="robots" content="noindex">
+    <link rel="stylesheet" href="css/oxfam.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
+    <script src="js/tmpl.min.js"></script>
+    <script defer data-domain="oxfam-pdg-cac40.tlscp.fr" src="https://plausible.io/js/script.js"></script>
+    <meta property="og:url"           content="https://www.your-domain.com/your-page.html" />
+    <meta property="og:type"          content="website" />
+    <meta property="og:title"         content=">Oxfam - Comparer votre salaire avec celui d'un PDG français" />
+    <meta property="og:description"   content="Comparer votre salaire avec celui d'un PDG français." />
+    <meta property="og:image"         content="https://www.oxfamfrance.org/wp-content/uploads/2019/03/logo_ofam-baseline_x2.png" />
+</head>
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.0";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+<body class="app-container">
+
+<div class="header">
+    <a href="/" title="Page d'accueil">
+        <img class="logo" src="images/oxfam_logo_text.png" alt="logo-oxfam" class="logo"
+             srcset="images/oxfam_logo_text_2x.png 2x"/>
+    </a>
+</div>
+<h1 class="text-green">Comparer votre salaire avec celui d'un PDG d'une grande entreprise française</h1>
+<div class="container">
+    <div class='screen-wrapper'>
+        <div>
+            <p class="text is-bold" id="main-message"></p>
+            <p>
+                La répartition des richesses créées au sein des grandes entreprises françaises est depuis des années
+                largement favorable aux
+                actionnaires et aux PDG, au détriment des salarié·e·s.
+                Pour un meilleur partage des richesses au sein des grandes entreprises, Oxfam France appelle à limiter
+                les écarts de salaire de
+                1 à 20 entre le plus haut salaire et le salaire médian.
+            </p>
+        </div>
+        <div class="input-wrapper">
+            <div>
+                <div class="actions">
+                    <button
+                            class="btn"
+                            id="btn-confirm-03"
+                            onclick="onTweetButtonHandler()"
+                    >PARTAGER SUR TWITTER
+                    </button>
+                    <!-- Your share button code -->
+                    <div class="fb-share-button"
+                         data-href="https://www.your-domain.com/your-page.html"
+                         data-layout="button_count">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</script>
+
+
+<script type="application/javascript">
+
+  let mainMsg = ""
+
+  const DATE_FORMAT = 'DDD MMMM YYYY à HH:mm:ss';
+  const SUNDAY = 0; // moment day index
+  const SATURDAY = 6; // moment day index
+  const WEEKENDS = [SATURDAY, SUNDAY];
+  const START_HOUR = 8
+  const START_DATE = new Date(2023, 0, 1)
+
+  function computeDays(numberOfDays) {
+    let date = moment(START_DATE).locale("fr");
+    const hours = numberOfDays - Math.floor(numberOfDays)
+    let count = 0;
+
+    while (count < numberOfDays) {
+      date.add(1, 'day');
+      if (WEEKENDS.includes(date.day())) {
+        continue;
+      }
+      count++;
+    }
+
+    date = date.add(START_HOUR, 'hours')
+    if (hours) {
+      const computeHours = hours * 12
+      date.add(computeHours, "hours")
+    }
+    return date.format(DATE_FORMAT)
+  }
+
+  let ratioSalaryDiff = 0
+  let nbDaysDiff = null
+  let enterpriseName = localStorage.getItem("enterpriseName")
+  let pdgSalary = localStorage.getItem("pdgSalary")
+  let userSalary = localStorage.getItem("userSalary") // in €
+  let isComputed = false
+
+  function computeValues() {
+    if (userSalary && pdgSalary) {
+      ratioSalaryDiff = pdgSalary / userSalary
+      nbDaysDiff = Math.round(((userSalary / pdgSalary) * 320) * 100) / 100
+
+      if (ratioSalaryDiff > 1) {
+        mainMsg += `Le PDG de ${enterpriseName} gagne ${Math.round(ratioSalaryDiff)} fois votre rémunération par an.
+          Après le ${computeDays(nbDaysDiff)} il a déjà gagné votre salaire annuel.`
+      } else if (ratioSalaryDiff === 1) {
+        mainMsg += `Le PDG de ${enterpriseName} à une rémunération égale à la vôtre.`
+      } else if (ratioSalaryDiff < 1) {
+        mainMsg += `Vous gagnez ${userSalary / pdgSalary} fois la rémunération du PDG de ${enterpriseName}.`
+      }
+      document.getElementById("main-message").innerText = mainMsg
+      isComputed = true
+    }
+  }
+
+  const onTweetButtonHandler = () => {
+    let text = encodeURI("Je viens de comparer mon salaire avec le PDG de " + enterpriseName)
+    let hashtags = "#"
+    let url = "https://www.oxfamfrance.org//"
+    let link = "https://twitter.com/intent/tweet?text=" + text + "&hashtags=" + hashtags + "&url=" + url
+    window.open(link, '_blank').focus()
+  }
+  computeValues()
+  if (!isComputed) window.location.assign("/")
+
+
+</script>
+</body>
+
+</html>
