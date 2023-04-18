@@ -20,7 +20,6 @@
              srcset="images/oxfam_logo_text_2x.png 2x"/>
     </a>
 </div>
-<h1 class="text-green">Comparez votre salaire avec celui d'un PDG d'une grande entreprise française</h1>
 <div class="container">
     <!-- SCREEN 1 -->
     <div class='screen' id="screen-1"></div>
@@ -30,8 +29,6 @@
     <div class='screen' id="screen-3"></div>
     <!-- SCREEN 4 : error -->
     <div class='screen' id="screen-4"></div>
-
-
 </div>
 
 
@@ -47,7 +44,7 @@
   <div class="user-inputs">
     <div class='input-wrapper'>
       <label for="userSalary">
-        Quel est le montant de votre salaire brut annuel ?
+        Quel est le montant de votre salaire net (ou brut) annuel ?
       </label>
       <div class="salary-wrapper">
         <input
@@ -59,17 +56,25 @@
         />
         <span class="addon">€</span>
       </div>
+      <div class="salary-brut-wrapper">
+        <input id="salaryBrut" type="checkbox" oninput="onSalaryBrut()"/>
+        <label for="salaryBrut" id="salaryBrutLabel">Mon salaire est brut</label>
+      </div>
+
     </div>
     <div class='input-wrapper'>
       <label for="enterprise">
         Avec le PDG de quelle entreprise souhaitez-vous comparer votre salaire ?
       </label>
-      <select name="enterprise" id="enterprise" oninput="onChangeEnterprise()">
-        <option value="">Sélectionnez le nom d'une grande entreprise </option>
-        {% for (let i=0; i<o.enterprises.length; i++) { %}
-        <option value="{%=i%}">{%=o.enterprises[i][0]%}</option>
-        {% } %}
-      </select>
+      <div class="enterprise-wrapper">
+          <select name="enterprise" id="enterprise" oninput="onChangeEnterprise()">
+            <option value="">Sélectionnez une entreprise </option>
+            {% for (let i=0; i<o.enterprises.length; i++) { %}
+            <option value="{%=i%}">{%=o.enterprises[i][0]%}</option>
+            {% } %}
+            </select>
+      </div>
+
     </div>
   </div>
 </div>
@@ -168,13 +173,12 @@
 
 <script type="application/javascript">
   let ENTERPRISES = [
-    ["L'Oréal", 10097780],
-    ['Stellantis', 66650518],
-    ['LVMH', 7929234],
-    ['Carrefour', 8403822],
-    ["Sanofi", 8965298],
-    ['Teleperformance', 19599499],
-    ["Salaire moyen d'un PDG du CAC40", 7860000],
+    ["L'Oréal", 10097780, "Nicolas Hieronimus", "loreal.jpeg"],
+    ['Stellantis', 66650518, "Carlos Tavares", "stellantis.jpeg"],
+    ['LVMH', 7929234, "Bernard Arnault", "lvmh.jpeg"],
+    ['Carrefour', 8403822, "Alexandre Bompard", "carrefour.png"],
+    ["Sanofi", 8965298, "Paul Hudson", "avatar.png"],
+    ['Teleperformance', 19599499, "Daniel Julien", "avatar.png"],
   ]
   let numbers = "0123456789".split('')
 
@@ -184,6 +188,8 @@
   let enterpriseName = ''
   let userSalary = null // in €
   let pdgSalary = null
+  let pdgName = null
+  let pdgImg = null
 
   const showElement = (divId) => {
     document.getElementById(divId).style.display = 'block'
@@ -246,6 +252,19 @@
     checkStepValidity("btn-confirm-01", userSalary && pdgSalary)
   }
 
+  const computeSalaryBrut = () => {
+    let salary = document.getElementById('userSalary').value
+    let isSalaryBrut = document.getElementById('salaryBrut').checked
+    if (isSalaryBrut && salary) {
+      // remove space before calculation
+      salary = salary.replace(/\s/g, '') * 0.77
+      salary = addSpaces(salary.toString())
+      document.getElementById('userSalary').value = salary
+    }
+  }
+  const onSalaryBrut = () => {
+    computeSalaryBrut()
+  }
   const onSurnameInput = () => {
     let surnameValue = document.getElementById('surname').value
     surname = surnameValue
@@ -266,10 +285,13 @@
     if (enterpriseId == null || enterpriseId === -1) {
       enterpriseName = ''
       pdgSalary = null
+      pdgName = null
     } else {
       let enterprise = ENTERPRISES[enterpriseId]
       enterpriseName = enterprise[0]
       pdgSalary = enterprise[1]
+      pdgName = enterprise[2]
+      pdgImg = enterprise[3]
     }
     checkStepValidity("btn-confirm-01", userSalary && pdgSalary)
   }
@@ -294,8 +316,19 @@
 
   const resetStorage = () => {
     localStorage.removeItem('pdgSalary')
+    localStorage.removeItem('pdgName')
     localStorage.removeItem('enterpriseName')
     localStorage.removeItem('userSalary')
+    localStorage.removeItem('pdgImg')
+  }
+
+  const resetInput = () => {
+    document.getElementById('userSalary').value = ""
+    document.getElementById('salaryBrut').checked = false
+    document.getElementById('surname').value = ""
+    document.getElementById('name').value = ""
+    document.getElementById('email').value = ""
+
   }
 
   const formValidations = () => {
@@ -314,6 +347,8 @@
       localStorage.setItem('pdgSalary', pdgSalary);
       localStorage.setItem('enterpriseName', enterpriseName);
       localStorage.setItem('userSalary', userSalary);
+      localStorage.setItem('pdgName', pdgName);
+      localStorage.setItem('pdgImg', pdgImg)
       window.location.assign("/results.html")
     }
   }

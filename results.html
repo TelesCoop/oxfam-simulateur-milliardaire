@@ -24,36 +24,44 @@
   js.src = "https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.0";
   fjs.parentNode.insertBefore(js, fjs);
 }(document, 'script', 'facebook-jssdk'));</script>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 <div class="header">
     <a href="/" title="Page d'accueil">
         <img class="logo" src="images/oxfam_logo_text.png" alt="logo-oxfam" class="logo"
              srcset="images/oxfam_logo_text_2x.png 2x"/>
     </a>
 </div>
-<h1 class="text-green">Comparez votre salaire avec celui d'un PDG d'une grande entreprise française</h1>
-<div class="container">
+<div class="container results-container">
     <div class='screen-wrapper'>
-        <div>
-            <p class="text is-bold" id="main-message"></p>
-            <p>
-                La répartition des richesses créées au sein des grandes entreprises françaises est depuis des années
-                largement favorable aux
-                actionnaires et aux PDG, au détriment des salarié·e·s.
-                Pour un meilleur partage des richesses au sein des grandes entreprises, Oxfam France appelle à limiter
-                les écarts de salaire de
-                1 à 20 entre le plus haut salaire et le salaire médian.
-            </p>
-        </div>
-        <div class="social-wrapper">
+        <div class="results-block">
+            <img src="images/avatar.png" class="logo-pdg" alt="logo-pdg" id="image-pdg"/>
+            <div>
+                <p class="text is-bold" id="main-message"></p>
+                <p>
+                    La répartition des richesses créées au sein des grandes entreprises françaises est depuis des années
+                    largement favorable aux
+                    actionnaires et aux PDG, au détriment des salarié·e·s.
+                    Pour un meilleur partage des richesses au sein des grandes entreprises, Oxfam France appelle à limiter
+                    les écarts de salaire de
+                    1 à 20 entre le plus haut salaire et le salaire médian.
+                </p>
+                <div class="social-wrapper">
+                <span class="social-text">
                 Partager :
-                <div class="social-wrapper-btn">
-                    <div class="fb-share-button" data-href="https://oxfam-pdg-cac40.tlscp.fr" data-layout="button" data-size="large">
-                        <a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fdevelopers.facebook.com%2Fdocs%2Fplugins%2F&amp" class="fb-xfbml-parse-ignore">Partager</a></div>
-                    <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-                    <a href="https://twitter.com/share?ref_src=twsrc%5Etfw&url=https://www.oxfamfrance.org/" class="twitter-share-button" data-show-count="false">Tweet</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-
+                </span>
+                    <a href="https://www.facebook.com/sharer.php?u=https://www.oxfamfrance.org/climat-et-energie/secheresses-enjeu-gestion-eau-france/" class="bsb-link" target="_blank">
+                        <img src="images/facebook.svg" role="presentation"></img>
+                    </a>
+                    <button onclick="onTweetButtonHandler()" class="default-btn" data-show-count="false">
+                        <img src="images/twitter.svg" role="presentation"></img>
+                    </button>
                 </div>
+                <div class="actions-col">
+                    <a href="/" class="btn" alt="Retour">Retour </a>
+                </div>
+            </div>
         </div>
+
     </div>
 </div>
 </script>
@@ -62,7 +70,6 @@
 <script type="application/javascript">
 
   let mainMsg = ""
-
   const DATE_FORMAT = 'DDD MMMM YYYY à HH:mm:ss';
   const SUNDAY = 0; // moment day index
   const SATURDAY = 6; // moment day index
@@ -96,7 +103,9 @@
   let nbDaysDiff = null
   let enterpriseName = localStorage.getItem("enterpriseName")
   let pdgSalary = localStorage.getItem("pdgSalary")
+  let pdgName = localStorage.getItem("pdgName")
   let userSalary = localStorage.getItem("userSalary") // in €
+  let pdgImg = localStorage.getItem("pdgImg")
   let isComputed = false
 
   function computeValues() {
@@ -105,13 +114,15 @@
       nbDaysDiff = Math.round(((userSalary / pdgSalary) * 320) * 100) / 100
 
       if (ratioSalaryDiff > 1) {
-        mainMsg += `Le PDG de ${enterpriseName} gagne ${Math.round(ratioSalaryDiff)} fois votre rémunération par an.
+        mainMsg += `Le PDG de ${enterpriseName}, ${pdgName}, gagne ${Math.round(ratioSalaryDiff)} fois votre rémunération par an.
           Après le ${computeDays(nbDaysDiff).toLowerCase()} il a déjà gagné votre salaire annuel.`
       } else if (ratioSalaryDiff === 1) {
         mainMsg += `Le PDG de ${enterpriseName} à une rémunération égale à la vôtre.`
       } else if (ratioSalaryDiff < 1) {
-        mainMsg += `Vous gagnez ${Math.round(userSalary / pdgSalary)} fois la rémunération du PDG de ${enterpriseName}.`
+        mainMsg += `Félicitations, vous gagnez plus que le PDG de ${enterpriseName}, ${pdgName} ! Êtes-vous bien sûr·e que vous avez entré votre salaire correctement ?`
       }
+
+      document.getElementById("image-pdg").src=`images/${pdgImg}`;
 
       const sharingText = `Le PDG de ${enterpriseName} gagne ${Math.round(ratioSalaryDiff)} fois ma rémunération par an. Après le ${computeDays(nbDaysDiff)} il a déjà gagné mon salaire annuel.`
       // Update tweet text
@@ -131,6 +142,13 @@
     let url = "&url=https://www.oxfamfrance.org/"
     let link = "https://twitter.com/intent/tweet?text=" + text + "&hashtags=" + hashtags + "&url=" + url
     window.open(link, '_blank').focus()
+  }
+
+  const onFacebookButtonHandler = () => {
+    FB.ui({
+      method: 'share',
+      href: 'your-webpage.html',
+    }, function(response){})
   }
   computeValues()
   if (!isComputed) window.location.assign("/")
