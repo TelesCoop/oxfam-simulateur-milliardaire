@@ -51,7 +51,7 @@ a {text-decoration: none;
     font-family: "oxfam_global_headlineregular";
 }
 
-.is-flex {
+.salaries-wrapper {
     display: flex;
 }
 
@@ -316,7 +316,7 @@ label, .label {
     padding: 4px 12px;
     padding-left: 11px;
     position: absolute;
-    top: 6px;
+    top: 34px;
     right: 9px;
     color: #5fa533;
     font-weight: bolder;
@@ -414,6 +414,9 @@ input[type=number] {
 
     .social-wrapper {
         width: 100%;
+    }
+    .salaries-wrapper {
+        flex-direction: column;
     }
 
 }
