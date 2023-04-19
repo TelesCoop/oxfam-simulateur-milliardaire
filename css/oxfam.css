@@ -172,7 +172,7 @@ label, .label {
 }
 
 .results-block {
-    padding: 48px;
+    padding: 24px;
     display: flex;
     flex-direction: row;
 }
