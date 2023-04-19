@@ -329,7 +329,7 @@
 
   const resetInput = () => {
     document.getElementById('userSalary').value = ""
-    document.getElementById('salaryBrut').checked = false
+    document.getElementById('userSalaryNet').value = ""
     document.getElementById('surname').value = ""
     document.getElementById('name').value = ""
     document.getElementById('email').value = ""
@@ -352,6 +352,7 @@
       localStorage.setItem('pdgSalary', pdgSalary);
       localStorage.setItem('enterpriseName', enterpriseName);
       localStorage.setItem('userSalary', userSalary);
+      localStorage.setItem('userSalaryNet', userSalary);
       localStorage.setItem('pdgName', pdgName);
       localStorage.setItem('pdgImg', pdgImg)
       window.location.assign("/results.html")

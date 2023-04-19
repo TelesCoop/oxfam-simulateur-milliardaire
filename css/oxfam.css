@@ -413,10 +413,15 @@ input[type=number] {
 @media (max-width: 1024px) {
 
     .social-wrapper {
-        width: 100%;
+        width: 88%;
     }
-    .salaries-wrapper {
+    .salaries-wrapper, .results-block {
         flex-direction: column;
+        align-items: center;
+        padding: 24px;
+    }
+    .logo-pdg {
+        padding: 24px;
     }
 
 }

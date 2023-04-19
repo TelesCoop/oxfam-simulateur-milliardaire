@@ -121,13 +121,16 @@
   let pdgSalary = localStorage.getItem("pdgSalary")
   let pdgName = localStorage.getItem("pdgName")
   let userSalary = localStorage.getItem("userSalary") // in €
+  let userSalaryNet = localStorage.getItem("userSalaryNet") // in €
   let pdgImg = localStorage.getItem("pdgImg")
   let isComputed = false
 
   function computeValues() {
-    if (userSalary && pdgSalary) {
-      ratioSalaryDiff = pdgSalary / userSalary
-      nbDaysDiff = Math.round(((userSalary / pdgSalary) * 320) * 100) / 100
+    const salary = userSalary || userSalaryNet
+    if (salary && pdgSalary) {
+
+      ratioSalaryDiff = pdgSalary / salary
+      nbDaysDiff = Math.round(((salary / pdgSalary) * 320) * 100) / 100
 
       if (ratioSalaryDiff > 1) {
         mainMsg += `Le PDG de ${enterpriseName}, ${pdgName}, gagne ${Math.round(ratioSalaryDiff)} fois votre rémunération par an.
@@ -135,11 +138,9 @@
         document.getElementById("pre-result-number").innerText = `Le PDG de ${enterpriseName}, ${pdgName}, `
         document.getElementById("result-number").innerText = `gagne ${Math.round(ratioSalaryDiff)} fois votre rémunération par an.`
 
-
         document.getElementById("pre-result-date").innerText = ``
         document.getElementById("result-date").innerText = `Après le ${computeDays(nbDaysDiff).toLowerCase()},`
         document.getElementById("post-result-date").innerText = ` il a déjà gagné votre salaire annuel.`
-
 
       }  else {
         mainMsg += `Félicitations, vous gagnez plus que le PDG de ${enterpriseName}, ${pdgName} ! Êtes-vous bien sûr·e que vous avez entré votre salaire correctement ?`
@@ -153,8 +154,6 @@
       document.title = sharingText
       // Update Facebook sharing title
       document.querySelector('meta[property="og:title"]').setAttribute("content", sharingText);
-
-
       isComputed = true
     }
   }
