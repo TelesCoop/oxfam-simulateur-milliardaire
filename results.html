@@ -36,7 +36,21 @@
         <div class="results-block">
             <img src="images/avatar.png" class="logo-pdg" alt="logo-pdg" id="image-pdg"/>
             <div>
-                <p class="text is-bold" id="main-message"></p>
+                <div class="text" >
+                    <p>
+                        <span id="pre-result-number"></span>
+                        <span class="text-yellow is-bold" id="result-number"></span>
+                        <span id="post-result-number"></span>
+                    </p>
+                    <p>
+                        <span id="pre-result-date"></span>
+                        <span class="text-yellow is-bold" id="result-date"></span>
+                        <span id="post-result-date"></span>
+                    </p>
+                    <p>
+                        <span id="main-message"></span>
+                    </p>
+                </div>
                 <p>
                     La répartition des richesses créées au sein des grandes entreprises françaises est depuis des années
                     largement favorable aux
@@ -47,17 +61,19 @@
                 </p>
                 <div class="social-wrapper">
                 <span class="social-text">
-                Partager :
+                Partager votre résultat :
                 </span>
-                    <a href="https://www.facebook.com/sharer.php?u=https://www.oxfamfrance.org/climat-et-energie/secheresses-enjeu-gestion-eau-france/" class="bsb-link" target="_blank">
-                        <img src="images/facebook.svg" role="presentation"></img>
-                    </a>
-                    <button onclick="onTweetButtonHandler()" class="default-btn" data-show-count="false">
-                        <img src="images/twitter.svg" role="presentation"></img>
-                    </button>
+                    <div>
+                        <a href="https://www.facebook.com/sharer.php?u=https://www.oxfamfrance.org/climat-et-energie/secheresses-enjeu-gestion-eau-france/" class="bsb-link" target="_blank">
+                            <img src="images/facebook.svg" role="presentation"></img>
+                        </a>
+                        <button onclick="onTweetButtonHandler()" class="default-btn" data-show-count="false">
+                            <img src="images/twitter.svg" role="presentation"></img>
+                        </button>
+                    </div>
                 </div>
                 <div class="actions-col">
-                    <a href="/" class="btn" alt="Retour">Retour </a>
+                    <a href="/" class="btn headline-text" alt="Retour">Retour </a>
                 </div>
             </div>
         </div>
@@ -115,11 +131,19 @@
 
       if (ratioSalaryDiff > 1) {
         mainMsg += `Le PDG de ${enterpriseName}, ${pdgName}, gagne ${Math.round(ratioSalaryDiff)} fois votre rémunération par an.
-          Après le ${computeDays(nbDaysDiff).toLowerCase()} il a déjà gagné votre salaire annuel.`
-      } else if (ratioSalaryDiff === 1) {
-        mainMsg += `Le PDG de ${enterpriseName} à une rémunération égale à la vôtre.`
-      } else if (ratioSalaryDiff < 1) {
+          Après le ${computeDays(nbDaysDiff).toLowerCase()}, il a déjà gagné votre salaire annuel.`
+        document.getElementById("pre-result-number").innerText = `Le PDG de ${enterpriseName}, ${pdgName}, `
+        document.getElementById("result-number").innerText = `gagne ${Math.round(ratioSalaryDiff)} fois votre rémunération par an.`
+
+
+        document.getElementById("pre-result-date").innerText = ``
+        document.getElementById("result-date").innerText = `Après le ${computeDays(nbDaysDiff).toLowerCase()},`
+        document.getElementById("post-result-date").innerText = ` il a déjà gagné votre salaire annuel.`
+
+
+      }  else {
         mainMsg += `Félicitations, vous gagnez plus que le PDG de ${enterpriseName}, ${pdgName} ! Êtes-vous bien sûr·e que vous avez entré votre salaire correctement ?`
+        document.getElementById("main-message").innerText = mainMsg
       }
 
       document.getElementById("image-pdg").src=`images/${pdgImg}`;
@@ -131,7 +155,6 @@
       document.querySelector('meta[property="og:title"]').setAttribute("content", sharingText);
 
 
-      document.getElementById("main-message").innerText = mainMsg
       isComputed = true
     }
   }

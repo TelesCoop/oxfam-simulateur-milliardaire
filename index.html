@@ -38,29 +38,40 @@
   <div class="current-step">
     <div class="step">
       <div class='step-number'>1</div>
-      <div class="step-description">Saisissez votre salaire net (ou brut) annuel et le PDG d'une grande entreprise</div>
+      <div class="step-description">Saisissez votre salaire net <span class="is-bold">(ou brut)</>span> annuel et le PDG d'une grande entreprise</div>
     </div>
   </div>
   <div class="user-inputs">
     <div class='input-wrapper'>
-      <label for="userSalary">
-        Quel est le montant de votre salaire net (ou brut) annuel ?
-      </label>
-      <div class="salary-wrapper">
-        <input
-          type="text"
-          id="userSalary"
-          placeholder="30 000"
-          maxlength="14"
-          oninput="onSalaryInput()"
-        />
-        <span class="addon">€</span>
+      <span class="label">Quel est le montant de votre salaire brut <span class="is-bold text-yellow">(ou net)</span> annuel ?</span>
+      <div class="is-flex">
+          <div class="salary-wrapper">
+            <label for="userSalary" class="label-sm">
+                Salaire brut annuel
+            </label>
+            <input
+              type="text"
+              id="userSalary"
+              placeholder="30 000"
+              maxlength="14"
+              oninput="onSalaryInput('userSalary')"
+            />
+            <span class="addon">€</span>
+          </div>
+          <div class="salary-wrapper">
+          <label for="userSalaryNet" class="label-sm">
+            Salaire net annuel
+            </label>
+            <input
+              type="text"
+              id="userSalaryNet"
+              placeholder="30 000"
+              maxlength="14"
+              oninput="onSalaryInput('userSalaryNet')"
+            />
+            <span class="addon">€</span>
+          </div>
       </div>
-      <div class="salary-brut-wrapper">
-        <input id="salaryBrut" type="checkbox" oninput="onSalaryBrut()"/>
-        <label for="salaryBrut" id="salaryBrutLabel">Mon salaire est brut</label>
-      </div>
-
     </div>
     <div class='input-wrapper'>
       <label for="enterprise">
@@ -85,6 +96,7 @@
     onclick="goToScreen2()"
   >SUIVANT</button>
 </div>
+
 
 </script>
 
@@ -150,6 +162,7 @@
 
 </div>
 
+
 </script>
 
 <!-- TEMPLATE SCREEN 4 : error -->
@@ -169,6 +182,7 @@
         Recommencer
       </button>
     </div>
+
 </script>
 
 <script type="application/javascript">
@@ -187,6 +201,7 @@
   let email = ""
   let enterpriseName = ''
   let userSalary = null // in €
+  let userSalaryNet = null // in €
   let pdgSalary = null
   let pdgName = null
   let pdgImg = null
@@ -240,31 +255,21 @@
     return false
   }
 
-  function onSalaryInput() {
-    let salary = document.getElementById('userSalary').value
+  const getSalary = (salaryInputId) => {
+    let salary = document.getElementById(salaryInputId).value
     // only keep numbers
     salary = salary.split('').filter((letter) => numbers.indexOf(letter) != -1).join('')
     userSalary = parseInt(salary)
 
     // add spaces
     salary = addSpaces(salary)
-    document.getElementById('userSalary').value = salary
-    checkStepValidity("btn-confirm-01", userSalary && pdgSalary)
+    document.getElementById(salaryInputId).value = salary
+  }
+  const onSalaryInput = (salaryInputID) => {
+    getSalary(salaryInputID)
+    checkStepValidity("btn-confirm-01", (userSalary || userSalaryNet) && pdgSalary)
   }
 
-  const computeSalaryBrut = () => {
-    let salary = document.getElementById('userSalary').value
-    let isSalaryBrut = document.getElementById('salaryBrut').checked
-    if (isSalaryBrut && salary) {
-      // remove space before calculation
-      salary = salary.replace(/\s/g, '') * 0.77
-      salary = addSpaces(salary.toString())
-      document.getElementById('userSalary').value = salary
-    }
-  }
-  const onSalaryBrut = () => {
-    computeSalaryBrut()
-  }
   const onSurnameInput = () => {
     let surnameValue = document.getElementById('surname').value
     surname = surnameValue

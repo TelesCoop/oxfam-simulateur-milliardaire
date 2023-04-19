@@ -36,8 +36,23 @@ body {
     text-align: center;
 }
 
+a {text-decoration: none;
+}
 .text-green {
     color: #5fa533;
+}
+.text-yellow {
+    color: #FBC43A;
+}
+.text-base {
+    font-size: 1rem;
+}
+.headline-text {
+    font-family: "oxfam_global_headlineregular";
+}
+
+.is-flex {
+    display: flex;
 }
 
 input,
@@ -93,9 +108,14 @@ h1, h2, h3, button {
     padding: 48px;
 }
 
-label {
+label, .label {
     font-size: 24px;
     margin-bottom: 16px;
+}
+
+.label-sm {
+    font-size: 16px;
+    margin-bottom: 8px;
 }
 
 .header {
@@ -233,8 +253,6 @@ label {
     cursor: default;
 }
 
-
-
 /* Screen 1 */
 .stepper {
     display: flex;
@@ -331,11 +349,12 @@ label {
     align-items: center;
     color: #5fa533;
     background-color: #eeeeee;
-    width: 50%;
+    width: 66%;
     margin: auto;
     padding: 12px;
     justify-content: center;
     margin-top: 48px;
+    flex-direction: column;
 }
 
 .actions-col {
@@ -397,16 +416,4 @@ input[type=number] {
         width: 100%;
     }
 
-}
-
-.tweet-button {
-    display: inline-block;
-    width: 55px;
-    height: 21px;
-    background-image: url(http://platform.twitter.com/widgets/images/tweet.dfbf1dd98bad9f5b5addd80494650dca.png);
-    background-position: 0 0;
-}
-
-.tweet-button:hover {
-    background-position: 0 -21px;
 }
