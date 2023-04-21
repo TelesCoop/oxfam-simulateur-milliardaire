@@ -43,7 +43,7 @@
   </div>
   <div class="user-inputs">
     <div class='input-wrapper'>
-      <span class="label">Quel est le montant de votre salaire brut <span class="is-bold text-yellow">(ou net)</span> annuel ?</span>
+      <span class="label">Quel est votre salaire annuel brut ou votre salaire mensuel ?</span>
       <div class="salaries-wrapper">
           <div class="salary-wrapper">
             <label for="userSalary" class="label-sm">
@@ -60,7 +60,7 @@
           </div>
           <div class="salary-wrapper">
           <label for="userSalaryNet" class="label-sm">
-            Salaire net annuel
+            Salaire net mensuel
             </label>
             <input
               type="text"
@@ -96,6 +96,9 @@
     onclick="goToScreen2()"
   >SUIVANT</button>
 </div>
+
+
+
 
 
 </script>
@@ -159,10 +162,7 @@
         </div>
 
     </div>
-
 </div>
-
-
 </script>
 
 <!-- TEMPLATE SCREEN 4 : error -->
@@ -182,7 +182,6 @@
         Recommencer
       </button>
     </div>
-
 </script>
 
 <script type="application/javascript">
@@ -244,6 +243,7 @@
 
   function checkStepValidity(confirmBtnId, conditionToCheck) {
     let confirmBtn = document.getElementById(confirmBtnId)
+    console.log(conditionToCheck)
     if (conditionToCheck) {
       confirmBtn.classList.remove('button-disabled')
       confirmBtn.disabled = false
@@ -259,15 +259,28 @@
     let salary = document.getElementById(salaryInputId).value
     // only keep numbers
     salary = salary.split('').filter((letter) => numbers.indexOf(letter) != -1).join('')
-    userSalary = parseInt(salary)
-
+    if (salaryInputId === "userSalary") userSalary = parseInt(salary)
+    else userSalaryNet = parseInt(salary)
     // add spaces
     salary = addSpaces(salary)
     document.getElementById(salaryInputId).value = salary
   }
   const onSalaryInput = (salaryInputID) => {
     getSalary(salaryInputID)
-    checkStepValidity("btn-confirm-01", (userSalary || userSalaryNet) && pdgSalary)
+    checkInputs(salaryInputID)
+    checkStepValidity("btn-confirm-01", Boolean((userSalary || userSalaryNet) && pdgSalary))
+  }
+
+  function checkInputs(onSelect) {
+    document.getElementById("userSalary").style.backgroundColor = "white"
+    document.getElementById("userSalaryNet").style.backgroundColor = "white"
+
+    if (onSelect === "userSalary" && !document.getElementById("userSalaryNet").value) {
+      document.getElementById("userSalaryNet").style.backgroundColor = "#ebebeb";
+    }
+    if(onSelect === "userSalaryNet" && !document.getElementById("userSalary").value) {
+      document.getElementById("userSalary").style.backgroundColor = "#ebebeb";
+    }
   }
 
   const onSurnameInput = () => {
@@ -298,7 +311,7 @@
       pdgName = enterprise[2]
       pdgImg = enterprise[3]
     }
-    checkStepValidity("btn-confirm-01", userSalary && pdgSalary)
+    checkStepValidity("btn-confirm-01", Boolean((userSalary || userSalaryNet) && pdgSalary))
   }
 
   const updateTemplate = (screenId) => {
@@ -312,7 +325,7 @@
   }
 
   const goToScreen2 = () => {
-    const isValid = checkStepValidity("btn-confirm-01", userSalary)
+    const isValid = checkStepValidity("btn-confirm-01", userSalary || userSalaryNet)
     if (isValid) {
       updateTemplate(2)
       screenTransition(1, 2)
@@ -324,16 +337,17 @@
     localStorage.removeItem('pdgName')
     localStorage.removeItem('enterpriseName')
     localStorage.removeItem('userSalary')
+    localStorage.removeItem('userSalaryNet')
     localStorage.removeItem('pdgImg')
   }
 
   const resetInput = () => {
-    document.getElementById('userSalary').value = ""
-    document.getElementById('userSalaryNet').value = ""
-    document.getElementById('surname').value = ""
-    document.getElementById('name').value = ""
-    document.getElementById('email').value = ""
-
+    document.getElementById('userSalary').value = null
+    document.getElementById('userSalaryNet').value = null
+    document.getElementById('surname').value = null
+    document.getElementById('name').value = null
+    document.getElementById('email').value = null
+    document.getElementById('enterprise').value = null
   }
 
   const formValidations = () => {
@@ -352,7 +366,7 @@
       localStorage.setItem('pdgSalary', pdgSalary);
       localStorage.setItem('enterpriseName', enterpriseName);
       localStorage.setItem('userSalary', userSalary);
-      localStorage.setItem('userSalaryNet', userSalary);
+      localStorage.setItem('userSalaryNet', userSalaryNet);
       localStorage.setItem('pdgName', pdgName);
       localStorage.setItem('pdgImg', pdgImg)
       window.location.assign("/results.html")

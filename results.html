@@ -37,19 +37,8 @@
             <img src="images/avatar.png" class="logo-pdg" alt="logo-pdg" id="image-pdg"/>
             <div>
                 <div class="text" >
-                    <p>
-                        <span id="pre-result-number"></span>
-                        <span class="text-yellow is-bold" id="result-number"></span>
-                        <span id="post-result-number"></span>
-                    </p>
-                    <p>
-                        <span id="pre-result-date"></span>
-                        <span class="text-yellow is-bold" id="result-date"></span>
-                        <span id="post-result-date"></span>
-                    </p>
-                    <p>
-                        <span id="main-message"></span>
-                    </p>
+                    <p id="main-message" class="text-yellow is-bold"></p>
+                    <p id="message-date" class="text-yellow is-bold"></p>
                 </div>
                 <p>
                     La répartition des richesses créées au sein des grandes entreprises françaises est depuis des années
@@ -61,7 +50,7 @@
                 </p>
                 <div class="social-wrapper">
                 <span class="social-text">
-                Partager votre résultat :
+                Partagez votre résultat :
                 </span>
                     <div>
                         <a href="https://www.facebook.com/sharer.php?u=https://www.oxfamfrance.org/climat-et-energie/secheresses-enjeu-gestion-eau-france/" class="bsb-link" target="_blank">
@@ -84,9 +73,7 @@
 
 
 <script type="application/javascript">
-
-  let mainMsg = ""
-  const DATE_FORMAT = 'DDD MMMM YYYY à HH:mm:ss';
+  const DATE_FORMAT = 'DD MMMM YYYY à HH:mm:ss';
   const SUNDAY = 0; // moment day index
   const SATURDAY = 6; // moment day index
   const WEEKENDS = [SATURDAY, SUNDAY];
@@ -125,30 +112,21 @@
   let pdgImg = localStorage.getItem("pdgImg")
   let isComputed = false
 
+  console.log(userSalary)
   function computeValues() {
-    const salary = userSalary || userSalaryNet
+    const salary = userSalary  !== "null" ? userSalary : (userSalaryNet * 12)
     if (salary && pdgSalary) {
 
       ratioSalaryDiff = pdgSalary / salary
       nbDaysDiff = Math.round(((salary / pdgSalary) * 320) * 100) / 100
 
       if (ratioSalaryDiff > 1) {
-        mainMsg += `Le PDG de ${enterpriseName}, ${pdgName}, gagne ${Math.round(ratioSalaryDiff)} fois votre rémunération par an.
-          Après le ${computeDays(nbDaysDiff).toLowerCase()}, il a déjà gagné votre salaire annuel.`
-        document.getElementById("pre-result-number").innerText = `Le PDG de ${enterpriseName}, ${pdgName}, `
-        document.getElementById("result-number").innerText = `gagne ${Math.round(ratioSalaryDiff)} fois votre rémunération par an.`
-
-        document.getElementById("pre-result-date").innerText = ``
-        document.getElementById("result-date").innerText = `Après le ${computeDays(nbDaysDiff).toLowerCase()},`
-        document.getElementById("post-result-date").innerText = ` il a déjà gagné votre salaire annuel.`
-
+        document.getElementById("main-message").innerText = `Le PDG de ${enterpriseName}, ${pdgName}, gagne ${Math.round(ratioSalaryDiff)} fois votre rémunération par an.`
+        document.getElementById("message-date").innerText = `Après le ${computeDays(nbDaysDiff).toLowerCase()}, il a déjà gagné votre salaire annuel.`
       }  else {
-        mainMsg += `Félicitations, vous gagnez plus que le PDG de ${enterpriseName}, ${pdgName} ! Êtes-vous bien sûr·e que vous avez entré votre salaire correctement ?`
-        document.getElementById("main-message").innerText = mainMsg
+        document.getElementById("main-message").innerText = `Félicitations, vous gagnez plus que le PDG de ${enterpriseName}, ${pdgName} ! Êtes-vous bien sûr·e que vous avez entré votre salaire correctement ?`
       }
-
       document.getElementById("image-pdg").src=`images/${pdgImg}`;
-
       const sharingText = `Le PDG de ${enterpriseName} gagne ${Math.round(ratioSalaryDiff)} fois ma rémunération par an. Après le ${computeDays(nbDaysDiff)} il a déjà gagné mon salaire annuel.`
       // Update tweet text
       document.title = sharingText

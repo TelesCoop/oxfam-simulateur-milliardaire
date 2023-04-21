@@ -41,11 +41,17 @@ a {text-decoration: none;
 .text-green {
     color: #5fa533;
 }
+
 .text-yellow {
     color: #FBC43A;
 }
+
 .text-base {
     font-size: 1rem;
+}
+
+.bg-grey {
+    background-color: #ebebeb;
 }
 .headline-text {
     font-family: "oxfam_global_headlineregular";
@@ -97,7 +103,7 @@ h1, h2, h3, button {
     font-weight: 400;
 }
 
-#main-message {
+#main-message, #result-date {
     font-size: 21px;
 }
 
@@ -248,7 +254,7 @@ label, .label {
 }
 
 .button-disabled, .button-disabled:hover {
-    background-color: #eeeeee;
+    background-color: #ebebeb;
     color: #9cce7c;
     cursor: default;
 }
@@ -348,7 +354,7 @@ label, .label {
     gap: 16px;
     align-items: center;
     color: #5fa533;
-    background-color: #eeeeee;
+    background-color: #ebebeb;
     width: 66%;
     margin: auto;
     padding: 12px;
@@ -409,16 +415,30 @@ input[type=number] {
     }
 }
 
+@media (max-width: 844px) {
+
+    .step {
+        padding: 0;
+    }
+
+    .input-wrapper {
+        padding: 0;
+    }
+
+    .user-inputs {
+        text-align: start;
+    }
+}
+
 /* Responsive */
 @media (max-width: 1024px) {
 
     .social-wrapper {
         width: 88%;
     }
-    .salaries-wrapper, .results-block {
+    .salaries-wrapper, .results-block, .input-wrapper {
         flex-direction: column;
         align-items: center;
-        padding: 24px;
     }
     .logo-pdg {
         padding: 24px;
