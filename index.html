@@ -38,7 +38,7 @@
   <div class="current-step">
     <div class="step">
       <div class='step-number'>1</div>
-      <div class="step-description">Saisissez votre salaire brut (ou net) annuel et le PDG d'une grande entreprise</div>
+      <div class="step-description">Saisissez votre salaire annuel brut (ou votre salaire mensuel) et le PDG d'une grande entreprise</div>
     </div>
   </div>
   <div class="user-inputs">
@@ -243,7 +243,6 @@
 
   function checkStepValidity(confirmBtnId, conditionToCheck) {
     let confirmBtn = document.getElementById(confirmBtnId)
-    console.log(conditionToCheck)
     if (conditionToCheck) {
       confirmBtn.classList.remove('button-disabled')
       confirmBtn.disabled = false

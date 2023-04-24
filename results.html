@@ -8,6 +8,7 @@
     <meta name="robots" content="noindex">
     <link rel="stylesheet" href="css/oxfam.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment-with-locales.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment-business-days/1.2.0/index.js" integrity="sha512-SOgJ28iBwBLZWvQUbMVFcvdGOTCDVmaSshVd+e/o60PDJMQB1TcMSVV0sh2ZJqp2rmZt+I2ir+VMIPY8Ng172A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="js/tmpl.min.js"></script>
     <script defer data-domain="oxfam-pdg-cac40.tlscp.fr" src="https://plausible.io/js/script.js"></script>
     <meta property="og:type"          content="website" />
@@ -83,17 +84,8 @@
   function computeDays(numberOfDays) {
     moment.locale("fr")
     let date = moment(START_DATE);
+    date = date.businessAdd(numberOfDays)
     const hours = numberOfDays - Math.floor(numberOfDays)
-    let count = 0;
-
-    while (count < numberOfDays) {
-      date.add(1, 'day');
-      if (WEEKENDS.includes(date.day())) {
-        continue;
-      }
-      count++;
-    }
-
     date = date.add(START_HOUR, 'hours')
     if (hours) {
       const computeHours = hours * 12
@@ -111,17 +103,14 @@
   let userSalaryNet = localStorage.getItem("userSalaryNet") // in €
   let pdgImg = localStorage.getItem("pdgImg")
   let isComputed = false
-
-  console.log(userSalary)
   function computeValues() {
     const salary = userSalary  !== "null" ? userSalary : (userSalaryNet * 12)
     if (salary && pdgSalary) {
 
       ratioSalaryDiff = pdgSalary / salary
-      nbDaysDiff = Math.round(((salary / pdgSalary) * 320) * 100) / 100
-
+      nbDaysDiff = Math.round(((salary / pdgSalary) * 260) * 100) / 100
       if (ratioSalaryDiff > 1) {
-        document.getElementById("main-message").innerText = `Le PDG de ${enterpriseName}, ${pdgName}, gagne ${Math.round(ratioSalaryDiff)} fois votre rémunération par an.`
+        document.getElementById("main-message").innerText = `Le PDG de ${enterpriseName}, ${pdgName}, gagne ${Math.round(ratioSalaryDiff * 100) / 100} fois votre rémunération par an.`
         document.getElementById("message-date").innerText = `Après le ${computeDays(nbDaysDiff).toLowerCase()}, il a déjà gagné votre salaire annuel.`
       }  else {
         document.getElementById("main-message").innerText = `Félicitations, vous gagnez plus que le PDG de ${enterpriseName}, ${pdgName} ! Êtes-vous bien sûr·e que vous avez entré votre salaire correctement ?`
