@@ -6,6 +6,21 @@
     - public_hostname: oxfam-pdg-cac40.tlscp.fr
     - project_slug: "oxfam-pdg-cac40"
     - static_path: /telescoop/oxfam-pdg-cac40/static
+    - backend_path: /telescoop/oxfam-pdg-cac40/backend
+    - backend_application_port: 9280
+    - backend_timeout: 30
+    - var_log_path: /var/log/supervisor/{{ project_slug }}
+    - supervisor_conf: /etc/supervisor/conf.d
+    - main_user: "www-data"
+    - organization_slug: "telescoop"
+    - venv:
+        path: /usr/local/telescoop/{{ project_slug }}/backend/venv
+    - server_uris_passed_to_backend:
+      - admin
+      - api
+      - backup
+      - hijack
+
 
   remote_user: root
   handlers:
@@ -31,6 +46,57 @@
       notify:
         - reload nginx
 
+    - name: Copy supervisord config to {{ supervisor_conf }}/{{ project_slug }}_backend.conf
+      template:
+        src: supervisor.conf.j2
+        dest: "{{ supervisor_conf }}/{{ project_slug }}_backend.conf"
+        owner: root
+        group: root
+        mode: 0644
+
+    - name: Install {{ project_slug }}-backend supervisor
+      supervisorctl:
+        name: "{{ project_slug }}-backend"
+        state: present
+
+    - name: Create directories and set permissions
+      file:
+        path: "{{ item.path }}"
+        state: directory
+        owner: "{{ item.owner }}"
+        mode: "{{ item.mode }}"
+      loop:
+        - path: "/{{ organization_slug }}"
+          mode: '2775'
+          owner: "root"
+        - path: "/{{ organization_slug }}/{{ project_slug }}"
+          mode: '2775'
+          owner: "{{ main_user }}"
+        - path: "/etc/{{ organization_slug }}"
+          mode: '2775'
+          owner: "{{ main_user }}"
+        - path: "/etc/{{ organization_slug }}/{{ project_slug }}"
+          mode: '2775'
+          owner: "{{ main_user }}"
+        - path: "{{ venv.path }}"
+          mode: '0755'
+          owner: "{{ main_user }}"
+
+    - name: Create backend venv {{ venv.path }}
+      command:
+        cmd: python3 -m venv --system-site-packages {{ venv.path }}
+        creates: "{{ venv.path }}/bin/python"
+      become: true
+      become_user: "ubuntu"
+
+    - name: Upload backend files
+      copy:
+        src: "../{{ item }}"
+        dest: "/telescoop/oxfam-pdg-cac40/"
+        owner: www-data
+      loop:
+        - backend
+
     - name: Make sure static folder exists
       file:
         path: "{{ static_path }}"
@@ -50,3 +116,21 @@
         - fonts
         - index.html
         - results.html
+
+    - name: Upload backend files
+      copy:
+        src: "../{{ item }}"
+        dest: "/telescoop/oxfam-pdg-cac40/"
+        owner: www-data
+      loop:
+        - backend
+
+    - name: Install python dependencies
+      command:
+        cmd: "{{ venv.path }}/bin/pip install -r requirements.txt"
+        chdir: "{{ backend_path }}"
+
+    - name: Restart {{ project_slug }} supervisor
+      supervisorctl:
+        name: "{{ project_slug }}-backend"
+        state: restarted

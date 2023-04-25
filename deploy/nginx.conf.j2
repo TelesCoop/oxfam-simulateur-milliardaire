@@ -1,3 +1,5 @@
+{{ ansible_managed | comment }}
+
 server {
 
     server_name         oxfam-pdg-cac40.tlscp.fr;
@@ -16,12 +18,24 @@ server {
         add_header Access-Control-Allow-Origin $http_origin;
         root /telescoop/oxfam-pdg-cac40/static;
     }
+    location /api/ {
+        include proxy_params;
+        proxy_pass  http://localhost:9280/;
+        proxy_redirect     off;
+        proxy_set_header   Host $host;
+        proxy_set_header   X-Real-IP $remote_addr;
+        proxy_set_header   X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header   X-Forwarded-Host $server_name;
+        proxy_set_header   X-Forwarded-Proto $scheme;
+    }
 
     listen 443 ssl; # managed by Certbot
     ssl_certificate /etc/letsencrypt/live/oxfam-pdg-cac40.tlscp.fr/fullchain.pem; # managed by Certbot
     ssl_certificate_key /etc/letsencrypt/live/oxfam-pdg-cac40.tlscp.fr/privkey.pem; # managed by Certbot
     include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
     ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
+
+
 
 }
 
@@ -36,6 +50,5 @@ server {
 
     server_name         oxfam-pdg-cac40.tlscp.fr;
     return 404; # managed by Certbot
-
 
 }

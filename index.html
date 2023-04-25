@@ -10,16 +10,14 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
     <script src="js/tmpl.min.js"></script>
     <script defer data-domain="oxfam-pdg-cac40.tlscp.fr" src="https://plausible.io/js/script.js"></script>
+    <script
+            type="text/javascript"
+            src="https://js.createsend1.com/javascript/copypastesubscribeformlogic.js"
+    ></script>
 </head>
 
-<body class="app-container">
-
-<div class="header">
-    <a href="/" title="Page d'accueil">
-        <img class="logo" src="images/oxfam_logo_text.png" alt="logo-oxfam" class="logo"
-             srcset="images/oxfam_logo_text_2x.png 2x"/>
-    </a>
-</div>
+<body>
+<div class="app-container">
 <div class="container">
     <!-- SCREEN 1 -->
     <div class='screen' id="screen-1"></div>
@@ -34,6 +32,7 @@
 
 <!-- TEMPLATE SCREEN 1 -->
 <script type="text/x-tmpl" id="tmpl-screen-1" style="display: none;">
+
 <div class='screen-wrapper'>
   <div class="current-step">
     <div class="step">
@@ -96,13 +95,7 @@
     onclick="goToScreen2()"
   >SUIVANT</button>
 </div>
-
-
-
-
-
 </script>
-
 <!-- TEMPLATE SCREEN 2 -->
 <script type="text/x-tmpl" id="tmpl-screen-2" style="display: none;">
 <div class='screen-wrapper'>
@@ -114,12 +107,12 @@
     </div>
     <div class="user-inputs">
         <div class='input-wrapper'>
-            <label for="surname">Nom</label>
+            <label for="lastname">Nom</label>
             <input
                 type="text"
-                id="surname"
+                id="lastname"
                 placeholder="Nom"
-                oninput="onSurnameInput()"
+                oninput="onLastnameInput()"
             />
         </div>
         <div class='input-wrapper'>
@@ -142,7 +135,9 @@
 
         </div>
         <div>
-            <span id="msgError" class="error-message"></span>
+            <div>
+                <p id="msgError" class="error-message"></p>
+            </span>
             <div class="actions-col">
                 <button
                     class="btn button-disabled"
@@ -165,8 +160,8 @@
 </div>
 </script>
 
-<!-- TEMPLATE SCREEN 4 : error -->
-<script type="text/x-tmpl" id="tmpl-screen-4" style="display: none;">
+<!-- TEMPLATE SCREEN 3 : error -->
+<script type="text/x-tmpl" id="tmpl-screen-3" style="display: none;">
     <div class="screen-wrapper">
       <div>
         <img
@@ -194,9 +189,8 @@
     ['Teleperformance', 19599499, "Daniel Julien", "avatar.png"],
   ]
   let numbers = "0123456789".split('')
-
   let name = ""
-  let surname = ""
+  let lastname = ""
   let email = ""
   let enterpriseName = ''
   let userSalary = null // in €
@@ -204,6 +198,7 @@
   let pdgSalary = null
   let pdgName = null
   let pdgImg = null
+
 
   const showElement = (divId) => {
     document.getElementById(divId).style.display = 'block'
@@ -226,7 +221,7 @@
   }
 
   const showScreen = (screenId) => {
-    ["1", "2", "3", "4"].map((screenId) => {
+    ["1", "2", "3"].map((screenId) => {
       hideElement(`screen-${screenId}`)
     })
     showElement('screen-' + screenId)
@@ -275,27 +270,24 @@
     document.getElementById("userSalaryNet").style.backgroundColor = "white"
 
     if (onSelect === "userSalary" && !document.getElementById("userSalaryNet").value) {
-      document.getElementById("userSalaryNet").style.backgroundColor = "#ebebeb";
+      document.getElementById("userSalaryNet").style.backgroundColor = "#d3d3d3";
     }
     if(onSelect === "userSalaryNet" && !document.getElementById("userSalary").value) {
-      document.getElementById("userSalary").style.backgroundColor = "#ebebeb";
+      document.getElementById("userSalary").style.backgroundColor = "#d3d3d3";
     }
   }
 
-  const onSurnameInput = () => {
-    let surnameValue = document.getElementById('surname').value
-    surname = surnameValue
-    checkStepValidity("btn-confirm-02", surname && name && email)
+  const onLastnameInput = () => {
+    lastname = document.getElementById('lastname').value
+    checkStepValidity("btn-confirm-02", lastname && name && email)
   }
   const onNameInput = () => {
-    let nameValue = document.getElementById('name').value
-    name = nameValue
-    checkStepValidity("btn-confirm-02", surname && name && email)
+    name = document.getElementById('name').value
+    checkStepValidity("btn-confirm-02", lastname && name && email)
   }
   const onEmailInput = () => {
-    let emailValue = document.getElementById('email')
-    email = emailValue.value
-    checkStepValidity("btn-confirm-02", surname && name && email)
+    email = document.getElementById('email').value
+    checkStepValidity("btn-confirm-02", lastname && name && email)
   }
   const onChangeEnterprise = () => {
     let enterpriseId = parseInt(document.getElementById('enterprise').value || -1)
@@ -343,7 +335,7 @@
   const resetInput = () => {
     document.getElementById('userSalary').value = null
     document.getElementById('userSalaryNet').value = null
-    document.getElementById('surname').value = null
+    document.getElementById('lastname').value = null
     document.getElementById('name').value = null
     document.getElementById('email').value = null
     document.getElementById('enterprise').value = null
@@ -358,10 +350,30 @@
     }
     return true
   }
-  const goToResults = (skipStep = false) => {
-    let isValid = checkStepValidity("btn-confirm-02", name && surname && formValidations())
-    if (skipStep) isValid = true
-    if (isValid) {
+
+  const sendToCampaignMonitor = async () => {
+    const payload = {
+      "email": email,
+      "name":  name,
+      "lastname": lastname
+    }
+    const url = "https://oxfam-pdg-cac40.tlscp.fr/api/subscribe"
+    const response = await fetch(url, {
+      "headers": {
+        "accept": "*/*",
+        "content-type": "application/json",
+      },
+      "body": JSON.stringify(payload),
+      "method": "POST",
+    });
+    return response
+  }
+  const goToResults = async (skipStep = false) => {
+    let isValid = checkStepValidity("btn-confirm-02", name && lastname && formValidations())
+    if (!skipStep) {
+      const response = await sendToCampaignMonitor()
+    }
+    if (isValid || skipStep) {
       localStorage.setItem('pdgSalary', pdgSalary);
       localStorage.setItem('enterpriseName', enterpriseName);
       localStorage.setItem('userSalary', userSalary);
@@ -380,6 +392,7 @@
   }
   init()
 </script>
+</div>
 </body>
 
 </html>
