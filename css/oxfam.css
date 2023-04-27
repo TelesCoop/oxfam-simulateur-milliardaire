@@ -31,7 +31,6 @@ body {
     overflow: hidden;
 }
 .app-container {
-    margin: auto;
     padding: 0;
     height: calc(100vh + 30px);
     width: 90vw;
@@ -213,6 +212,7 @@ label, .label {
     flex-wrap: wrap;
     justify-content: center;
     width: 100%;
+    align-items: center;
 }
 
 .input-wrapper {
