@@ -33,12 +33,13 @@ body {
 .app-container {
     margin: auto;
     padding: 0;
-    height: calc(100vh - 35px);
+    height: calc(100vh + 60px);
     width: 90vw;
     align-items: center;
     text-align: center;
     display: flex;
     align-items: center;
+    justify-content: center;
 }
 
 a {text-decoration: none;
@@ -447,17 +448,44 @@ input[type=number] {
 }
 
 /* Responsive */
+
+
 @media (max-width: 1024px) {
 
     .social-wrapper {
         width: 88%;
     }
-    .salaries-wrapper, .results-block, .input-wrapper {
+    .input-wrapper, .salaries-wrapper, .results-block {
+        width: 100%;
+    }
+    .salaries-wrapper, .results-block  {
         flex-direction: column;
-        align-items: center;
+        align-items: self-start;
+
+    }
+    .salaries-wrapper {
+        flex-direction: row;
     }
     .logo-pdg {
         padding: 24px;
     }
 
+}
+
+@media (max-width: 640px) {
+    .salaries-wrapper {
+        flex-direction: column;
+    }
+    .input-wrapper {
+        align-items: center;
+    }
+    .step {
+        width: 100%;
+    }
+    .app-container {
+        height: 100vh;
+    }
+    .user-inputs {
+        padding: 0;
+    }
 }
