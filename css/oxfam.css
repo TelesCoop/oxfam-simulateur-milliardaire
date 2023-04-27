@@ -33,7 +33,7 @@ body {
 .app-container {
     margin: auto;
     padding: 0;
-    height: calc(100vh + 60px);
+    height: calc(100vh + 30px);
     width: 90vw;
     align-items: center;
     text-align: center;
@@ -309,7 +309,7 @@ label, .label {
 
 .step-description {
     font-size: 21px;
-    font-family: "oxfam_tstarpro_medium", Arial, sans-serif;
+    font-family: "oxfam_tstarpro_bold", Arial, sans-serif;
 }
 
 .salary-brut-wrapper {
@@ -473,15 +473,16 @@ input[type=number] {
 }
 
 @media (max-width: 640px) {
+    input {
+        width: 285px;
+    }
     .salaries-wrapper {
         flex-direction: column;
     }
     .input-wrapper {
         align-items: center;
     }
-    .step {
-        width: 100%;
-    }
+
     .app-container {
         height: 100vh;
     }
