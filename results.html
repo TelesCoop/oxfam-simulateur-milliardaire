@@ -61,7 +61,7 @@
                         <button onclick="onTweetButtonHandler()" class="default-btn" data-show-count="false">
                             <img src="images/twitter.svg" role="presentation"></img>
                         </button>
-                        <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://www.linkedin.com/shareArticle?mini=true&url=https://www.oxfamfrance.org/inegalites-et-justice-fiscale/calculateur-ecart-de-salaire&title=Oxfam - Comparez votre salaire avec celui d'un PDG français">
+                        <a href="https://www.linkedin.com/shareArticle?url=https://www.oxfamfrance.org/inegalites-et-justice-fiscale/calculateur-ecart-de-salaire&title=Oxfam - Comparez votre salaire avec celui d'un PDG français">
                             <img src="images/linkedin.svg" role="presentation" class="logo-fb" />
                         </a>
                     </div>
@@ -215,9 +215,7 @@ function computeDays(pdgWorkigDaysDiff) {
     }
 
     let text = encodeURI("J’ai calculé : le PDG de " + hashtags[enterpriseName].name + " gagne " + Math.round(ratioSalaryDiff) + " fois plus que moi par an ! Les écarts de salaire au sein des plus grandes entreprises françaises sont vertigineux. Vous aussi, comparez votre salaire à celui d'un grand patron . 👉 https://www.oxfamfrance.org/inegalites-et-justice-fiscale/calculateur-ecart-de-salaire")
-
-    let url = "&url=https://www.oxfamfrance.org/inegalites-et-justice-fiscale/calculateur-ecart-de-salaire"
-    let link = "https://twitter.com/intent/tweet?text=" + text + "&url=" + url
+    let link = "https://twitter.com/intent/tweet?text=" + text
     window.open(link, '_blank').focus()
   }
 

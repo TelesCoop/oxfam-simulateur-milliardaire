@@ -211,8 +211,7 @@ label, .label {
 .screen-wrapper {
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
+
     width: 100%;
 }
 
@@ -451,19 +450,23 @@ input[type=number] {
 
 
 @media (max-width: 1024px) {
-
     .social-wrapper {
         width: 88%;
+    }
+    input {
+        width: 285px;
     }
     .input-wrapper, .salaries-wrapper, .results-block {
         width: 100%;
     }
-    .salaries-wrapper, .results-block  {
+    .salaries-wrapper  {
         flex-direction: column;
         align-items: self-start;
-
     }
-    .salaries-wrapper {
+    .results-block {
+        align-items: center;
+    }
+    .salaries-wrapper, .results-block  {
         flex-direction: row;
     }
     .logo-pdg {
@@ -473,9 +476,6 @@ input[type=number] {
 }
 
 @media (max-width: 640px) {
-    input {
-        width: 285px;
-    }
     .salaries-wrapper {
         flex-direction: column;
     }
