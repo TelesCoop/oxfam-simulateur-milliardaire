@@ -68,8 +68,7 @@ def subscribe():
 
 @app.route("/", methods=["GET"])
 def all():
-    TEST = "{{ campaign_monitor_api_keys }}"
-    return Response(TEST, status=201)
+    return Response("ok", status=201)
 
 if __name__ == "__main__":
     app.run(debug=False)
