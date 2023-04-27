@@ -8,17 +8,14 @@ import requests
 from createsend import Subscriber, List, BadRequest
 import rollbar
 import rollbar.contrib.flask
+from dotenv import load_dotenv
+load_dotenv()
 
 app = Flask(__name__)
 CORS(app)
 
-API_KEYS = "VlNw4xG752cJwOksrRNFfg3TSYEczZxbbFVfZ5Ishi5IrL4fMJ4Ldg9oM6HMJa2KD39diYo3m8QRTjQyQCFalkh5RXJxOFI+CjPFTnP2rLoJr6KmCr2SWOhzi6/pvaJiz5QpB4IiXDkaWiWYaA0Hpw=="
-CLIENT_ID = "d210bdf1b93c4c99031d79682100ba82"
-LIST_ID = "5c581ed84de5514b3090726b81a7c8ec"
-
-app = Flask(__name__)
-cors = CORS(app)
-
+LIST_ID = os.getenv("campaign_monitor_list_id")
+API_KEYS = os.getenv("campaign_monitor_api_keys")
 
 @app.before_first_request
 def init_rollbar():
@@ -52,19 +49,26 @@ def subscribe():
         {"Key": "Quizz_PDG", "Value": "OUI"},
         {"Key": "PRENOM", "Value": data.get("name")},
     ]
-    response = sub.add(
-        LIST_ID, data.get("email"), data.get("lastname"), custom_fields, False, "yes"
-    )
+    try:
+        response = sub.add(
+            LIST_ID, data.get("email"), data.get("lastname"), custom_fields, False, "yes"
+        )
+    except BadRequest as e:
+        print(e)
+        return Response(
+                "Bad request",
+                status=400,
+            )
+
     return Response(
         data,
         status=201,
     )
 
 
-@app.route("/", methods=["POST", "GET"])
+@app.route("/", methods=["GET"])
 def all():
-    return Response("Ok", status=201)
-
+    return Response("ok", status=201)
 
 if __name__ == "__main__":
     app.run(debug=False)

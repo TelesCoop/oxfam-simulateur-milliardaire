@@ -20,8 +20,6 @@
       - api
       - backup
       - hijack
-
-
   remote_user: root
   handlers:
     - name: reload nginx

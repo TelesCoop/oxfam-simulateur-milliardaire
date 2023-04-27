@@ -28,6 +28,7 @@ body {
     font-size: 18px;
     color: white;
     background-color: #5fa533;
+    overflow: hidden;
 }
 .app-container {
     margin: auto;
@@ -190,6 +191,13 @@ label, .label {
     align-items: center;
 }
 
+.logo-fb {
+    width: 68px;
+}
+.social-icons {
+    display: flex;
+}
+
 .screen {
     display: none;
     opacity: 0;
@@ -278,7 +286,7 @@ label, .label {
 
 .step {
     width: 256px;
-    padding: 48px;
+    padding: 24px;
 }
 
 .logo {
