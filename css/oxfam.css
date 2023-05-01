@@ -28,7 +28,6 @@ body {
     font-size: 18px;
     color: white;
     background-color: #5fa533;
-    overflow: hidden;
 }
 .app-container {
     padding: 0;
@@ -421,24 +420,16 @@ input[type=number] {
 
 /* Responsive */
 @media (min-width: 844px) {
-
-    .salary-wrapper {
-        margin-left: 0;
-    }
-
-    .user-inputs {
-        text-align: start;
-    }
-}
-
-@media (max-width: 844px) {
-
     .step {
         padding: 0;
     }
 
     .input-wrapper {
         padding: 0;
+    }
+
+    .salary-wrapper {
+        margin-left: 0;
     }
 
     .user-inputs {
@@ -484,7 +475,9 @@ input[type=number] {
     }
 
     .app-container {
-        height: 100vh;
+
+        min-height: 600px;
+        width: 95vw;
     }
     .user-inputs {
         padding: 0;
