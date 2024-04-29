@@ -2,34 +2,31 @@
 <html lang="en" style="height: 100%">
 
 <head>
-    <meta charset="utf-8">
-    <title>Oxfam - Comparez votre salaire avec celui d'un PDG français</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
-    <meta name="robots" content="noindex">
-    <link rel="stylesheet" href="css/oxfam.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
-    <script src="js/tmpl.min.js"></script>
-    <script defer data-domain="oxfam-pdg-cac40.tlscp.fr" src="https://plausible.io/js/script.js"></script>
-    <script
-            type="text/javascript"
-            src="https://js.createsend1.com/javascript/copypastesubscribeformlogic.js"
-    ></script>
+  <meta charset="utf-8">
+  <title>Oxfam - Comparez votre salaire avec celui d'un PDG français</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="robots" content="noindex">
+  <link rel="stylesheet" href="css/oxfam.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
+  <script src="js/tmpl.min.js"></script>
+  <script defer data-domain="oxfam-pdg-cac40.tlscp.fr" src="https://plausible.io/js/script.js"></script>
+  <script type="text/javascript" src="https://js.createsend1.com/javascript/copypastesubscribeformlogic.js"></script>
 </head>
 
 <body class="app-container">
 
-    <!-- SCREEN 1 -->
-    <div class='screen' id="screen-1"></div>
-    <!-- SCREEN 2 -->
-    <div class='screen' id="screen-2"></div>
-    <!-- SCREEN 3 -->
-    <div class='screen' id="screen-3"></div>
-    <!-- SCREEN 4 : error -->
-    <div class='screen' id="screen-4"></div>
+  <!-- SCREEN 1 -->
+  <div class='screen' id="screen-1"></div>
+  <!-- SCREEN 2 -->
+  <div class='screen' id="screen-2"></div>
+  <!-- SCREEN 3 -->
+  <div class='screen' id="screen-3"></div>
+  <!-- SCREEN 4 : error -->
+  <div class='screen' id="screen-4"></div>
 
 
-<!-- TEMPLATE SCREEN 1 -->
-<script type="text/x-tmpl" id="tmpl-screen-1" style="display: none;">
+  <!-- TEMPLATE SCREEN 1 -->
+  <script type="text/x-tmpl" id="tmpl-screen-1" style="display: none;">
 
 <div class='screen-wrapper'>
   <div class="current-step">
@@ -94,8 +91,8 @@
   >SUIVANT</button>
 </div>
 </script>
-<!-- TEMPLATE SCREEN 2 -->
-<script type="text/x-tmpl" id="tmpl-screen-2" style="display: none;">
+  <!-- TEMPLATE SCREEN 2 -->
+  <script type="text/x-tmpl" id="tmpl-screen-2" style="display: none;">
 <div class='screen-wrapper'>
     <div class="current-step">
         <div class="step">
@@ -158,8 +155,8 @@
 </div>
 </script>
 
-<!-- TEMPLATE SCREEN 3 : error -->
-<script type="text/x-tmpl" id="tmpl-screen-3" style="display: none;">
+  <!-- TEMPLATE SCREEN 3 : error -->
+  <script type="text/x-tmpl" id="tmpl-screen-3" style="display: none;">
     <div class="screen-wrapper">
       <div>
         <img
@@ -177,219 +174,221 @@
     </div>
 </script>
 
-<script type="application/javascript">
-  let ENTERPRISES = [
-    ["L'Oréal", 10097780, "Nicolas Hieronimus", "loreal.jpeg"],
-    ['Stellantis', 66650518, "Carlos Tavares", "stellantis.jpeg"],
-    ['LVMH', 7929234, "Bernard Arnault", "lvmh.jpeg"],
-    ['Carrefour', 8403822, "Alexandre Bompard", "carrefour.png"],
-    ["Sanofi", 8965298, "Paul Hudson", "avatar.png"],
-    ['Teleperformance', 19599499, "Daniel Julien", "avatar.png"],
-  ]
-  let numbers = "0123456789".split('')
-  let name = ""
-  let lastname = ""
-  let email = ""
-  let enterpriseName = ''
-  let userSalary = null // in €
-  let userSalaryNet = null // in €
-  let pdgSalary = null
-  let pdgName = null
-  let pdgImg = null
+  <script type="application/javascript">
+    let ENTERPRISES = [
+      ["L'Oréal", 10337194, "Nicolas Hieronimus", "loreal.jpeg"],
+      ['Stellantis', 21951194, "Carlos Tavares", "stellantis.jpeg"],
+      ['LVMH', 7940745, "Bernard Arnault", "lvmh.jpeg"],
+      ['Carrefour', 7940745, "Alexandre Bompard", "carrefour.png"],
+      // ["Sanofi", 8965298, "Paul Hudson", "avatar.png"],
+      ['Teleperformance', 19717238, "Daniel Julien", "avatar.png"],
+      ['Dassault systèmes', 32962337, "Bernard Charlès", "avatar.png"],
+      ['Danone', 5700464, "Antoine Bernard de Saint-Affrique", "avatar.png"],
+    ];
+    let numbers = "0123456789".split('');
+    let name = "";
+    let lastname = "";
+    let email = "";
+    let enterpriseName = '';
+    let userSalary = null; // in €
+    let userSalaryNet = null; // in €
+    let pdgSalary = null;
+    let pdgName = null;
+    let pdgImg = null;
 
 
-  const showElement = (divId) => {
-    document.getElementById(divId).style.display = 'block'
-  }
-  const hideElement = (divId) => {
-    document.getElementById(divId).style.display = 'none'
-  }
-  const screenOpacity = (screenId, opacity) => {
-    document.getElementById('screen-' + screenId).style.opacity = opacity
-  }
-  const screenTransition = (prevScreenId, nextScreenId) => {
-    screenOpacity(prevScreenId, 0)
-    setTimeout(() => {
-      hideElement('screen-' + prevScreenId)
-      showElement('screen-' + nextScreenId)
+    const showElement = (divId) => {
+      document.getElementById(divId).style.display = 'block';
+    };
+    const hideElement = (divId) => {
+      document.getElementById(divId).style.display = 'none';
+    };
+    const screenOpacity = (screenId, opacity) => {
+      document.getElementById('screen-' + screenId).style.opacity = opacity;
+    };
+    const screenTransition = (prevScreenId, nextScreenId) => {
+      screenOpacity(prevScreenId, 0);
       setTimeout(() => {
-        screenOpacity(nextScreenId, 1)
-      }, 200)
-    }, 200)
-  }
+        hideElement('screen-' + prevScreenId);
+        showElement('screen-' + nextScreenId);
+        setTimeout(() => {
+          screenOpacity(nextScreenId, 1);
+        }, 200);
+      }, 200);
+    };
 
-  const showScreen = (screenId) => {
-    ["1", "2", "3"].map((screenId) => {
-      hideElement(`screen-${screenId}`)
-    })
-    showElement('screen-' + screenId)
-  }
+    const showScreen = (screenId) => {
+      ["1", "2", "3"].map((screenId) => {
+        hideElement(`screen-${screenId}`);
+      });
+      showElement('screen-' + screenId);
+    };
 
-  function addSpaces(numberStr) {
-    if (numberStr.length <= 3) {
-      return numberStr
+    function addSpaces(numberStr) {
+      if (numberStr.length <= 3) {
+        return numberStr;
+      }
+      if (numberStr.length > 3) {
+        return addSpaces(numberStr.substr(0, numberStr.length - 3)) + ' ' + numberStr.substr(numberStr.length - 3);
+      }
     }
-    if (numberStr.length > 3) {
-      return addSpaces(numberStr.substr(0, numberStr.length - 3)) + ' ' + numberStr.substr(numberStr.length - 3)
-    }
-  }
 
-  function checkStepValidity(confirmBtnId, conditionToCheck) {
-    let confirmBtn = document.getElementById(confirmBtnId)
-    if (conditionToCheck) {
-      confirmBtn.classList.remove('button-disabled')
-      confirmBtn.disabled = false
-      return true
-    } else {
-      confirmBtn.classList.add('button-disabled')
-      confirmBtn.disabled = true
+    function checkStepValidity(confirmBtnId, conditionToCheck) {
+      let confirmBtn = document.getElementById(confirmBtnId);
+      if (conditionToCheck) {
+        confirmBtn.classList.remove('button-disabled');
+        confirmBtn.disabled = false;
+        return true;
+      } else {
+        confirmBtn.classList.add('button-disabled');
+        confirmBtn.disabled = true;
+      }
+      return false;
     }
-    return false
-  }
 
-  const getSalary = (salaryInputId) => {
-    let salary = document.getElementById(salaryInputId).value
-    // only keep numbers
-    salary = salary.split('').filter((letter) => numbers.indexOf(letter) != -1).join('')
-    if (salaryInputId === "userSalary") userSalary = parseInt(salary)
-    else userSalaryNet = parseInt(salary)
-    // add spaces
-    salary = addSpaces(salary)
-    document.getElementById(salaryInputId).value = salary
-  }
-  const onSalaryInput = (salaryInputID) => {
-    getSalary(salaryInputID)
-    checkInputs(salaryInputID)
-    checkStepValidity("btn-confirm-01", Boolean((userSalary || userSalaryNet) && pdgSalary))
-  }
+    const getSalary = (salaryInputId) => {
+      let salary = document.getElementById(salaryInputId).value;
+      // only keep numbers
+      salary = salary.split('').filter((letter) => numbers.indexOf(letter) != -1).join('');
+      if (salaryInputId === "userSalary") userSalary = parseInt(salary);
+      else userSalaryNet = parseInt(salary);
+      // add spaces
+      salary = addSpaces(salary);
+      document.getElementById(salaryInputId).value = salary;
+    };
+    const onSalaryInput = (salaryInputID) => {
+      getSalary(salaryInputID);
+      checkInputs(salaryInputID);
+      checkStepValidity("btn-confirm-01", Boolean((userSalary || userSalaryNet) && pdgSalary));
+    };
 
-  function checkInputs(onSelect) {
-    document.getElementById("userSalary").style.backgroundColor = "white"
-    document.getElementById("userSalaryNet").style.backgroundColor = "white"
+    function checkInputs(onSelect) {
+      document.getElementById("userSalary").style.backgroundColor = "white";
+      document.getElementById("userSalaryNet").style.backgroundColor = "white";
 
-    if (onSelect === "userSalary" && !document.getElementById("userSalaryNet").value) {
-      document.getElementById("userSalaryNet").style.backgroundColor = "#d3d3d3";
+      if (onSelect === "userSalary" && !document.getElementById("userSalaryNet").value) {
+        document.getElementById("userSalaryNet").style.backgroundColor = "#d3d3d3";
+      }
+      if (onSelect === "userSalaryNet" && !document.getElementById("userSalary").value) {
+        document.getElementById("userSalary").style.backgroundColor = "#d3d3d3";
+      }
     }
-    if(onSelect === "userSalaryNet" && !document.getElementById("userSalary").value) {
-      document.getElementById("userSalary").style.backgroundColor = "#d3d3d3";
-    }
-  }
 
-  const onLastnameInput = () => {
-    lastname = document.getElementById('lastname').value
-    checkStepValidity("btn-confirm-02", lastname && name && email)
-  }
-  const onNameInput = () => {
-    name = document.getElementById('name').value
-    checkStepValidity("btn-confirm-02", lastname && name && email)
-  }
-  const onEmailInput = () => {
-    email = document.getElementById('email').value
-    checkStepValidity("btn-confirm-02", lastname && name && email)
-  }
-  const onChangeEnterprise = () => {
-    let enterpriseId = parseInt(document.getElementById('enterprise').value || -1)
-    if (enterpriseId == null || enterpriseId === -1) {
-      enterpriseName = ''
-      pdgSalary = null
-      pdgName = null
-    } else {
-      let enterprise = ENTERPRISES[enterpriseId]
-      enterpriseName = enterprise[0]
-      pdgSalary = enterprise[1]
-      pdgName = enterprise[2]
-      pdgImg = enterprise[3]
-    }
-    checkStepValidity("btn-confirm-01", Boolean((userSalary || userSalaryNet) && pdgSalary))
-  }
+    const onLastnameInput = () => {
+      lastname = document.getElementById('lastname').value;
+      checkStepValidity("btn-confirm-02", lastname && name && email);
+    };
+    const onNameInput = () => {
+      name = document.getElementById('name').value;
+      checkStepValidity("btn-confirm-02", lastname && name && email);
+    };
+    const onEmailInput = () => {
+      email = document.getElementById('email').value;
+      checkStepValidity("btn-confirm-02", lastname && name && email);
+    };
+    const onChangeEnterprise = () => {
+      let enterpriseId = parseInt(document.getElementById('enterprise').value || -1);
+      if (enterpriseId == null || enterpriseId === -1) {
+        enterpriseName = '';
+        pdgSalary = null;
+        pdgName = null;
+      } else {
+        let enterprise = ENTERPRISES[enterpriseId];
+        enterpriseName = enterprise[0];
+        pdgSalary = enterprise[1];
+        pdgName = enterprise[2];
+        pdgImg = enterprise[3];
+      }
+      checkStepValidity("btn-confirm-01", Boolean((userSalary || userSalaryNet) && pdgSalary));
+    };
 
-  const updateTemplate = (screenId) => {
-    let data = {
-      enterprises: ENTERPRISES,
-    }
-    document.getElementById('screen-' + screenId).innerHTML = tmpl(
+    const updateTemplate = (screenId) => {
+      let data = {
+        enterprises: ENTERPRISES,
+      };
+      document.getElementById('screen-' + screenId).innerHTML = tmpl(
         'tmpl-screen-' + screenId, data
-    )
-    return true
-  }
+      );
+      return true;
+    };
 
-  const goToScreen2 = () => {
-    const isValid = checkStepValidity("btn-confirm-01", userSalary || userSalaryNet)
-    if (isValid) {
-      updateTemplate(2)
-      screenTransition(1, 2)
-    }
-  }
+    const goToScreen2 = () => {
+      const isValid = checkStepValidity("btn-confirm-01", userSalary || userSalaryNet);
+      if (isValid) {
+        updateTemplate(2);
+        screenTransition(1, 2);
+      }
+    };
 
-  const resetStorage = () => {
-    localStorage.removeItem('pdgSalary')
-    localStorage.removeItem('pdgName')
-    localStorage.removeItem('enterpriseName')
-    localStorage.removeItem('userSalary')
-    localStorage.removeItem('userSalaryNet')
-    localStorage.removeItem('pdgImg')
-  }
+    const resetStorage = () => {
+      localStorage.removeItem('pdgSalary');
+      localStorage.removeItem('pdgName');
+      localStorage.removeItem('enterpriseName');
+      localStorage.removeItem('userSalary');
+      localStorage.removeItem('userSalaryNet');
+      localStorage.removeItem('pdgImg');
+    };
 
-  const resetInput = () => {
-    document.getElementById('userSalary').value = null
-    document.getElementById('userSalaryNet').value = null
-    document.getElementById('lastname').value = null
-    document.getElementById('name').value = null
-    document.getElementById('email').value = null
-    document.getElementById('enterprise').value = null
-  }
+    const resetInput = () => {
+      document.getElementById('userSalary').value = null;
+      document.getElementById('userSalaryNet').value = null;
+      document.getElementById('lastname').value = null;
+      document.getElementById('name').value = null;
+      document.getElementById('email').value = null;
+      document.getElementById('enterprise').value = null;
+    };
 
-  const formValidations = () => {
-    const emailValidation = new RegExp("[^@\\s]+@[^@\\s]+\\.[^@\\s]+")
-    const msgError = document.getElementById("msgError")
-    if (!emailValidation.test(email)) {
-      msgError.innerText = "L'adresse email n'est pas valide"
-      return false
-    }
-    return true
-  }
+    const formValidations = () => {
+      const emailValidation = new RegExp("[^@\\s]+@[^@\\s]+\\.[^@\\s]+");
+      const msgError = document.getElementById("msgError");
+      if (!emailValidation.test(email)) {
+        msgError.innerText = "L'adresse email n'est pas valide";
+        return false;
+      }
+      return true;
+    };
 
-  const sendToCampaignMonitor = async () => {
-    const payload = {
-      "email": email,
-      "name":  name,
-      "lastname": lastname
-    }
-    const url = "https://oxfam-pdg-cac40.tlscp.fr/api/subscribe"
-    const response = await fetch(url, {
-      "headers": {
-        "accept": "*/*",
-        "content-type": "application/json",
-      },
-      "body": JSON.stringify(payload),
-      "method": "POST",
-    });
-    return response
-  }
-  const goToResults = async (skipStep = false) => {
-    let isValid = checkStepValidity("btn-confirm-02", name && lastname && formValidations())
-    if (!skipStep) {
-      const response = await sendToCampaignMonitor()
-    }
-    if (isValid || skipStep) {
-      localStorage.setItem('pdgSalary', pdgSalary);
-      localStorage.setItem('enterpriseName', enterpriseName);
-      localStorage.setItem('userSalary', userSalary);
-      localStorage.setItem('userSalaryNet', userSalaryNet);
-      localStorage.setItem('pdgName', pdgName);
-      localStorage.setItem('pdgImg', pdgImg)
-      window.location.assign("/results.html")
-    }
-  }
+    const sendToCampaignMonitor = async () => {
+      const payload = {
+        "email": email,
+        "name": name,
+        "lastname": lastname
+      };
+      const url = "https://oxfam-pdg-cac40.tlscp.fr/api/subscribe";
+      const response = await fetch(url, {
+        "headers": {
+          "accept": "*/*",
+          "content-type": "application/json",
+        },
+        "body": JSON.stringify(payload),
+        "method": "POST",
+      });
+      return response;
+    };
+    const goToResults = async (skipStep = false) => {
+      let isValid = checkStepValidity("btn-confirm-02", name && lastname && formValidations());
+      if (!skipStep) {
+        const response = await sendToCampaignMonitor();
+      }
+      if (isValid || skipStep) {
+        localStorage.setItem('pdgSalary', pdgSalary);
+        localStorage.setItem('enterpriseName', enterpriseName);
+        localStorage.setItem('userSalary', userSalary);
+        localStorage.setItem('userSalaryNet', userSalaryNet);
+        localStorage.setItem('pdgName', pdgName);
+        localStorage.setItem('pdgImg', pdgImg);
+        window.location.assign("/results.html");
+      }
+    };
 
-  const init = () => {
-    resetStorage()
-    updateTemplate(1)
-    showScreen(1)
-    screenTransition(1, 1)
-  }
-  init()
-</script>
+    const init = () => {
+      resetStorage();
+      updateTemplate(1);
+      showScreen(1);
+      screenTransition(1, 1);
+    };
+    init()
+  </script>
 
 </body>
 

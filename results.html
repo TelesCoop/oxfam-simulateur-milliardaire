@@ -2,228 +2,252 @@
 <html lang="en" style="height: 100%">
 
 <head>
-    <meta charset="utf-8">
-    <title>Oxfam - Comparez votre salaire avec celui d'un PDG français</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
-    <meta name="robots" content="noindex">
-    <link rel="stylesheet" href="css/oxfam.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment-with-locales.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment-business-days/1.2.0/index.js" integrity="sha512-SOgJ28iBwBLZWvQUbMVFcvdGOTCDVmaSshVd+e/o60PDJMQB1TcMSVV0sh2ZJqp2rmZt+I2ir+VMIPY8Ng172A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <meta charset="utf-8">
+  <title>Oxfam - Comparez votre salaire avec celui d'un PDG français</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="robots" content="noindex">
+  <link rel="stylesheet" href="css/oxfam.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment-with-locales.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment-business-days/1.2.0/index.js"
+    integrity="sha512-SOgJ28iBwBLZWvQUbMVFcvdGOTCDVmaSshVd+e/o60PDJMQB1TcMSVV0sh2ZJqp2rmZt+I2ir+VMIPY8Ng172A=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment-business-days/1.2.0/index.js"
-            integrity="sha512-SOgJ28iBwBLZWvQUbMVFcvdGOTCDVmaSshVd+e/o60PDJMQB1TcMSVV0sh2ZJqp2rmZt+I2ir+VMIPY8Ng172A=="
-            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src="js/tmpl.min.js"></script>
-    <script defer data-domain="oxfam-pdg-cac40.tlscp.fr" src="https://plausible.io/js/script.js"></script>
-    <meta property="og:type"          content="website" />
-    <meta property="og:title"         content="Oxfam - Comparez votre salaire avec celui d'un PDG français" />
-    <meta property="og:description"   content="Je viens de comparer mon salaire avec celui d'un grand PDG français." />
-    <meta property="og:image"         content="" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment-business-days/1.2.0/index.js"
+    integrity="sha512-SOgJ28iBwBLZWvQUbMVFcvdGOTCDVmaSshVd+e/o60PDJMQB1TcMSVV0sh2ZJqp2rmZt+I2ir+VMIPY8Ng172A=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="js/tmpl.min.js"></script>
+  <script defer data-domain="oxfam-pdg-cac40.tlscp.fr" src="https://plausible.io/js/script.js"></script>
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Oxfam - Comparez votre salaire avec celui d'un PDG français" />
+  <meta property="og:description" content="Je viens de comparer mon salaire avec celui d'un grand PDG français." />
+  <meta property="og:image" content="" />
 
 </head>
 <div id="fb-root"></div>
+
 <body class="app-container">
-<script>(function (d, s, id) {
-  var js, fjs = d.getElementsByTagName(s)[0];
-  if (d.getElementById(id)) return;
-  js = d.createElement(s);
-  js.id = id;
-  js.src = "https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.0";
-  fjs.parentNode.insertBefore(js, fjs);
-}(document, 'script', 'facebook-jssdk'));</script>
-<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-<div class="container results-container">
+  <script>(function (d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) return;
+      js = d.createElement(s);
+      js.id = id;
+      js.src = "https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.0";
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));</script>
+  <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+  <div class="container results-container">
     <div class='screen-wrapper'>
-        <div class="results-block">
-            <img src="images/avatar.png" class="logo-pdg" alt="logo-pdg" id="image-pdg"/>
-            <div>
-                <div class="text">
-                    <p id="main-message" class="text-yellow is-bold"></p>
-                    <p id="message-date" class="text-yellow is-bold"></p>
-                </div>
-                <p>
-                    La répartition des richesses créées au sein des grandes entreprises françaises est depuis des années
-                    largement favorable aux
-                    actionnaires et aux PDG, au détriment des salarié·e·s.
-                    Pour un meilleur partage des richesses au sein des grandes entreprises, Oxfam France appelle à
-                    limiter
-                    les écarts de salaire de
-                    1 à 20 entre le plus haut salaire et le salaire médian.
-                </p>
-                <div class="social-wrapper">
-                <span class="social-text">
-                Partagez votre résultat :
-                </span>
-                    <div class="social-icons">
-                        <a href="https://www.facebook.com/sharer.php?u=https://www.oxfamfrance.org/inegalites-et-justice-fiscale/calculateur-ecart-de-salaire" target="_blank">
-                            <img src="images/facebook.svg" role="presentation" class="logo-fb"></img>
-                        </a>
-                        <button onclick="onTweetButtonHandler()" class="default-btn" data-show-count="false">
-                            <img src="images/twitter.svg" role="presentation"></img>
-                        </button>
-                        <a target="_blank" href="https://www.linkedin.com/shareArticle?url=https://www.oxfamfrance.org/inegalites-et-justice-fiscale/calculateur-ecart-de-salaire&title=Oxfam - Comparez votre salaire avec celui d'un PDG français">
-                            <img src="images/linkedin.svg" role="presentation" class="logo-fb" />
-                        </a>
-                    </div>
-                </div>
-                <div class="actions-col">
-                    <a href="/" class="btn headline-text" alt="Retour">Retour </a>
-                </div>
+      <div class="results-block">
+        <img src="images/avatar.png" class="logo-pdg" alt="logo-pdg" id="image-pdg" />
+        <div>
+          <div class="text">
+            <p id="main-message" class="text-yellow is-bold"></p>
+            <p id="message-date" class="text-yellow is-bold"></p>
+          </div>
+          <p>
+            La répartition des richesses créées au sein des grandes entreprises françaises est depuis des années
+            largement favorable aux
+            actionnaires et aux PDG, au détriment des salarié·e·s.
+            Pour un meilleur partage des richesses au sein des grandes entreprises, Oxfam France appelle à
+            limiter
+            les écarts de salaire de
+            1 à 20 entre le plus haut salaire et le salaire médian.
+          </p>
+          <div class="social-wrapper">
+            <span class="social-text">
+              Partagez votre résultat :
+            </span>
+            <div class="social-icons">
+              <a href="https://www.facebook.com/sharer.php?u=https://www.oxfamfrance.org/inegalites-et-justice-fiscale/calculateur-ecart-de-salaire"
+                target="_blank">
+                <img src="images/facebook.svg" role="presentation" class="logo-fb"></img>
+              </a>
+              <button onclick="onTweetButtonHandler()" class="default-btn" data-show-count="false">
+                <img src="images/twitter.svg" role="presentation"></img>
+              </button>
+              <a target="_blank"
+                href="https://www.linkedin.com/shareArticle?url=https://www.oxfamfrance.org/inegalites-et-justice-fiscale/calculateur-ecart-de-salaire&title=Oxfam - Comparez votre salaire avec celui d'un PDG français">
+                <img src="images/linkedin.svg" role="presentation" class="logo-fb" />
+              </a>
             </div>
+          </div>
+          <div class="actions-col">
+            <a href="/" class="btn headline-text" alt="Retour">Retour </a>
+          </div>
         </div>
+      </div>
 
     </div>
-</div>
-</script>
+  </div>
+  </script>
 
 
-<script type="application/javascript">
-  const DATE_FORMAT = 'DD MMMM YYYY à HH:mm:ss';
-  const START_HOUR = 8
-  const START_DATE = new Date(2023, 0, 1)
+  <script type="application/javascript">
+    const DATE_FORMAT = 'DD MMMM YYYY à HH:mm:ss';
+    const START_HOUR = 8;
+    const START_DATE = new Date(2023, 0, 1);
 
-const WEEKENDS_OFF = [
-    "2023-01-28",
-    "2023-01-29",
-    "2023-02-25",
-    "2023-02-26",
-    "2023-03-25",
-    "2023-03-26",
-    "2023-04-22",
-    "2023-04-23",
-    "2023-04-29",
-    "2023-04-30",
-    "2023-05-27",
-    "2023-06-24",
-    "2023-06-25",
-    "2023-07-29",
-    "2023-07-30",
-    "2023-08-26",
-    "2023-08-27",
-    "2023-09-23",
-    "2023-09-24",
-    "2023-09-30",
-    "2023-10-01",
-    "2023-10-28",
-    "2023-10-29",
-    "2023-11-25",
-    "2023-11-26",
-    "2023-11-30",
-    "2023-11-31",
-]
-const RANDOM_DAYS_OFF = [
-    "2023-01-30",
-    "2023-02-01",
-    "2023-03-01",
-    "2023-04-01",
-    "2023-06-01",
-    "2023-07-01",
-    "2023-08-01",
-    "2023-09-01"
-]
-const PUBLIC_HOLIDAY = [
-    "2023-04-10",
-    "2023-05-01",
-    "2023-05-08",
-    "2023-05-18",
-    "2023-05-29",
-    "2023-07-14",
-    "2023-08-15",
-    "2023-09-15",
-    "2023-11-01",
-    "2023-12-25",
-]
+    const WEEKENDS_OFF = [
+      "2023-01-28",
+      "2023-01-29",
+      "2023-02-25",
+      "2023-02-26",
+      "2023-03-25",
+      "2023-03-26",
+      "2023-04-22",
+      "2023-04-23",
+      "2023-04-29",
+      "2023-04-30",
+      "2023-05-27",
+      "2023-06-24",
+      "2023-06-25",
+      "2023-07-29",
+      "2023-07-30",
+      "2023-08-26",
+      "2023-08-27",
+      "2023-09-23",
+      "2023-09-24",
+      "2023-09-30",
+      "2023-10-01",
+      "2023-10-28",
+      "2023-10-29",
+      "2023-11-25",
+      "2023-11-26",
+      "2023-11-30",
+      "2023-11-31",
+    ];
+    const RANDOM_DAYS_OFF = [
+      "2023-01-30",
+      "2023-02-01",
+      "2023-03-01",
+      "2023-04-01",
+      "2023-06-01",
+      "2023-07-01",
+      "2023-08-01",
+      "2023-09-01"
+    ];
+    const PUBLIC_HOLIDAY = [
+      "2023-04-10",
+      "2023-05-01",
+      "2023-05-08",
+      "2023-05-18",
+      "2023-05-29",
+      "2023-07-14",
+      "2023-08-15",
+      "2023-09-15",
+      "2023-11-01",
+      "2023-12-25",
+    ];
 
-function computeDays(pdgWorkigDaysDiff) {
-    moment.locale("fr")
-    moment.updateLocale('fr', {
-      workingWeekdays: [0, 1, 2, 3, 4, 5, 6],
-      holidays: PUBLIC_HOLIDAY + WEEKENDS_OFF + RANDOM_DAYS_OFF,
-      holidayFormat: 'YYYY-MM-DD',
-      forcedBusinessDaysFormat: "YYYY-MM-DD"
-    });
+    function computeDays(pdgWorkigDaysDiff) {
+      moment.locale("fr");
+      moment.updateLocale('fr', {
+        workingWeekdays: [0, 1, 2, 3, 4, 5, 6],
+        holidays: PUBLIC_HOLIDAY + WEEKENDS_OFF + RANDOM_DAYS_OFF,
+        holidayFormat: 'YYYY-MM-DD',
+        forcedBusinessDaysFormat: "YYYY-MM-DD"
+      });
 
-    const countWorkingDays = moment(START_DATE, 'YYYY-MM-DD').businessDiff(moment('2023-12-31', 'YYYY-MM-DD'))
-    console.assert(countWorkingDays >= NB_WORKING_DAYS && countWorkingDays <= 329, "Number of working days should be >= 320 and <= 329 ")
+      const countWorkingDays = moment(START_DATE, 'YYYY-MM-DD').businessDiff(moment('2023-12-31', 'YYYY-MM-DD'));
+      console.assert(countWorkingDays >= NB_WORKING_DAYS && countWorkingDays <= 329, "Number of working days should be >= 320 and <= 329 ");
 
-    let date = moment(START_DATE);
-    date = date.businessAdd(pdgWorkigDaysDiff)
-    // Start day at 8 am
-    date = date.add(START_HOUR, 'hours')
+      let date = moment(START_DATE);
+      date = date.businessAdd(pdgWorkigDaysDiff);
+      // Start day at 8 am
+      date = date.add(START_HOUR, 'hours');
 
-    const hours = pdgWorkigDaysDiff - Math.floor(pdgWorkigDaysDiff)
-    if (hours) {
-      const computeHours = hours * 12
-      date.add(computeHours, "hours")
-    }
-    return date.format(DATE_FORMAT)
-  }
-
-  let ratioSalaryDiff = 0
-  let nbDaysDiff = null
-  let enterpriseName = localStorage.getItem("enterpriseName")
-  let pdgSalary = localStorage.getItem("pdgSalary")
-  let pdgName = localStorage.getItem("pdgName")
-  let userSalary = localStorage.getItem("userSalary") // in €
-  let userSalaryNet = localStorage.getItem("userSalaryNet") // in €
-  let pdgImg = localStorage.getItem("pdgImg")
-  let isComputed = false
-  const NB_WORKING_DAYS = 320
-
-  function computeValues() {
-    const salary = userSalary !== "null" ? userSalary : (userSalaryNet * 12)
-    if (salary && pdgSalary) {
-
-      ratioSalaryDiff = pdgSalary / salary
-      nbDaysDiff = (salary / pdgSalary) * NB_WORKING_DAYS
-      if (ratioSalaryDiff > 1) {
-        document.getElementById("main-message").innerText = `Le PDG de ${enterpriseName}, ${pdgName}, gagne ${Math.round(ratioSalaryDiff)} fois votre rémunération par an.`
-        document.getElementById("message-date").innerText = `Après le ${computeDays(nbDaysDiff).toLowerCase()}, il a déjà gagné votre salaire annuel.`
-      } else {
-        document.getElementById("main-message").innerText = `Félicitations, vous gagnez plus que le PDG de ${enterpriseName}, ${pdgName} ! Êtes-vous bien sûr·e que vous avez entré votre salaire correctement ?`
+      const hours = pdgWorkigDaysDiff - Math.floor(pdgWorkigDaysDiff);
+      if (hours) {
+        const computeHours = hours * 12;
+        date.add(computeHours, "hours");
       }
-      document.getElementById("image-pdg").src = `images/${pdgImg}`;
-      const sharingText = `Le PDG de ${enterpriseName} gagne ${Math.round(ratioSalaryDiff)  }fois ma rémunération par an. Après le ${computeDays(nbDaysDiff)} il a déjà gagné mon salaire annuel.`
-      // Update tweet text
-      document.title = sharingText
-      // Update Facebook sharing title
-      document.querySelector('meta[property="og:title"]').setAttribute("content", sharingText);
-      isComputed = true
-    }
-  }
-
-  const onTweetButtonHandler = () => {
-    const hashtags = {
-      "L'Oréal": {
-        "name": "@LOrealGroupe"
-      },
-      'Stellantis': {
-        "name": "@StellantisFR"
-      },
-      'LVMH': {
-        "name": "@LVMH"
-      },
-      'Carrefour': {
-        "name": "@CarrefourFrance"
-      },
-      "Sanofi": {
-        "name": "@SanofiFR"
-      },
-      'Teleperformance': {
-        "name": "@TeleperFrance"
-      },
+      return date.format(DATE_FORMAT);
     }
 
-    let text = encodeURI("J’ai calculé : le PDG de " + hashtags[enterpriseName].name + " gagne " + Math.round(ratioSalaryDiff) + " fois plus que moi par an ! Les écarts de salaire au sein des plus grandes entreprises françaises sont vertigineux. Vous aussi, comparez votre salaire à celui d'un grand patron . 👉 https://www.oxfamfrance.org/inegalites-et-justice-fiscale/calculateur-ecart-de-salaire")
-    let link = "https://twitter.com/intent/tweet?text=" + text
-    window.open(link, '_blank').focus()
-  }
+    let ratioSalaryDiff = 0;
+    let nbDaysDiff = null;
+    let enterpriseName = localStorage.getItem("enterpriseName");
+    let pdgSalary = localStorage.getItem("pdgSalary");
+    let pdgName = localStorage.getItem("pdgName");
+    let userSalary = localStorage.getItem("userSalary"); // in €
+    let userSalaryNet = localStorage.getItem("userSalaryNet"); // in €
+    let pdgImg = localStorage.getItem("pdgImg");
+    let isComputed = false;
+    const NB_WORKING_DAYS = 320;
 
-  computeValues()
-  if (!isComputed) window.location.assign("/")
+    function computeValues() {
+      const salary = userSalary !== "null" ? userSalary : (userSalaryNet * 12);
+      if (salary && pdgSalary) {
+
+        ratioSalaryDiff = pdgSalary / salary;
+        nbDaysDiff = (salary / pdgSalary) * NB_WORKING_DAYS;
+        let days = Math.floor(nbDaysDiff);
+        let hours = (nbDaysDiff - days) * 12;
+        if (days) {
+          days = `${days} jour${days > 1 ? "s" : ""}`;
+        } else {
+          days = "";
+        }
+        if (hours) {
+          hours = `${Math.round(hours)} heure${Math.round(hours) > 1 ? "s" : ""}`;
+        } else {
+          hours = "";
+        }
+        const and = days && hours ? " et" : "";
+        if (ratioSalaryDiff > 1) {
+          document.getElementById("main-message").innerText = `Le PDG de ${enterpriseName}, ${pdgName}, gagne ${Math.round(ratioSalaryDiff)} fois votre rémunération par an.`;
+          document.getElementById("message-date").innerText = `En ${days} ${and} ${hours}, il a déjà gagné votre salaire annuel.`;
+        } else {
+          document.getElementById("main-message").innerText = `Félicitations, vous gagnez plus que le PDG de ${enterpriseName}, ${pdgName} ! Êtes-vous bien sûr·e que vous avez entré votre salaire correctement ?`;
+        }
+        document.getElementById("image-pdg").src = `images/${pdgImg}`;
+        const sharingText = `Le PDG de ${enterpriseName} gagne ${Math.round(ratioSalaryDiff)}fois ma rémunération par an. Après le ${computeDays(nbDaysDiff)} il a déjà gagné mon salaire annuel.`;
+        // Update tweet text
+        document.title = sharingText;
+        // Update Facebook sharing title
+        document.querySelector('meta[property="og:title"]').setAttribute("content", sharingText);
+        isComputed = true;
+      }
+    }
+
+    const onTweetButtonHandler = () => {
+      const hashtags = {
+        "L'Oréal": {
+          "name": "@LOrealGroupe"
+        },
+        'Stellantis': {
+          "name": "@StellantisFR"
+        },
+        'LVMH': {
+          "name": "@LVMH"
+        },
+        'Carrefour': {
+          "name": "@CarrefourFrance"
+        },
+        "Sanofi": {
+          "name": "@SanofiFR"
+        },
+        'Teleperformance': {
+          "name": "@TeleperFrance"
+        },
+        'Dassault systèmes': {
+          "name": "@Dassault3ds",
+        },
+        'Danone': {
+          "name": "@DanoneFR",
+        },
+      };
+
+      let text = encodeURI("J’ai calculé : le PDG de " + hashtags[enterpriseName].name + " gagne " + Math.round(ratioSalaryDiff) + " fois plus que moi par an ! Les écarts de salaire au sein des plus grandes entreprises françaises sont vertigineux. Vous aussi, comparez votre salaire à celui d'un grand patron . 👉 https://www.oxfamfrance.org/inegalites-et-justice-fiscale/calculateur-ecart-de-salaire");
+      let link = "https://twitter.com/intent/tweet?text=" + text;
+      window.open(link, '_blank').focus();
+    };
+
+    computeValues();
+    if (!isComputed) window.location.assign("/")
 
 
-</script>
+  </script>
 </body>
 
 </html>
